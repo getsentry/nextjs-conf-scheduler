@@ -42,12 +42,11 @@ export async function signup(_prevState: AuthState, formData: FormData): Promise
       const validated = signupSchema.safeParse(rawData);
 
       if (!validated.success) {
-        Sentry.metrics.count("auth_validation_failed", 1, {
-          attributes: { action: "signup" },
-        });
-        Sentry.logger.warn("Signup validation failed", {
-          action: "auth.signup",
-          validation_errors: Object.keys(validated.error.flatten().fieldErrors).join(", "),
+        const failedFields = Object.keys(validated.error.flatten().fieldErrors);
+        Sentry.logger.warn("auth.validation_failed", {
+          action: "signup",
+          failed_fields: failedFields.join(","),
+          field_count: failedFields.length,
           duration_ms: Date.now() - startTime,
         });
         return {
@@ -57,23 +56,17 @@ export async function signup(_prevState: AuthState, formData: FormData): Promise
 
       const { name, email, password } = validated.data;
 
-      // Check if user already exists
       const existingUser = await db.select().from(users).where(eq(users.email, email)).limit(1);
 
       if (existingUser.length > 0) {
-        Sentry.metrics.distribution("auth_operation_duration", Date.now() - startTime, {
-          unit: "millisecond",
-          attributes: { action: "signup", result: "duplicate_email" },
-        });
-        Sentry.logger.info("Signup attempted with existing email", {
-          action: "auth.signup",
+        Sentry.logger.info("auth.signup", {
           result: "duplicate_email",
+          email,
           duration_ms: Date.now() - startTime,
         });
         return { error: "An account with this email already exists" };
       }
 
-      // Hash password and create user
       const hashedPassword = await hash(password, 10);
       const userId = crypto.randomUUID();
 
@@ -89,17 +82,10 @@ export async function signup(_prevState: AuthState, formData: FormData): Promise
 
       Sentry.setUser({ id: userId, email, username: name });
 
-      Sentry.metrics.count("auth_signup", 1, {
-        attributes: { action: "signup", result: "success", user_id: userId },
-      });
-      Sentry.metrics.distribution("auth_operation_duration", Date.now() - startTime, {
-        unit: "millisecond",
-        attributes: { action: "signup", result: "success", user_id: userId },
-      });
-      Sentry.logger.info("User signed up", {
-        action: "auth.signup",
-        user_id: userId,
+      Sentry.logger.info("auth.signup", {
         result: "success",
+        user_id: userId,
+        email,
         duration_ms: Date.now() - startTime,
       });
 
@@ -129,11 +115,8 @@ export async function login(_prevState: AuthState, formData: FormData): Promise<
       const validated = loginSchema.safeParse(rawData);
 
       if (!validated.success) {
-        Sentry.metrics.count("auth_validation_failed", 1, {
-          attributes: { action: "login" },
-        });
-        Sentry.logger.warn("Login validation failed", {
-          action: "auth.login",
+        Sentry.logger.warn("auth.validation_failed", {
+          action: "login",
           duration_ms: Date.now() - startTime,
         });
         return {
@@ -143,42 +126,26 @@ export async function login(_prevState: AuthState, formData: FormData): Promise<
 
       const { email, password } = validated.data;
 
-      // Find user
       const found = await db.select().from(users).where(eq(users.email, email)).limit(1);
 
       const user = found[0];
 
       if (!user) {
-        Sentry.metrics.count("auth_login", 1, {
-          attributes: { action: "login", result: "user_not_found" },
-        });
-        Sentry.metrics.distribution("auth_operation_duration", Date.now() - startTime, {
-          unit: "millisecond",
-          attributes: { action: "login", result: "user_not_found" },
-        });
-        Sentry.logger.info("Login failed - user not found", {
-          action: "auth.login",
+        Sentry.logger.info("auth.login", {
           result: "user_not_found",
+          email,
           duration_ms: Date.now() - startTime,
         });
         return { error: "Invalid email or password" };
       }
 
-      // Verify password
       const passwordMatch = await compare(password, user.password);
 
       if (!passwordMatch) {
-        Sentry.metrics.count("auth_login", 1, {
-          attributes: { action: "login", result: "invalid_password", user_id: user.id },
-        });
-        Sentry.metrics.distribution("auth_operation_duration", Date.now() - startTime, {
-          unit: "millisecond",
-          attributes: { action: "login", result: "invalid_password", user_id: user.id },
-        });
-        Sentry.logger.info("Login failed - invalid password", {
-          action: "auth.login",
-          user_id: user.id,
+        Sentry.logger.warn("auth.login", {
           result: "invalid_password",
+          user_id: user.id,
+          email,
           duration_ms: Date.now() - startTime,
         });
         return { error: "Invalid email or password" };
@@ -188,17 +155,10 @@ export async function login(_prevState: AuthState, formData: FormData): Promise<
 
       Sentry.setUser({ id: user.id, email: user.email, username: user.name });
 
-      Sentry.metrics.count("auth_login", 1, {
-        attributes: { action: "login", result: "success", user_id: user.id },
-      });
-      Sentry.metrics.distribution("auth_operation_duration", Date.now() - startTime, {
-        unit: "millisecond",
-        attributes: { action: "login", result: "success", user_id: user.id },
-      });
-      Sentry.logger.info("User logged in", {
-        action: "auth.login",
-        user_id: user.id,
+      Sentry.logger.info("auth.login", {
         result: "success",
+        user_id: user.id,
+        email: user.email,
         duration_ms: Date.now() - startTime,
       });
 
@@ -224,15 +184,8 @@ export async function logout() {
 
       Sentry.setUser(null);
 
-      Sentry.metrics.count("auth_logout", 1, {
-        attributes: { action: "logout", result: "success" },
-      });
-      Sentry.metrics.distribution("auth_operation_duration", Date.now() - startTime, {
-        unit: "millisecond",
-        attributes: { action: "logout", result: "success" },
-      });
-      Sentry.logger.info("User logged out", {
-        action: "auth.logout",
+      Sentry.logger.info("auth.logout", {
+        result: "success",
         duration_ms: Date.now() - startTime,
       });
     },

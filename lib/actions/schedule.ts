@@ -17,7 +17,6 @@ export async function addToSchedule(talkId: string) {
     async () => {
       const { userId } = await requireAuth();
 
-      // Check if already in schedule
       const existing = await db
         .select()
         .from(userSchedules)
@@ -25,18 +24,10 @@ export async function addToSchedule(talkId: string) {
         .limit(1);
 
       if (existing.length > 0) {
-        Sentry.metrics.count("schedule_add", 1, {
-          attributes: { action: "add", result: "duplicate", user_id: userId, talk_id: talkId },
-        });
-        Sentry.metrics.distribution("schedule_operation_duration", Date.now() - startTime, {
-          unit: "millisecond",
-          attributes: { action: "add", result: "duplicate", user_id: userId, talk_id: talkId },
-        });
-        Sentry.logger.info("Schedule add attempted - already exists", {
-          action: "schedule.addToSchedule",
+        Sentry.logger.info("schedule.add", {
+          result: "duplicate",
           user_id: userId,
           talk_id: talkId,
-          result: "duplicate",
           duration_ms: Date.now() - startTime,
         });
         return { error: "Talk already in your schedule" };
@@ -52,18 +43,10 @@ export async function addToSchedule(talkId: string) {
       revalidatePath("/my-schedule");
       revalidatePath(`/talks/${talkId}`);
 
-      Sentry.metrics.count("schedule_add", 1, {
-        attributes: { action: "add", result: "success", user_id: userId, talk_id: talkId },
-      });
-      Sentry.metrics.distribution("schedule_operation_duration", Date.now() - startTime, {
-        unit: "millisecond",
-        attributes: { action: "add", result: "success", user_id: userId, talk_id: talkId },
-      });
-      Sentry.logger.info("Schedule item added", {
-        action: "schedule.addToSchedule",
+      Sentry.logger.info("schedule.add", {
+        result: "success",
         user_id: userId,
         talk_id: talkId,
-        result: "success",
         duration_ms: Date.now() - startTime,
       });
 
@@ -89,18 +72,10 @@ export async function removeFromSchedule(talkId: string) {
       revalidatePath("/my-schedule");
       revalidatePath(`/talks/${talkId}`);
 
-      Sentry.metrics.count("schedule_remove", 1, {
-        attributes: { action: "remove", result: "success", user_id: userId, talk_id: talkId },
-      });
-      Sentry.metrics.distribution("schedule_operation_duration", Date.now() - startTime, {
-        unit: "millisecond",
-        attributes: { action: "remove", result: "success", user_id: userId, talk_id: talkId },
-      });
-      Sentry.logger.info("Schedule item removed", {
-        action: "schedule.removeFromSchedule",
+      Sentry.logger.info("schedule.remove", {
+        result: "success",
         user_id: userId,
         talk_id: talkId,
-        result: "success",
         duration_ms: Date.now() - startTime,
       });
 

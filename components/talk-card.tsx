@@ -2,11 +2,13 @@ import Image from "next/image";
 import Link from "next/link";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { TalkTimeStatus } from "@/components/talk-time-status";
 import { formatDuration, formatTime, levelColors, type Talk } from "@/lib/types";
 
 type TalkCardProps = {
   talk: Talk;
   showTime?: boolean;
+  serverNow?: number;
 };
 
 const formatIcons = {
@@ -16,7 +18,7 @@ const formatIcons = {
   panel: "👥",
 };
 
-export function TalkCard({ talk, showTime = true }: TalkCardProps) {
+export function TalkCard({ talk, showTime = true, serverNow }: TalkCardProps) {
   return (
     <Link href={`/talks/${talk.id}`} className="block">
       <Card className="h-full transition-all hover:ring-2 hover:ring-primary/30 hover:shadow-lg hover:-translate-y-0.5">
@@ -41,6 +43,12 @@ export function TalkCard({ talk, showTime = true }: TalkCardProps) {
               <span>{formatDuration(talk.startTime, talk.endTime)}</span>
               <span>·</span>
               <span>{talk.room.name}</span>
+              {serverNow && (
+                <>
+                  <span>·</span>
+                  <TalkTimeStatus startTime={talk.startTime} endTime={talk.endTime} serverNow={serverNow} />
+                </>
+              )}
             </div>
           )}
 

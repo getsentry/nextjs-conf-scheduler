@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
+import { Suspense } from "react";
 import { Geist, Geist_Mono, JetBrains_Mono } from "next/font/google";
-import { getUser } from "@/lib/auth/dal";
 import { Providers } from "@/components/providers";
-import { SentryUser } from "@/components/sentry-user";
+import { SentryUserLoader } from "@/components/sentry-user-loader";
 import { ThemeProvider } from "@/components/theme-provider";
 import "./globals.css";
 
@@ -23,17 +23,17 @@ export const metadata: Metadata = {
   description: "Build your personalized conference schedule",
 };
 
-export default async function RootLayout({
+export default function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const user = await getUser();
-
   return (
     <html lang="en" className={jetbrainsMono.variable} suppressHydrationWarning>
       <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
-        <SentryUser user={user} />
+        <Suspense>
+          <SentryUserLoader />
+        </Suspense>
         <ThemeProvider
           attribute="class"
           defaultTheme="system"

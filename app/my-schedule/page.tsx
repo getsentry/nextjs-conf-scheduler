@@ -1,14 +1,22 @@
+import { Suspense } from "react";
 import { Header } from "@/components/header";
 import { requireAuth } from "@/lib/auth/dal";
 import { trpc } from "@/lib/trpc/server";
 import { MyScheduleList } from "./my-schedule-list";
 
-export default async function MySchedulePage() {
+export default function MySchedulePage() {
+  return (
+    <Suspense>
+      <MyScheduleContent />
+    </Suspense>
+  );
+}
+
+async function MyScheduleContent() {
   await requireAuth();
   const api = await trpc();
   const schedule = await api.schedule.getUserSchedule();
 
-  // Transform the data to match TalkCard format
   const talks = schedule.map((item) => ({
     id: item.talk.id,
     title: item.talk.title,

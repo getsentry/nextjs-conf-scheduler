@@ -1,5 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
+import { Suspense } from "react";
 import { notFound } from "next/navigation";
 import { Header } from "@/components/header";
 import { Badge } from "@/components/ui/badge";
@@ -18,7 +19,20 @@ const formatLabels = {
   panel: "Panel Discussion",
 };
 
-export default async function TalkDetailPage({ params }: { params: Params }) {
+export default function TalkDetailPage({ params }: { params: Params }) {
+  return (
+    <div className="min-h-screen bg-background">
+      <Header />
+      <main className="container py-8">
+        <Suspense>
+          <TalkDetailContent params={params} />
+        </Suspense>
+      </main>
+    </div>
+  );
+}
+
+async function TalkDetailContent({ params }: { params: Params }) {
   const { id } = await params;
   const [api, session] = await Promise.all([trpc(), verifySession()]);
 
@@ -32,9 +46,7 @@ export default async function TalkDetailPage({ params }: { params: Params }) {
   }
 
   return (
-    <div className="min-h-screen bg-background">
-      <Header />
-      <main className="container py-8">
+    <>
         {/* Breadcrumb */}
         <nav className="mb-6 text-sm text-muted-foreground">
           <Link href="/" className="hover:text-foreground">
@@ -149,7 +161,6 @@ export default async function TalkDetailPage({ params }: { params: Params }) {
             </Card>
           </div>
         </div>
-      </main>
-    </div>
+    </>
   );
 }

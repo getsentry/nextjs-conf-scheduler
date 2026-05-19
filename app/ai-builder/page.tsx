@@ -1,8 +1,17 @@
+import { Suspense } from "react";
 import { Header } from "@/components/header";
 import { requireAuth } from "@/lib/auth/dal";
 import { AIChat } from "./ai-chat";
 
-export default async function AIBuilderPage() {
+export default function AIBuilderPage() {
+  return (
+    <Suspense>
+      <AIBuilderContent />
+    </Suspense>
+  );
+}
+
+async function AIBuilderContent() {
   await requireAuth();
 
   return (

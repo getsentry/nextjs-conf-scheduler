@@ -5,6 +5,7 @@ const nextConfig: NextConfig = {
   // Externalize @libsql/client so instrumentation and page handlers share the
   // same module instance — required for Sentry's libsql integration monkey-patching
   serverExternalPackages: ["@libsql/client"],
+  cacheComponents: true,
   images: {
     remotePatterns: [
       {

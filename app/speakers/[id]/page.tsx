@@ -1,5 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
+import { Suspense } from "react";
 import { notFound } from "next/navigation";
 import { Header } from "@/components/header";
 import { Badge } from "@/components/ui/badge";
@@ -23,7 +24,20 @@ const levelColors = {
   advanced: "bg-red-500/10 text-red-700 dark:text-red-400",
 };
 
-export default async function SpeakerDetailPage({ params }: { params: Params }) {
+export default function SpeakerDetailPage({ params }: { params: Params }) {
+  return (
+    <div className="min-h-screen bg-background">
+      <Header />
+      <main className="container py-8">
+        <Suspense>
+          <SpeakerDetailContent params={params} />
+        </Suspense>
+      </main>
+    </div>
+  );
+}
+
+async function SpeakerDetailContent({ params }: { params: Params }) {
   const { id } = await params;
   const api = await trpc();
   const speaker = await api.speakers.byId({ id });
@@ -33,9 +47,7 @@ export default async function SpeakerDetailPage({ params }: { params: Params }) 
   }
 
   return (
-    <div className="min-h-screen bg-background">
-      <Header />
-      <main className="container py-8">
+    <>
         {/* Breadcrumb */}
         <nav className="mb-6 text-sm text-muted-foreground">
           <Link href="/speakers" className="hover:text-foreground">
@@ -115,7 +127,6 @@ export default async function SpeakerDetailPage({ params }: { params: Params }) 
             </div>
           </div>
         </div>
-      </main>
-    </div>
+    </>
   );
 }

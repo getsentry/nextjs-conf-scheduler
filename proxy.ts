@@ -1,4 +1,5 @@
-import { type NextRequest, NextResponse } from "next/server";
+import * as Sentry from "@sentry/nextjs";
+import { type NextRequest, NextResponse, userAgent } from "next/server";
 import { decrypt } from "@/lib/auth/session";
 
 const protectedRoutes = ["/my-schedule", "/ai-builder"];
@@ -11,14 +12,35 @@ export default async function proxy(req: NextRequest) {
 
   const cookie = req.cookies.get("session")?.value;
   const session = await decrypt(cookie);
+  const ua = userAgent(req);
 
-  // Redirect to login if accessing protected route without session
+  Sentry.metrics.count("page.view", 1, {
+    attributes: {
+      path,
+      authenticated: String(!!session?.userId),
+      browser: ua.browser.name ?? "unknown",
+      os: ua.os.name ?? "unknown",
+      device: ua.device.type ?? "desktop",
+      is_bot: String(ua.isBot),
+    },
+  });
+
   if (isProtectedRoute && !session?.userId) {
+    Sentry.logger.info("proxy.redirect", {
+      reason: "no_session",
+      path,
+      destination: "/login",
+    });
     return NextResponse.redirect(new URL("/login", req.nextUrl));
   }
 
-  // Redirect authenticated users away from login/signup
   if (isPublicRoute && session?.userId) {
+    Sentry.logger.info("proxy.redirect", {
+      reason: "already_authenticated",
+      user_id: session.userId,
+      path,
+      destination: "/",
+    });
     return NextResponse.redirect(new URL("/", req.nextUrl));
   }
 

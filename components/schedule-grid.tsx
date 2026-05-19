@@ -4,6 +4,7 @@ import { TalkCard } from "./talk-card";
 
 type ScheduleGridProps = {
   talks: Talk[];
+  serverNow?: number;
 };
 
 // Group talks by start time
@@ -18,7 +19,7 @@ function groupTalksByTime(talks: Talk[]): Map<number, Talk[]> {
   return grouped;
 }
 
-export function ScheduleGrid({ talks }: ScheduleGridProps) {
+export function ScheduleGrid({ talks, serverNow }: ScheduleGridProps) {
   if (talks.length === 0) {
     return (
       <div className="text-center py-12">
@@ -67,7 +68,7 @@ export function ScheduleGrid({ talks }: ScheduleGridProps) {
             {/* Talks grid */}
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
               {slotTalks.map((talk) => (
-                <TalkCard key={talk.id} talk={talk} showTime={false} />
+                <TalkCard key={talk.id} talk={talk} showTime={false} serverNow={serverNow} />
               ))}
             </div>
           </div>

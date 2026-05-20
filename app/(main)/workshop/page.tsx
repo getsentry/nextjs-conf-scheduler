@@ -12,15 +12,15 @@ export const metadata: Metadata = {
 const modules = [
   {
     number: "01",
-    title: "The App & What's Instrumented",
+    title: "The App & When to Use What",
     duration: "10 min",
     description:
-      "Tour the conference scheduler app, walk through the Sentry config, and see how structured logs, metrics, and tracing are baked into the codebase — not bolted on after something breaks.",
+      "Tour the app, then learn the decision framework: metrics for counting and alerting, logs for investigating specific events with context, spans for tracing where time is spent.",
     topics: [
-      "proxy.ts — page.view metric on every request",
-      "lib/actions/auth.ts — wide event logs on auth flows",
-      'app/page.tsx — "use cache" with cache.miss metric',
-      "sentry.server.config.ts — DB + AI tracing integrations",
+      "Metric: page.view counter — how many, how often (dashboards, alerts)",
+      "Log: auth.login wide event — who, what, why (investigation)",
+      "Span: db.query — where time was spent (performance)",
+      "Don't duplicate: Sentry + Vercel auto-add browser, path, region, release",
     ],
     demo: null,
   },
@@ -29,12 +29,12 @@ const modules = [
     title: "Structured Logs: Query Everything",
     duration: "15 min",
     description:
-      "Run traffic, open Sentry Logs, and query high-cardinality wide events. Filter by user, result, talk — any attribute. Every log is a queryable event, not a string to grep.",
+      "Open Sentry Logs and query high-cardinality wide events. Each log captures one operation with all its context — user, result, duration — so you can filter and group by any dimension.",
     topics: [
-      "auth.login — filter by result:invalid_password",
-      "schedule.add — group by talk_id for popular talks",
-      "proxy.redirect — how much anonymous traffic hits protected pages",
-      "cache.miss — which cache keys are thrashing",
+      "auth.login — filter by result:invalid_password, group by user",
+      "schedule.add — group by talk_id for most popular talks",
+      "cache.miss — which cache key, which path, how often",
+      "Click from any log → its full trace for end-to-end context",
     ],
     demo: null,
   },
@@ -43,12 +43,12 @@ const modules = [
     title: "Traces: Follow a Request End to End",
     duration: "15 min",
     description:
-      "Click from a log entry to its full trace. Walk through the waterfall: browser → proxy → Server Component → DB query spans. Compare a cache HIT trace (short) vs cache MISS trace (long).",
+      "Walk through a trace waterfall from browser to database. Compare a cache MISS trace (full DB spans) vs cache HIT (no DB spans). See exactly where time is spent.",
     topics: [
-      "Cache miss trace: RSC → getCachedScheduleData → db.query spans",
-      "Cache hit trace: RSC → (no child spans, served from cache)",
-      "OG image trace: og.image span → db.query child span",
-      "libsqlIntegration: db.system, db.statement, db.rows_affected",
+      'Cache miss: RSC → "use cache: remote" → db.query spans',
+      "Cache hit: RSC → (data served from Vercel remote cache)",
+      "OG image: og.image span → db.query child span",
+      "DB spans: db.system, db.statement, db.rows_affected",
     ],
     demo: null,
   },
@@ -57,10 +57,10 @@ const modules = [
     title: "Metrics & Dashboards",
     duration: "10 min",
     description:
-      "Use page.view and cache.miss metrics to calculate cache hit rates. Build a dashboard with the Sentry CLI — no product analytics tool needed.",
+      "Metrics are for aggregates — counting page views, calculating cache hit rates, measuring p95 durations. Build a dashboard with the Sentry CLI without needing a product analytics tool.",
     topics: [
-      "page.view metric grouped by path, browser, authenticated",
-      "cache.miss metric — compare count to page.view for hit rate",
+      "page.view counter grouped by path and authenticated",
+      "cache.miss counter — compare to page.view for hit rate",
       "Sentry CLI: sentry dashboard create + widget add",
       "Sentry MCP server for natural language querying",
     ],
@@ -71,11 +71,11 @@ const modules = [
     title: "Alerts & Wrap Up",
     duration: "10 min",
     description:
-      "Set up an alert that fires when login failures spike. Review what we covered: logs tell you what happened, traces tell you where, metrics tell you how often.",
+      "Set up an alert on login failures. Review the framework: metrics tell you how often, logs tell you what happened, traces tell you where. Each signal has a job — don't make one do another's work.",
     topics: [
       "Alert: auth.login with result:invalid_password > 5 in 5 min",
-      "Cron monitors with automaticVercelMonitors",
-      "Logs → traces → metrics: the full observability picture",
+      "Metrics = counting & alerting, Logs = context & investigation, Spans = timing",
+      "Vercel + Sentry auto-enrich: don't duplicate what's already there",
       "Q&A",
     ],
     demo: null,
@@ -139,23 +139,23 @@ export default function WorkshopPage() {
             {[
               {
                 icon: <LogIcon />,
-                title: "Structured Logging",
-                desc: "High-context logs that capture who, what, and why — not just stack traces",
+                title: "Logs = Investigation",
+                desc: "Wide events with context — who, what, why — queryable by any attribute",
               },
               {
                 icon: <TraceIcon />,
-                title: "Distributed Tracing",
-                desc: "Follow requests across client, proxy, RSC, and database boundaries",
+                title: "Traces = Timing",
+                desc: "Follow requests end-to-end, see where time is spent, spot cache hits vs misses",
               },
               {
                 icon: <CacheIcon />,
-                title: "Cache Observability",
-                desc: 'See "use cache" behavior, staleness, and revalidation in real-time',
+                title: "Metrics = Counting",
+                desc: "Page views, cache hit rates, auth failure rates — aggregate and alert",
               },
               {
                 icon: <AlertIcon />,
-                title: "Alerts & Dashboards",
-                desc: "Alert on log patterns, build dashboards with the CLI, query with MCP",
+                title: "Know When to Use What",
+                desc: "Each signal has a job. Don't make metrics do logging's work or vice versa.",
               },
             ].map((item) => (
               <Card key={item.title} className="border-border/50 bg-card/50">

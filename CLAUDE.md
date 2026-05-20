@@ -53,9 +53,16 @@ Protected pages call `requireAuth()` from `lib/auth/dal.ts` which redirects if n
 
 ### Observability (Sentry)
 
-- **Metrics**: `page.view` counter in proxy (every request), `cache.miss` counter in cached functions
+**When to use what:**
+- **Metric** — counting and alerting: "how many", "how often", "what rate". Low cardinality attributes.
+- **Log** — investigating a specific event: "what happened, who was affected, why". High cardinality attributes.
+- **Span** — timing within a request: "where was time spent". Auto-instrumented where possible.
+- **Don't duplicate** — Sentry auto-adds `browser.name`, `release`, `environment`, `sdk.*`. Vercel auto-adds `vercel.proxy.path`, `vercel.proxy.referer`, `vercel.execution_region`, `vercel.proxy.vercel_cache`.
+
+**What we emit:**
+- **Metrics**: `page.view` counter (proxy), `cache.miss` counter (cached functions)
 - **Logs**: `auth.signup`, `auth.login`, `auth.logout`, `schedule.add`, `schedule.remove`, `proxy.redirect`, `cache.miss`, `og.image`
-- **Traces**: `libsqlIntegration` for DB spans, `vercelAIIntegration` for AI spans, custom `og.image` spans
+- **Spans**: `libsqlIntegration` for DB, `vercelAIIntegration` for AI, custom `og.image` span
 - **Config**: `sentry.server.config.ts` has DB + AI integrations, `tracePropagationTargets` includes Turso
 
 ### Database

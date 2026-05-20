@@ -12,7 +12,7 @@ type SearchParams = Promise<{
 }>;
 
 async function getCachedScheduleData() {
-  "use cache";
+  "use cache: remote";
   cacheTag("talks", "tracks");
   cacheLife("hours");
 

@@ -7,7 +7,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { getAllSpeakers } from "@/lib/db/queries";
 
 async function getCachedSpeakers() {
-  "use cache";
+  "use cache: remote";
   cacheTag("speakers");
   cacheLife("days");
 

@@ -43,8 +43,9 @@ async function logout(page: Page) {
   const logoutBtn = page.locator('button:has-text("Sign Out")');
   if (await logoutBtn.isVisible({ timeout: 2000 }).catch(() => false)) {
     await logoutBtn.click();
-    await page.waitForURL("**/login", { timeout: 10000 }).catch(() => {});
+    await page.waitForTimeout(2000);
   }
+  await page.context().clearCookies();
 }
 
 // ─── Phase 1: Anonymous browsing ─────────────────────────────────────────────
@@ -129,36 +130,38 @@ async function phase3(page: Page) {
   console.log("\n── Phase 3: Authenticated browsing + bookmarks ──\n");
 
   for (const user of USERS.slice(0, 4)) {
-    // Log in
-    await page.goto(`${BASE_URL}/login`, { waitUntil: "domcontentloaded" });
+    await page.goto(`${BASE_URL}/login`, { waitUntil: "networkidle" });
     await page.fill('input[name="email"]', user.email);
     await page.fill('input[name="password"]', user.password);
     await page.click('button[type="submit"]');
-    await page.waitForURL("**/", { timeout: 5000 }).catch(() => {});
+    await page.waitForTimeout(2000);
+
+    if (page.url().includes("/login")) {
+      log("[skip]", `${user.name} — login failed, skipping`);
+      continue;
+    }
 
     console.log(`\n  ${user.name}:`);
 
-    // Browse pages
     for (const path of pick(["/", "/speakers", "/speakers/swyx", "/speakers/aurora"], 2)) {
       const start = Date.now();
       await page.goto(`${BASE_URL}${path}`, { waitUntil: "domcontentloaded" });
-      log(`[browse]`, `${path} (${Date.now() - start}ms)`);
+      log("[browse]", `${path} (${Date.now() - start}ms)`);
     }
 
-    // Visit talk pages and bookmark
-    const talksToBookmark = pick(TALK_IDS, 3);
-    for (const talkId of talksToBookmark) {
+    for (const talkId of pick(TALK_IDS, 3)) {
+      const start = Date.now();
       await page.goto(`${BASE_URL}/talks/${talkId}`, { waitUntil: "domcontentloaded" });
+      log("[talk]", `/talks/${talkId} (${Date.now() - start}ms)`);
 
-      const addBtn = page.locator('button:has-text("Add to Schedule"), button:has-text("Add to My Schedule")');
-      if (await addBtn.isVisible({ timeout: 2000 }).catch(() => false)) {
+      const addBtn = page.locator('button:has-text("Add")').first();
+      if (await addBtn.isVisible({ timeout: 1500 }).catch(() => false)) {
         await addBtn.click();
-        await page.waitForTimeout(1000);
+        await page.waitForTimeout(1500);
         log("[bookmark]", `+ ${talkId}`);
       }
     }
 
-    // Visit my schedule
     const start = Date.now();
     await page.goto(`${BASE_URL}/my-schedule`, { waitUntil: "domcontentloaded" });
     log("[schedule]", `/my-schedule (${Date.now() - start}ms)`);

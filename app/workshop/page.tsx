@@ -13,85 +13,71 @@ export const metadata: Metadata = {
 const modules = [
   {
     number: "01",
-    title: "High-Context Structured Logging",
-    duration: "20 min",
+    title: "The App & What's Instrumented",
+    duration: "10 min",
     description:
-      "Writing high-cardinality wide events that capture who, what, and why — queryable attributes you can build dashboards and alerts against.",
+      "Tour the conference scheduler app, walk through the Sentry config, and see how structured logs, metrics, and tracing are baked into the codebase — not bolted on after something breaks.",
     topics: [
-      "Sentry.logger with wide event attributes",
-      "High-cardinality fields: user_id, email, talk_id, duration_ms",
-      "Building dashboards and alerts from log attributes",
-      "Logging auth flows, server actions, and API routes",
+      "proxy.ts — page.view metric on every request",
+      "lib/actions/auth.ts — wide event logs on auth flows",
+      'app/page.tsx — "use cache" with cache.miss metric',
+      "sentry.server.config.ts — DB + AI tracing integrations",
     ],
     demo: null,
   },
   {
     number: "02",
-    title: "Cache Components Observability",
-    duration: "20 min",
+    title: "Structured Logs: Query Everything",
+    duration: "15 min",
     description:
-      'Next.js 16 introduces "use cache" at component, function, and route levels. We\'ll instrument each pattern to see cache behavior in Sentry — what\'s cached, what\'s stale, and when revalidation fires.',
+      "Run traffic, open Sentry Logs, and query high-cardinality wide events. Filter by user, result, talk — any attribute. Every log is a queryable event, not a string to grep.",
     topics: [
-      '"use cache" at component, function, and route level',
-      "cacheTag + cacheLife for granular control",
-      "revalidateTag (new) vs revalidatePath (legacy)",
-      "Logging cache decisions for debugging stale data",
+      "auth.login — filter by result:invalid_password",
+      "schedule.add — group by talk_id for popular talks",
+      "proxy.redirect — how much anonymous traffic hits protected pages",
+      "cache.miss — which cache keys are thrashing",
     ],
-    demo: "/speakers",
+    demo: null,
   },
   {
     number: "03",
-    title: "OG Images & Hydration Errors",
+    title: "Traces: Follow a Request End to End",
     duration: "15 min",
     description:
-      "Two common Next.js pain points: OG image generation that fails silently, and hydration mismatches from server/client time differences. We'll catch both with structured logging.",
+      "Click from a log entry to its full trace. Walk through the waterfall: browser → proxy → Server Component → DB query spans. Compare a cache HIT trace (short) vs cache MISS trace (long).",
     topics: [
-      "Dynamic opengraph-image.tsx with Sentry tracing",
-      "Server renders X, client renders Y — React throws",
-      "Sentry captures hydration errors with component stack traces",
-      "Session replay shows exactly what the user saw",
+      "Cache miss trace: RSC → getCachedScheduleData → db.query spans",
+      "Cache hit trace: RSC → (no child spans, served from cache)",
+      "OG image trace: og.image span → db.query child span",
+      "libsqlIntegration: db.system, db.statement, db.rows_affected",
     ],
-    demo: "/",
+    demo: null,
   },
   {
     number: "04",
-    title: "Distributed Tracing Deep Dive",
-    duration: "20 min",
+    title: "Metrics & Dashboards",
+    duration: "10 min",
     description:
-      "Follow a single request from browser click through proxy, Server Component, tRPC procedure, database query, and back. Identify waterfalls, slow queries, and trace propagation gaps.",
+      "Use page.view and cache.miss metrics to calculate cache hit rates. Build a dashboard with the Sentry CLI — no product analytics tool needed.",
     topics: [
-      "Trace propagation: client → proxy → RSC → tRPC → DB",
-      "Custom spans with Sentry.startSpan for business logic",
-      "Database query tracing with libsql integration",
-      "AI/LLM call tracing with vercelAIIntegration",
+      "page.view metric grouped by path, browser, authenticated",
+      "cache.miss metric — compare count to page.view for hit rate",
+      "Sentry CLI: sentry dashboard create + widget add",
+      "Sentry MCP server for natural language querying",
     ],
     demo: null,
   },
   {
     number: "05",
-    title: "Connecting Logs to Traces",
-    duration: "15 min",
+    title: "Alerts & Wrap Up",
+    duration: "10 min",
     description:
-      "Logs without traces lack context. Traces without logs lack detail. We'll connect them so you can click from a log entry straight to the full request trace — no tool-switching required.",
+      "Set up an alert that fires when login failures spike. Review what we covered: logs tell you what happened, traces tell you where, metrics tell you how often.",
     topics: [
-      "Automatic trace context attached to every log",
-      "Filtering logs by trace ID, user_id, or any attribute",
-      "Reproducing issues: log → trace → root cause",
-      "beforeSendLog hook for PII filtering",
-    ],
-    demo: null,
-  },
-  {
-    number: "06",
-    title: "Alerts, Monitors & Dashboards",
-    duration: "15 min",
-    description:
-      "Set up alerts that fire on log patterns, monitors that watch cron jobs, and CLI-built dashboards for the metrics you'd normally need a product analytics tool for.",
-    topics: [
-      "Alert rules on structured log patterns",
+      "Alert: auth.login with result:invalid_password > 5 in 5 min",
       "Cron monitors with automaticVercelMonitors",
-      "Sentry CLI: sentry dashboard create + widget add",
-      "Sentry MCP server for AI-powered querying",
+      "Logs → traces → metrics: the full observability picture",
+      "Q&A",
     ],
     demo: null,
   },
@@ -135,7 +121,7 @@ export default function WorkshopPage() {
             <div className="flex flex-wrap gap-4 text-sm text-[#B4ADC6]">
               <span className="flex items-center gap-2">
                 <ClockIcon />
-                ~2 hours hands-on
+                ~1 hour hands-on
               </span>
               <span className="flex items-center gap-2">
                 <CalendarIcon />
@@ -162,7 +148,7 @@ export default function WorkshopPage() {
               {
                 icon: <TraceIcon />,
                 title: "Distributed Tracing",
-                desc: "Follow requests across client, proxy, RSC, tRPC, and database boundaries",
+                desc: "Follow requests across client, proxy, RSC, and database boundaries",
               },
               {
                 icon: <CacheIcon />,

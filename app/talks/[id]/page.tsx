@@ -6,7 +6,7 @@ import { Header } from "@/components/header";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
 import { verifySession } from "@/lib/auth/dal";
-import { trpc } from "@/lib/trpc/server";
+import { getTalkById, isInSchedule as checkInSchedule } from "@/lib/db/queries";
 import { formatDate, formatDuration, formatTime, levelColors } from "@/lib/types";
 import { AddToScheduleButton } from "./add-to-schedule-button";
 
@@ -34,11 +34,11 @@ export default function TalkDetailPage({ params }: { params: Params }) {
 
 async function TalkDetailContent({ params }: { params: Params }) {
   const { id } = await params;
-  const [api, session] = await Promise.all([trpc(), verifySession()]);
+  const session = await verifySession();
 
   const [talk, isInSchedule] = await Promise.all([
-    api.talks.byId({ id }),
-    session.isAuth ? api.schedule.isInSchedule({ talkId: id }) : false,
+    getTalkById(id),
+    session.isAuth && session.userId ? checkInSchedule(session.userId, id) : false,
   ]);
 
   if (!talk) {

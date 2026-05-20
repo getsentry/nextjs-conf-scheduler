@@ -5,15 +5,14 @@ import { Suspense } from "react";
 import { cacheTag, cacheLife } from "next/cache";
 import { Header } from "@/components/header";
 import { Card, CardContent } from "@/components/ui/card";
-import { db } from "@/lib/db";
-import { speakers as speakersTable } from "@/lib/db/schema";
+import { getAllSpeakers } from "@/lib/db/queries";
 
 async function getCachedSpeakers() {
   "use cache";
   cacheTag("speakers");
   cacheLife("days");
 
-  const result = await db.select().from(speakersTable).orderBy(speakersTable.name);
+  const result = await getAllSpeakers();
 
   Sentry.metrics.count("cache.miss", 1, {
     attributes: { cache_key: "speakers_list" },

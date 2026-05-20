@@ -25,16 +25,14 @@ This is a Next.js 16 demo app for a Sentry workshop, showcasing multiple data fe
 
 | Pattern | Usage | Example |
 |---------|-------|---------|
-| RSC + tRPC server caller | Page data loading | `app/page.tsx`, `app/talks/[id]/page.tsx` |
-| tRPC client hooks | Interactive UI | `components/schedule-filters.tsx` |
+| RSC + direct DB queries | Page data loading | `app/page.tsx`, `app/talks/[id]/page.tsx` |
+| `"use cache"` + `cacheTag` | Cached data functions | `getCachedScheduleData()`, `getCachedSpeakers()` |
 | Server Actions | Mutations | `lib/actions/auth.ts`, `lib/actions/schedule.ts` |
 | API Routes | AI streaming | `app/api/ai/chat/route.ts` |
 
 ### Key Layers
 
-- **`lib/trpc/`** - tRPC setup with routers for talks, speakers, schedule
-  - `server.ts` exports `trpc()` for RSC usage: `const api = await trpc(); const talks = await api.talks.list();`
-  - `client.tsx` exports `trpc` hooks for client components
+- **`lib/db/queries.ts`** - All data access functions (direct Drizzle queries, no abstraction layer)
 - **`lib/auth/`** - JWT session in cookies, DAL pattern with `requireAuth()` for protected routes
 - **`lib/db/`** - Drizzle ORM with Turso, lazy initialization via Proxy to avoid build-time errors
 - **`lib/ai/tools.ts`** - AI SDK tools using `inputSchema` (not `parameters`) for v4+ compatibility

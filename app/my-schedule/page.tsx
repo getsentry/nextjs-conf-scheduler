@@ -1,7 +1,7 @@
 import { Suspense } from "react";
 import { Header } from "@/components/header";
 import { requireAuth } from "@/lib/auth/dal";
-import { trpc } from "@/lib/trpc/server";
+import { getUserSchedule } from "@/lib/db/queries";
 import { MyScheduleList } from "./my-schedule-list";
 
 export default function MySchedulePage() {
@@ -13,9 +13,8 @@ export default function MySchedulePage() {
 }
 
 async function MyScheduleContent() {
-  await requireAuth();
-  const api = await trpc();
-  const schedule = await api.schedule.getUserSchedule();
+  const { userId } = await requireAuth();
+  const schedule = await getUserSchedule(userId);
 
   const talks = schedule.map((item) => ({
     id: item.talk.id,

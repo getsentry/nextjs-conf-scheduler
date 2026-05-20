@@ -52,7 +52,7 @@ Run through this **30 minutes before** go-live:
 
 **Demo flow:**
 1. Show the running app — browse talks, view a speaker page
-2. "This is a Next.js 16 app with tRPC, Drizzle, Turso, and Vercel AI SDK"
+2. "This is a Next.js 16 app with Drizzle, Turso, and Vercel AI SDK"
 3. "Sentry is already configured — let me show you how"
 4. Open `next.config.ts` — show `withSentryConfig` wrapping the config (source maps, tunnel route)
 5. Open `instrumentation.ts` — show `register()` loading server/edge configs + `onRequestError`

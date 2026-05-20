@@ -39,7 +39,6 @@ export async function addToSchedule(talkId: string) {
         addedAt: Math.floor(Date.now() / 1000),
       });
 
-      revalidatePath("/");
       revalidatePath("/my-schedule");
       revalidatePath(`/talks/${talkId}`);
 
@@ -68,7 +67,6 @@ export async function removeFromSchedule(talkId: string) {
         .delete(userSchedules)
         .where(and(eq(userSchedules.userId, userId), eq(userSchedules.talkId, talkId)));
 
-      revalidatePath("/");
       revalidatePath("/my-schedule");
       revalidatePath(`/talks/${talkId}`);
 

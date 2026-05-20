@@ -5,7 +5,7 @@ import { notFound } from "next/navigation";
 import { Header } from "@/components/header";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { trpc } from "@/lib/trpc/server";
+import { getSpeakerById } from "@/lib/db/queries";
 
 type Params = Promise<{ id: string }>;
 
@@ -39,8 +39,7 @@ export default function SpeakerDetailPage({ params }: { params: Params }) {
 
 async function SpeakerDetailContent({ params }: { params: Params }) {
   const { id } = await params;
-  const api = await trpc();
-  const speaker = await api.speakers.byId({ id });
+  const speaker = await getSpeakerById(id);
 
   if (!speaker) {
     notFound();

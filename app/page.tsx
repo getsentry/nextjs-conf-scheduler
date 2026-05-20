@@ -1,13 +1,11 @@
 import * as Sentry from "@sentry/nextjs";
 import { Suspense } from "react";
-import { eq } from "drizzle-orm";
 import { cacheTag, cacheLife } from "next/cache";
 import { connection } from "next/server";
 import { Header } from "@/components/header";
 import { ScheduleFilters } from "@/components/schedule-filters";
 import { ScheduleGrid } from "@/components/schedule-grid";
-import { db } from "@/lib/db";
-import { rooms, speakers, talks, tracks } from "@/lib/db/schema";
+import { getAllTalks, getAllTracks } from "@/lib/db/queries";
 
 type SearchParams = Promise<{
   track?: string;
@@ -20,39 +18,7 @@ async function getCachedScheduleData() {
   cacheTag("talks", "tracks");
   cacheLife("hours");
 
-  const [talkResults, trackResults] = await Promise.all([
-    db
-      .select({
-        id: talks.id,
-        title: talks.title,
-        description: talks.description,
-        startTime: talks.startTime,
-        endTime: talks.endTime,
-        level: talks.level,
-        format: talks.format,
-        speaker: {
-          id: speakers.id,
-          name: speakers.name,
-          avatar: speakers.avatar,
-          company: speakers.company,
-        },
-        track: {
-          id: tracks.id,
-          name: tracks.name,
-          color: tracks.color,
-        },
-        room: {
-          id: rooms.id,
-          name: rooms.name,
-        },
-      })
-      .from(talks)
-      .innerJoin(speakers, eq(talks.speakerId, speakers.id))
-      .innerJoin(tracks, eq(talks.trackId, tracks.id))
-      .innerJoin(rooms, eq(talks.roomId, rooms.id))
-      .orderBy(talks.startTime),
-    db.select().from(tracks),
-  ]);
+  const [allTalks, allTracks] = await Promise.all([getAllTalks(), getAllTracks()]);
 
   Sentry.metrics.count("cache.miss", 1, {
     attributes: { cache_key: "schedule_data" },
@@ -62,11 +28,11 @@ async function getCachedScheduleData() {
     cache_key: "schedule_data",
     cache_tags: "talks,tracks",
     cache_life: "hours",
-    talk_count: talkResults.length,
-    track_count: trackResults.length,
+    talk_count: allTalks.length,
+    track_count: allTracks.length,
   });
 
-  return { talks: talkResults, tracks: trackResults };
+  return { talks: allTalks, tracks: allTracks };
 }
 
 export default function SchedulePage({ searchParams }: { searchParams: SearchParams }) {

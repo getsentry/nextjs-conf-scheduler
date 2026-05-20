@@ -1,31 +1,27 @@
 /**
- * Generates realistic traffic against the running app to populate Sentry
- * with traces, logs, cache behavior, and metrics from multiple users.
+ * Generates realistic traffic using headless browsers.
+ * Real form submissions, real server actions, real Sentry telemetry.
  *
  * Usage:
- *   pnpm build && pnpm start   # terminal 1 (caching only works in prod mode)
- *   pnpm traffic               # terminal 2
- *   pnpm traffic https://your-app.vercel.app   # or against deployed app
+ *   pnpm build && pnpm start                              # terminal 1
+ *   pnpm traffic                                           # terminal 2
+ *   pnpm traffic https://nextjs-conf-scheduler.sentry.dev  # or deployed
  */
 
-import { hash } from "bcryptjs";
-import { createClient } from "@libsql/client";
-import { drizzle } from "drizzle-orm/libsql";
-import { eq } from "drizzle-orm";
-import { SignJWT } from "jose";
-import * as dotenv from "dotenv";
-import { users, userSchedules } from "../lib/db/schema";
-
-dotenv.config({ path: ".env.local" });
+import { chromium, type Page } from "playwright";
 
 const BASE_URL = process.argv[2] || "http://localhost:3000";
-const JWT_SECRET = process.env.JWT_SECRET;
 
-const client = createClient({
-  url: process.env.TURSO_DATABASE_URL ?? "",
-  authToken: process.env.TURSO_AUTH_TOKEN,
-});
-const db = drizzle(client);
+const USERS = [
+  { name: "Alice Chen", email: "alice@workshop.test", password: "workshop2025" },
+  { name: "Bob Martinez", email: "bob@workshop.test", password: "workshop2025" },
+  { name: "Carol Williams", email: "carol@workshop.test", password: "workshop2025" },
+  { name: "Dave Kim", email: "dave@workshop.test", password: "workshop2025" },
+  { name: "Eve Johnson", email: "eve@workshop.test", password: "workshop2025" },
+  { name: "Frank Liu", email: "frank@workshop.test", password: "workshop2025" },
+  { name: "Grace Park", email: "grace@workshop.test", password: "workshop2025" },
+  { name: "Henry Brown", email: "henry@workshop.test", password: "workshop2025" },
+];
 
 const TALK_IDS = [
   "coding-future", "composition-caching", "nextjs-ai-agents",
@@ -33,210 +29,190 @@ const TALK_IDS = [
   "ambient-agents", "integrated-ai", "dx-ai-age",
   "turbo-yet", "type-safe-url", "consent-banner",
   "bun-speed", "open-web", "closing-keynote",
-  "aws-ai-workshop", "nextjs16-migration",
 ];
-
-const SPEAKER_IDS = [
-  "aryaman", "fouad", "swyx", "aurora", "jude", "simeon",
-  "ankita", "rhys", "fred", "ryan", "bryce", "luke",
-];
-
-const TEST_USERS = [
-  { id: "user-alice", name: "Alice Chen", email: "alice@workshop.test" },
-  { id: "user-bob", name: "Bob Martinez", email: "bob@workshop.test" },
-  { id: "user-carol", name: "Carol Williams", email: "carol@workshop.test" },
-  { id: "user-dave", name: "Dave Kim", email: "dave@workshop.test" },
-  { id: "user-eve", name: "Eve Johnson", email: "eve@workshop.test" },
-  { id: "user-frank", name: "Frank Liu", email: "frank@workshop.test" },
-  { id: "user-grace", name: "Grace Park", email: "grace@workshop.test" },
-  { id: "user-henry", name: "Henry Brown", email: "henry@workshop.test" },
-];
-
-async function mintSession(userId: string): Promise<string> {
-  const encodedKey = new TextEncoder().encode(JWT_SECRET);
-  const expiresAt = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000);
-  return new SignJWT({ userId, expiresAt: expiresAt.toISOString() })
-    .setProtectedHeader({ alg: "HS256" })
-    .setIssuedAt()
-    .setExpirationTime("7d")
-    .sign(encodedKey);
-}
-
-async function createTestUsers() {
-  const password = await hash("workshop2025", 10);
-  const result = [];
-
-  for (const user of TEST_USERS) {
-    await db.delete(users).where(eq(users.id, user.id));
-    await db.insert(users).values({
-      ...user,
-      password,
-      createdAt: Date.now(),
-    });
-    const session = await mintSession(user.id);
-    result.push({ ...user, session });
-  }
-
-  return result;
-}
 
 function pick<T>(arr: T[], n: number): T[] {
-  const shuffled = [...arr].sort(() => Math.random() - 0.5);
-  return shuffled.slice(0, n);
-}
-
-async function fetchPage(url: string, cookie?: string) {
-  const headers: Record<string, string> = {};
-  if (cookie) headers.Cookie = `session=${cookie}`;
-
-  const start = Date.now();
-  const res = await fetch(`${BASE_URL}${url}`, { headers, redirect: "follow" });
-  const ms = Date.now() - start;
-  await res.text();
-  return { url, status: res.status, ms };
+  return [...arr].sort(() => Math.random() - 0.5).slice(0, n);
 }
 
 function log(prefix: string, msg: string) {
-  console.log(`  ${prefix.padEnd(20)} ${msg}`);
+  console.log(`  ${prefix.padEnd(22)} ${msg}`);
 }
 
-// ─── Phase 1: Anonymous traffic ──────────────────────────────────────────────
-
-async function phase1_anonymous() {
-  console.log("\n── Phase 1: Anonymous traffic (no session) ──");
-  console.log("   These requests hit cached data. First request = cache MISS, rest = cache HIT.\n");
-
-  const pages = ["/", "/speakers", "/workshop", "/talks/coding-future", "/speakers/swyx"];
-
-  for (const page of pages) {
-    const { status, ms } = await fetchPage(page);
-    log(`[anon]`, `${status} ${page} (${ms}ms)`);
-    await new Promise((r) => setTimeout(r, 300));
-  }
-
-  console.log("\n   Hitting cached pages again — should be faster (cache HIT):\n");
-
-  for (const page of ["/", "/speakers"]) {
-    const { status, ms } = await fetchPage(page);
-    log(`[anon][cache-hit]`, `${status} ${page} (${ms}ms)`);
-  }
-
-  console.log("\n   Trying protected pages without auth (triggers proxy.redirect logs):\n");
-
-  for (const page of ["/my-schedule", "/ai-builder"]) {
-    const { status, ms } = await fetchPage(page);
-    log(`[anon][redirect]`, `${status} ${page} (${ms}ms)`);
+async function logout(page: Page) {
+  const logoutBtn = page.locator('button:has-text("Sign Out")');
+  if (await logoutBtn.isVisible({ timeout: 2000 }).catch(() => false)) {
+    await logoutBtn.click();
+    await page.waitForURL("**/login", { timeout: 10000 }).catch(() => {});
   }
 }
 
-// ─── Phase 2: Authenticated traffic ──────────────────────────────────────────
+// ─── Phase 1: Anonymous browsing ─────────────────────────────────────────────
 
-async function phase2_authenticated(testUsers: Awaited<ReturnType<typeof createTestUsers>>) {
-  console.log("\n── Phase 2: Authenticated traffic (8 users) ──");
-  console.log("   Each user browses pages, bookmarks talks, visits their schedule.\n");
+async function phase1(page: Page) {
+  console.log("\n── Phase 1: Anonymous browsing ──\n");
 
-  for (const user of testUsers) {
-    console.log(`\n   ${user.name} (${user.email})`);
+  for (const path of ["/", "/speakers", "/workshop"]) {
+    const start = Date.now();
+    await page.goto(`${BASE_URL}${path}`, { waitUntil: "domcontentloaded" });
+    log("[anon]", `${path} (${Date.now() - start}ms)`);
+  }
 
-    // Browse public pages (cache HITs — data was cached in phase 1)
-    const publicPages = pick(
-      ["/", "/speakers", ...pick(SPEAKER_IDS, 2).map((id) => `/speakers/${id}`)],
-      3,
-    );
-    for (const page of publicPages) {
-      const { status, ms } = await fetchPage(page, user.session);
-      log(`[${user.name}]`, `${status} ${page} (${ms}ms)`);
-      await new Promise((r) => setTimeout(r, 200));
+  for (const id of pick(["swyx", "aurora", "rhys"], 2)) {
+    const start = Date.now();
+    await page.goto(`${BASE_URL}/speakers/${id}`, { waitUntil: "domcontentloaded" });
+    log("[anon]", `/speakers/${id} (${Date.now() - start}ms)`);
+  }
+
+  for (const id of pick(TALK_IDS, 3)) {
+    const start = Date.now();
+    await page.goto(`${BASE_URL}/talks/${id}`, { waitUntil: "domcontentloaded" });
+    log("[anon]", `/talks/${id} (${Date.now() - start}ms)`);
+  }
+
+  // Try protected pages — should redirect to login (proxy.redirect logs)
+  console.log("");
+  for (const path of ["/my-schedule", "/ai-builder"]) {
+    const start = Date.now();
+    await page.goto(`${BASE_URL}${path}`, { waitUntil: "domcontentloaded" });
+    log("[anon][redirect]", `${path} → ${new URL(page.url()).pathname} (${Date.now() - start}ms)`);
+  }
+}
+
+// ─── Phase 2: Signup + Login ─────────────────────────────────────────────────
+
+async function phase2(page: Page) {
+  console.log("\n── Phase 2: Signup & Login (auth telemetry) ──\n");
+
+  for (const user of USERS) {
+    // Try signup
+    await page.goto(`${BASE_URL}/signup`, { waitUntil: "networkidle" });
+    await page.fill('input[name="name"]', user.name);
+    await page.fill('input[name="email"]', user.email);
+    await page.fill('input[name="password"]', user.password);
+    await page.click('button[type="submit"]');
+    await page.waitForTimeout(2000);
+
+    const onSignup = page.url().includes("/signup");
+    log(`[signup]`, `${user.name} — ${onSignup ? "already exists" : "success"}`);
+    await logout(page);
+
+    // Log in
+    await page.goto(`${BASE_URL}/login`, { waitUntil: "networkidle" });
+    await page.fill('input[name="email"]', user.email);
+    await page.fill('input[name="password"]', user.password);
+    await page.click('button[type="submit"]');
+    await page.waitForTimeout(2000);
+    log(`[login]`, `${user.name} — ${page.url().includes("/login") ? "failed" : "success"}`);
+    await logout(page);
+  }
+
+  // Generate some failed logins
+  console.log("");
+  await page.goto(`${BASE_URL}/login`, { waitUntil: "domcontentloaded" });
+  await page.fill('input[name="email"]', "nobody@workshop.test");
+  await page.fill('input[name="password"]', "wrongpassword");
+  await page.click('button[type="submit"]');
+  await page.waitForTimeout(1000);
+  log("[login][fail]", "nobody@workshop.test — user not found");
+
+  await page.fill('input[name="email"]', USERS[0].email);
+  await page.fill('input[name="password"]', "wrongpassword");
+  await page.click('button[type="submit"]');
+  await page.waitForTimeout(1000);
+  log("[login][fail]", `${USERS[0].email} — invalid password`);
+}
+
+// ─── Phase 3: Authenticated browsing + bookmarks ─────────────────────────────
+
+async function phase3(page: Page) {
+  console.log("\n── Phase 3: Authenticated browsing + bookmarks ──\n");
+
+  for (const user of USERS.slice(0, 4)) {
+    // Log in
+    await page.goto(`${BASE_URL}/login`, { waitUntil: "domcontentloaded" });
+    await page.fill('input[name="email"]', user.email);
+    await page.fill('input[name="password"]', user.password);
+    await page.click('button[type="submit"]');
+    await page.waitForURL("**/", { timeout: 5000 }).catch(() => {});
+
+    console.log(`\n  ${user.name}:`);
+
+    // Browse pages
+    for (const path of pick(["/", "/speakers", "/speakers/swyx", "/speakers/aurora"], 2)) {
+      const start = Date.now();
+      await page.goto(`${BASE_URL}${path}`, { waitUntil: "domcontentloaded" });
+      log(`[browse]`, `${path} (${Date.now() - start}ms)`);
     }
 
-    // Browse talk pages (dynamic — auth check + DB)
-    const talkPages = pick(TALK_IDS, 3).map((id) => `/talks/${id}`);
-    for (const page of talkPages) {
-      const { status, ms } = await fetchPage(page, user.session);
-      log(`[${user.name}]`, `${status} ${page} (${ms}ms)`);
-      await new Promise((r) => setTimeout(r, 200));
-    }
+    // Visit talk pages and bookmark
+    const talksToBookmark = pick(TALK_IDS, 3);
+    for (const talkId of talksToBookmark) {
+      await page.goto(`${BASE_URL}/talks/${talkId}`, { waitUntil: "domcontentloaded" });
 
-    // Bookmark talks (direct DB insert)
-    const bookmarks = pick(TALK_IDS, 2 + Math.floor(Math.random() * 3));
-    for (const talkId of bookmarks) {
-      try {
-        await db.insert(userSchedules).values({
-          userId: user.id,
-          talkId,
-          addedAt: Math.floor(Date.now() / 1000),
-        });
-      } catch {
-        // duplicate
+      const addBtn = page.locator('button:has-text("Add to Schedule"), button:has-text("Add to My Schedule")');
+      if (await addBtn.isVisible({ timeout: 2000 }).catch(() => false)) {
+        await addBtn.click();
+        await page.waitForTimeout(1000);
+        log("[bookmark]", `+ ${talkId}`);
       }
     }
-    log(`[${user.name}]`, `bookmarked ${bookmarks.length} talks`);
 
-    // Visit my-schedule (dynamic — always fresh, user-specific)
-    const { status, ms } = await fetchPage("/my-schedule", user.session);
-    log(`[${user.name}]`, `${status} /my-schedule (${ms}ms) — always dynamic`);
-  }
-}
+    // Visit my schedule
+    const start = Date.now();
+    await page.goto(`${BASE_URL}/my-schedule`, { waitUntil: "domcontentloaded" });
+    log("[schedule]", `/my-schedule (${Date.now() - start}ms)`);
 
-// ─── Phase 3: OG image traffic ───────────────────────────────────────────────
-
-async function phase3_ogImages() {
-  console.log("\n── Phase 3: OG image generation ──");
-  console.log("   Each request generates a dynamic image with Sentry tracing.\n");
-
-  for (const talkId of pick(TALK_IDS, 4)) {
-    const { status, ms } = await fetchPage(`/talks/${talkId}/opengraph-image`);
-    log(`[og]`, `${status} /talks/${talkId}/opengraph-image (${ms}ms)`);
-    await new Promise((r) => setTimeout(r, 300));
+    await logout(page);
   }
 }
 
 // ─── Phase 4: Cache comparison ───────────────────────────────────────────────
 
-async function phase4_cacheComparison() {
-  console.log("\n── Phase 4: Cache HIT vs MISS comparison ──");
-  console.log("   Rapid-fire the same pages to show timing difference.\n");
+async function phase4(page: Page) {
+  console.log("\n── Phase 4: Cache HIT vs MISS comparison ──\n");
 
-  for (const page of ["/", "/speakers"]) {
-    const times = [];
+  for (const path of ["/", "/speakers"]) {
+    const times: number[] = [];
     for (let i = 0; i < 5; i++) {
-      const { ms } = await fetchPage(page);
-      times.push(ms);
+      const start = Date.now();
+      await page.goto(`${BASE_URL}${path}`, { waitUntil: "domcontentloaded" });
+      times.push(Date.now() - start);
     }
-    const avg = Math.round(times.reduce((a, b) => a + b, 0) / times.length);
     const first = times[0];
     const rest = Math.round(times.slice(1).reduce((a, b) => a + b, 0) / (times.length - 1));
-    log(`[cache]`, `${page}: first=${first}ms, avg_rest=${rest}ms (${times.join(", ")}ms)`);
+    log("[cache]", `${path}: first=${first}ms, avg_cached=${rest}ms`);
   }
 }
 
 // ─── Main ────────────────────────────────────────────────────────────────────
 
 async function main() {
-  console.log(`Generating traffic against ${BASE_URL}`);
+  console.log(`Generating traffic against ${BASE_URL}\n`);
+
+  const browser = await chromium.launch({ headless: true });
+  const context = await browser.newContext();
+  const page = await context.newPage();
 
   try {
-    await fetch(BASE_URL);
+    await page.goto(BASE_URL, { timeout: 10000 });
   } catch {
-    console.error(`Cannot reach ${BASE_URL}. Start the server first: pnpm build && pnpm start`);
+    console.error(`Cannot reach ${BASE_URL}. Is the server running?`);
+    await browser.close();
     process.exit(1);
   }
 
-  console.log(`Creating ${TEST_USERS.length} test users...`);
-  const testUsers = await createTestUsers();
-  console.log(`Done.`);
+  await phase1(page);
+  await phase2(page);
+  await phase3(page);
+  await phase4(page);
 
-  await phase1_anonymous();
-  await phase2_authenticated(testUsers);
-  await phase3_ogImages();
-  await phase4_cacheComparison();
+  await browser.close();
 
   console.log("\n✓ Done! Check Sentry for:");
-  console.log("  - Logs: filter by message (auth.login, cache.miss, proxy.redirect, og.image)");
-  console.log("  - Metrics: page.view counter grouped by path, browser, authenticated");
-  console.log("  - Metrics: cache.miss counter — compare with page.view for hit rate");
-  console.log("  - Traces: compare cached page traces (short) vs dynamic page traces (long)");
-  process.exit(0);
+  console.log("  - Logs: auth.signup, auth.login, schedule.add, proxy.redirect, cache.miss");
+  console.log("  - Metrics: page.view (by path/browser/auth), cache.miss (by cache_key)");
+  console.log("  - Traces: compare cached vs dynamic page waterfalls");
 }
 
 main().catch((err) => {

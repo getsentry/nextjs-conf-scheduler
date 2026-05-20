@@ -12,7 +12,6 @@ export default function SignupPage() {
   const [state, action, pending] = useActionState<AuthState, FormData>(signup, {});
 
   return (
-    <div className="flex min-h-screen items-center justify-center p-4">
       <Card className="w-full max-w-sm">
         <CardHeader className="text-center">
           <CardTitle className="text-xl">Create an account</CardTitle>
@@ -84,6 +83,5 @@ export default function SignupPage() {
           </div>
         </CardContent>
       </Card>
-    </div>
   );
 }

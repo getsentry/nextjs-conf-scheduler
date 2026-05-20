@@ -3,7 +3,6 @@ import Image from "next/image";
 import Link from "next/link";
 import { Suspense } from "react";
 import { cacheTag, cacheLife } from "next/cache";
-import { Header } from "@/components/header";
 import { Card, CardContent } from "@/components/ui/card";
 import { getAllSpeakers } from "@/lib/db/queries";
 
@@ -15,13 +14,14 @@ async function getCachedSpeakers() {
   const result = await getAllSpeakers();
 
   Sentry.metrics.count("cache.miss", 1, {
-    attributes: { cache_key: "speakers_list" },
+    attributes: { cache_key: "speakers_list", path: "/speakers" },
   });
 
   Sentry.logger.info("cache.miss", {
     cache_key: "speakers_list",
     cache_tags: "speakers",
     cache_life: "days",
+    path: "/speakers",
     speaker_count: result.length,
   });
 
@@ -30,19 +30,16 @@ async function getCachedSpeakers() {
 
 export default function SpeakersPage() {
   return (
-    <div className="min-h-screen bg-background">
-      <Header />
-      <main className="container py-8">
-        <div className="mb-8">
-          <h1 className="text-3xl font-bold tracking-tight mb-2">Speakers</h1>
-          <p className="text-muted-foreground">Meet the speakers at Next.js Conf 2025</p>
-        </div>
+    <>
+      <div className="mb-8">
+        <h1 className="text-3xl font-bold tracking-tight mb-2">Speakers</h1>
+        <p className="text-muted-foreground">Meet the speakers at Next.js Conf 2025</p>
+      </div>
 
-        <Suspense>
-          <SpeakersList />
-        </Suspense>
-      </main>
-    </div>
+      <Suspense>
+        <SpeakersList />
+      </Suspense>
+    </>
   );
 }
 

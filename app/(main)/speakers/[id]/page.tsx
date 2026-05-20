@@ -2,7 +2,6 @@ import Image from "next/image";
 import Link from "next/link";
 import { Suspense } from "react";
 import { notFound } from "next/navigation";
-import { Header } from "@/components/header";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { getSpeakerById } from "@/lib/db/queries";
@@ -26,14 +25,9 @@ const levelColors = {
 
 export default function SpeakerDetailPage({ params }: { params: Params }) {
   return (
-    <div className="min-h-screen bg-background">
-      <Header />
-      <main className="container py-8">
-        <Suspense>
-          <SpeakerDetailContent params={params} />
-        </Suspense>
-      </main>
-    </div>
+    <Suspense>
+      <SpeakerDetailContent params={params} />
+    </Suspense>
   );
 }
 

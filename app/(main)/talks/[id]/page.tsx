@@ -2,7 +2,6 @@ import Image from "next/image";
 import Link from "next/link";
 import { Suspense } from "react";
 import { notFound } from "next/navigation";
-import { Header } from "@/components/header";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
 import { verifySession } from "@/lib/auth/dal";
@@ -21,14 +20,9 @@ const formatLabels = {
 
 export default function TalkDetailPage({ params }: { params: Params }) {
   return (
-    <div className="min-h-screen bg-background">
-      <Header />
-      <main className="container py-8">
-        <Suspense>
-          <TalkDetailContent params={params} />
-        </Suspense>
-      </main>
-    </div>
+    <Suspense>
+      <TalkDetailContent params={params} />
+    </Suspense>
   );
 }
 

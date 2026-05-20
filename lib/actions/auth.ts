@@ -43,7 +43,7 @@ export async function signup(_prevState: AuthState, formData: FormData): Promise
 
       if (!validated.success) {
         const failedFields = Object.keys(validated.error.flatten().fieldErrors);
-        Sentry.logger.warn("auth.validation_failed", {
+        Sentry.logger.info("auth.validation_failed", {
           action: "signup",
           failed_fields: failedFields.join(","),
           field_count: failedFields.length,
@@ -115,7 +115,7 @@ export async function login(_prevState: AuthState, formData: FormData): Promise<
       const validated = loginSchema.safeParse(rawData);
 
       if (!validated.success) {
-        Sentry.logger.warn("auth.validation_failed", {
+        Sentry.logger.info("auth.validation_failed", {
           action: "login",
           duration_ms: Date.now() - startTime,
         });
@@ -142,7 +142,7 @@ export async function login(_prevState: AuthState, formData: FormData): Promise<
       const passwordMatch = await compare(password, user.password);
 
       if (!passwordMatch) {
-        Sentry.logger.warn("auth.login", {
+        Sentry.logger.info("auth.login", {
           result: "invalid_password",
           user_id: user.id,
           email,

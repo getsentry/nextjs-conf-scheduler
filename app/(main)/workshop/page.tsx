@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { Header } from "@/components/header";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
 
@@ -92,9 +91,7 @@ const prerequisites = [
 
 export default function WorkshopPage() {
   return (
-    <div className="min-h-screen bg-background">
-      <Header />
-      <main className="container py-8">
+    <>
         {/* Hero */}
         <div className="relative mb-16 overflow-hidden rounded-2xl border border-border bg-gradient-to-br from-[#362D59] via-[#1D1127] to-[#0E0717] p-8 md:p-12">
           <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,_rgba(108,95,199,0.15),_transparent_60%)]" />
@@ -333,8 +330,7 @@ export default function WorkshopPage() {
             </a>
           </p>
         </footer>
-      </main>
-    </div>
+    </>
   );
 }
 

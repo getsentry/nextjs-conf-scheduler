@@ -1,7 +1,6 @@
 import * as Sentry from "@sentry/nextjs";
 import { Suspense } from "react";
 import { cacheTag, cacheLife } from "next/cache";
-import { connection } from "next/server";
 import { ScheduleFilters } from "@/components/schedule-filters";
 import { ScheduleGrid } from "@/components/schedule-grid";
 import { getAllTalks, getAllTracks } from "@/lib/db/queries";
@@ -51,7 +50,6 @@ export default function SchedulePage({ searchParams }: { searchParams: SearchPar
 }
 
 async function ScheduleContent({ searchParams }: { searchParams: SearchParams }) {
-  await connection();
   const params = await searchParams;
 
   const { talks: allTalks, tracks } = await getCachedScheduleData();

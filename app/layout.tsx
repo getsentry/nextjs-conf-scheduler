@@ -1,7 +1,5 @@
 import type { Metadata } from "next";
-import { Suspense } from "react";
 import { Geist, Geist_Mono, JetBrains_Mono } from "next/font/google";
-import { SentryUserLoader } from "@/components/sentry-user-loader";
 import { ThemeProvider } from "@/components/theme-provider";
 import "./globals.css";
 
@@ -30,9 +28,6 @@ export default function RootLayout({
   return (
     <html lang="en" className={jetbrainsMono.variable} suppressHydrationWarning>
       <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
-        <Suspense>
-          <SentryUserLoader />
-        </Suspense>
         <ThemeProvider
           attribute="class"
           defaultTheme="system"

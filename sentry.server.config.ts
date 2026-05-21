@@ -42,5 +42,5 @@ Sentry.init({
   enableLogs: true,
   sendDefaultPii: true,
   tracePropagationTargets: [/^\//, /\.turso\.io/],
-  integrations: [libsqlIntegration(getClient()), vercelAIIntegration()],
+  integrations: [libsqlIntegration(getClient()), vercelAIIntegration({ force: true })],
 });

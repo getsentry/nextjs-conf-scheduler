@@ -7,7 +7,6 @@ import { db } from "@/lib/db";
 import { users } from "@/lib/db/schema";
 import { decrypt } from "./session";
 
-// Verify session - cached per request
 export const verifySession = cache(async () => {
   const cookieStore = await cookies();
   const session = cookieStore.get("session")?.value;
@@ -20,7 +19,6 @@ export const verifySession = cache(async () => {
   return { isAuth: true, userId: payload.userId };
 });
 
-// Get current user - cached per request
 export const getUser = cache(async () => {
   const session = await verifySession();
 
@@ -41,7 +39,6 @@ export const getUser = cache(async () => {
   return result[0] ?? null;
 });
 
-// Require auth - redirects if not authenticated
 export async function requireAuth(): Promise<{ isAuth: true; userId: string }> {
   const session = await verifySession();
 

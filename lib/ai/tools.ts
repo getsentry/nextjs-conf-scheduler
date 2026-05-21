@@ -4,7 +4,6 @@ import { z } from "zod";
 import { db } from "@/lib/db";
 import { rooms, speakers, talks, tracks, userSchedules } from "@/lib/db/schema";
 
-// Tool: Search talks by topic, speaker, or keywords
 export const searchTalks = tool({
   description:
     "Search for conference talks by topic, speaker name, or keywords. Returns matching talks with details.",
@@ -26,7 +25,6 @@ export const searchTalks = tool({
   execute: async ({ query, trackId, level, format }) => {
     const conditions = [];
 
-    // Search in title and description
     if (query) {
       conditions.push(or(like(talks.title, `%${query}%`), like(talks.description, `%${query}%`)));
     }
@@ -76,7 +74,6 @@ export const searchTalks = tool({
   },
 });
 
-// Tool: Get all available tracks
 export const getTracks = tool({
   description: "Get all available conference tracks with their descriptions.",
   inputSchema: z.object({}),
@@ -85,7 +82,6 @@ export const getTracks = tool({
   },
 });
 
-// Tool: Get full details of a specific talk
 export const getTalkDetails = tool({
   description: "Get complete details of a specific talk including speaker bio and track info.",
   inputSchema: z.object({
@@ -138,7 +134,6 @@ export const getTalkDetails = tool({
   },
 });
 
-// Tool: Check for time conflicts between talks
 export const checkConflicts = tool({
   description: "Check if a list of talks have any time conflicts (overlapping schedules).",
   inputSchema: z.object({
@@ -164,13 +159,11 @@ export const checkConflicts = tool({
       talk2: { id: string; title: string };
     }> = [];
 
-    // Check each pair for overlaps
     for (let i = 0; i < talkTimes.length; i++) {
       for (let j = i + 1; j < talkTimes.length; j++) {
         const a = talkTimes[i];
         const b = talkTimes[j];
 
-        // Check if times overlap
         if (a.startTime < b.endTime && b.startTime < a.endTime) {
           conflicts.push({
             talk1: { id: a.id, title: a.title },
@@ -191,7 +184,6 @@ export const checkConflicts = tool({
   },
 });
 
-// Tool: Get user's current schedule
 export const getUserSchedule = (userId: string) =>
   tool({
     description: "Get the user's currently saved schedule.",
@@ -226,12 +218,3 @@ export const getUserSchedule = (userId: string) =>
       }));
     },
   });
-
-// Export all tools for use in the AI action
-export const getAITools = (userId: string) => ({
-  searchTalks,
-  getTracks,
-  getTalkDetails,
-  checkConflicts,
-  getUserSchedule: getUserSchedule(userId),
-});

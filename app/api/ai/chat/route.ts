@@ -8,7 +8,6 @@ export async function POST(req: Request) {
   const { userId } = await requireAuth();
   const { messages } = await req.json();
 
-  // Wrap the entire pipeline in a Sentry transaction
   return Sentry.startSpan(
     {
       name: "ai.chat.request",
@@ -19,7 +18,6 @@ export async function POST(req: Request) {
       },
     },
     async () => {
-      // Convert UI messages (parts-based) to the format expected by the agent pipeline
       const formattedMessages = messages
         .map((m: { role: string; parts?: Array<{ type: string; text?: string }> }) => ({
           role: m.role as "user" | "assistant",
@@ -32,7 +30,6 @@ export async function POST(req: Request) {
 
       const result = await runAgentPipeline(formattedMessages, userId);
 
-      // Wide event log for AI chat request
       Sentry.logger.info("AI chat request processed", {
         user_id: userId,
         message_count: messages.length,

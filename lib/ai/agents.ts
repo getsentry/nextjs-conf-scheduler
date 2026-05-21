@@ -3,28 +3,20 @@ import * as Sentry from "@sentry/nextjs";
 import { generateText, stepCountIs, streamText } from "ai";
 import { checkConflicts, getTalkDetails, getTracks, getUserSchedule, searchTalks } from "./tools";
 
-// Agent definitions with their specialized roles
 export const AGENTS = {
   router: {
-    name: "router",
     model: anthropic("claude-haiku-4-5-20251001"),
-    description: "Routes requests to specialized agents",
   },
   search: {
-    name: "search-agent",
     model: anthropic("claude-sonnet-4-5-20250929"),
-    description: "Handles talk search, recommendations, and conflict checking",
   },
   info: {
-    name: "info-agent",
     model: anthropic("claude-haiku-4-5-20251001"),
-    description: "Handles simple info queries like tracks and schedule",
   },
 } as const;
 
 type AgentType = "search" | "info";
 
-// Router determines which agent should handle the request
 const routerSystemPrompt = `You are a routing agent for a conference schedule assistant.
 Analyze the user's message and determine which specialized agent should handle it.
 
@@ -42,7 +34,6 @@ Choose "info" for:
 
 Respond with ONLY the agent name: "search" or "info"`;
 
-// Search agent handles complex queries
 const searchAgentSystemPrompt = `You are a search specialist for Next.js Conf 2025.
 Your job is to find relevant talks and make recommendations.
 
@@ -65,7 +56,6 @@ The tool results for searchTalks are rendered as interactive talk cards that use
 
 Be concise but helpful.`;
 
-// Info agent handles simple queries
 const infoAgentSystemPrompt = `You are an info assistant for Next.js Conf 2025.
 Your job is to provide quick information about tracks and the user's schedule.
 
@@ -78,7 +68,6 @@ Available tracks:
 
 Use the tools to fetch the requested information and present it clearly.`;
 
-// Route the request to the appropriate agent
 export async function routeRequest(userMessage: string): Promise<AgentType> {
   return Sentry.startSpan(
     {
@@ -109,24 +98,6 @@ export async function routeRequest(userMessage: string): Promise<AgentType> {
   );
 }
 
-// Get tools for the search agent
-function getSearchTools(_userId: string) {
-  return {
-    searchTalks,
-    getTalkDetails,
-    checkConflicts,
-  };
-}
-
-// Get tools for the info agent
-function getInfoTools(userId: string) {
-  return {
-    getTracks,
-    getUserSchedule: getUserSchedule(userId),
-  };
-}
-
-// Execute the search agent
 export async function executeSearchAgent(
   messages: Array<{ role: "user" | "assistant"; content: string }>,
   userId: string,
@@ -145,7 +116,7 @@ export async function executeSearchAgent(
         model: AGENTS.search.model,
         system: searchAgentSystemPrompt,
         messages,
-        tools: getSearchTools(userId),
+        tools: { searchTalks, getTalkDetails, checkConflicts },
         stopWhen: stepCountIs(10),
         experimental_telemetry: { isEnabled: true },
       });
@@ -155,7 +126,6 @@ export async function executeSearchAgent(
   );
 }
 
-// Execute the info agent
 export async function executeInfoAgent(
   messages: Array<{ role: "user" | "assistant"; content: string }>,
   userId: string,
@@ -174,7 +144,7 @@ export async function executeInfoAgent(
         model: AGENTS.info.model,
         system: infoAgentSystemPrompt,
         messages,
-        tools: getInfoTools(userId),
+        tools: { getTracks, getUserSchedule: getUserSchedule(userId) },
         stopWhen: stepCountIs(5),
         experimental_telemetry: { isEnabled: true },
       });
@@ -184,7 +154,6 @@ export async function executeInfoAgent(
   );
 }
 
-// Main orchestrator that handles the full pipeline
 export async function runAgentPipeline(
   messages: Array<{ role: "user" | "assistant"; content: string }>,
   userId: string,
@@ -195,10 +164,8 @@ export async function runAgentPipeline(
     throw new Error("No user message found");
   }
 
-  // Route to the appropriate agent
   const targetAgent = await routeRequest(lastUserMessage.content);
 
-  // Execute the selected agent
   if (targetAgent === "info") {
     return executeInfoAgent(messages, userId);
   } else {

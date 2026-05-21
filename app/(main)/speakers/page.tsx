@@ -62,9 +62,7 @@ async function SpeakersList() {
               <h2 className="font-semibold">{speaker.name}</h2>
               <p className="text-sm text-muted-foreground">{speaker.role}</p>
               <p className="text-sm text-muted-foreground">{speaker.company}</p>
-              {speaker.twitter && (
-                <p className="text-sm text-primary mt-2">@{speaker.twitter}</p>
-              )}
+              {speaker.twitter && <p className="text-sm text-primary mt-2">@{speaker.twitter}</p>}
             </CardContent>
           </Card>
         </Link>

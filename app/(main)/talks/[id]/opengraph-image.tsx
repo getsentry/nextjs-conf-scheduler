@@ -45,23 +45,21 @@ export default async function OGImage({ params }: { params: Promise<Params> }) {
       span.setStatus({ code: 2, message: "not_found" });
 
       return new ImageResponse(
-        (
-          <div
-            style={{
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-              width: "100%",
-              height: "100%",
-              backgroundColor: "#0E0717",
-              color: "#B4ADC6",
-              fontSize: 32,
-              fontFamily: "sans-serif",
-            }}
-          >
-            Talk not found
-          </div>
-        ),
+        <div
+          style={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            width: "100%",
+            height: "100%",
+            backgroundColor: "#0E0717",
+            color: "#B4ADC6",
+            fontSize: 32,
+            fontFamily: "sans-serif",
+          }}
+        >
+          Talk not found
+        </div>,
         { ...size },
       );
     }
@@ -77,88 +75,86 @@ export default async function OGImage({ params }: { params: Promise<Params> }) {
     });
 
     return new ImageResponse(
-      (
+      <div
+        style={{
+          display: "flex",
+          flexDirection: "column",
+          width: "100%",
+          height: "100%",
+          backgroundColor: "#0E0717",
+          padding: 60,
+          fontFamily: "sans-serif",
+        }}
+      >
+        {/* Top bar with track color */}
         <div
           style={{
             display: "flex",
-            flexDirection: "column",
-            width: "100%",
-            height: "100%",
-            backgroundColor: "#0E0717",
-            padding: 60,
-            fontFamily: "sans-serif",
+            alignItems: "center",
+            gap: 12,
+            marginBottom: 32,
           }}
         >
-          {/* Top bar with track color */}
           <div
             style={{
-              display: "flex",
-              alignItems: "center",
-              gap: 12,
-              marginBottom: 32,
+              width: 16,
+              height: 16,
+              borderRadius: "50%",
+              backgroundColor: talk.trackColor,
             }}
-          >
-            <div
-              style={{
-                width: 16,
-                height: 16,
-                borderRadius: "50%",
-                backgroundColor: talk.trackColor,
-              }}
-            />
-            <span style={{ color: "#B4ADC6", fontSize: 20 }}>{talk.trackName}</span>
-            <span style={{ color: "#6C5FC7", fontSize: 20, marginLeft: 16 }}>
-              {talk.format.charAt(0).toUpperCase() + talk.format.slice(1)}
-            </span>
-            <span style={{ color: "#6C5FC7", fontSize: 20 }}>
-              {talk.level.charAt(0).toUpperCase() + talk.level.slice(1)}
-            </span>
-          </div>
+          />
+          <span style={{ color: "#B4ADC6", fontSize: 20 }}>{talk.trackName}</span>
+          <span style={{ color: "#6C5FC7", fontSize: 20, marginLeft: 16 }}>
+            {talk.format.charAt(0).toUpperCase() + talk.format.slice(1)}
+          </span>
+          <span style={{ color: "#6C5FC7", fontSize: 20 }}>
+            {talk.level.charAt(0).toUpperCase() + talk.level.slice(1)}
+          </span>
+        </div>
 
-          {/* Title */}
-          <div
+        {/* Title */}
+        <div
+          style={{
+            display: "flex",
+            flex: 1,
+            alignItems: "flex-start",
+          }}
+        >
+          <h1
             style={{
-              display: "flex",
-              flex: 1,
-              alignItems: "flex-start",
+              fontSize: 56,
+              fontWeight: 700,
+              color: "white",
+              lineHeight: 1.2,
+              letterSpacing: "-0.02em",
+              maxWidth: "90%",
             }}
           >
-            <h1
-              style={{
-                fontSize: 56,
-                fontWeight: 700,
-                color: "white",
-                lineHeight: 1.2,
-                letterSpacing: "-0.02em",
-                maxWidth: "90%",
-              }}
-            >
-              {talk.title}
-            </h1>
-          </div>
+            {talk.title}
+          </h1>
+        </div>
 
-          {/* Bottom: Speaker + Branding */}
-          <div
-            style={{
-              display: "flex",
-              justifyContent: "space-between",
-              alignItems: "flex-end",
-            }}
-          >
-            <div style={{ display: "flex", flexDirection: "column", gap: 4 }}>
-              <span style={{ color: "white", fontSize: 24, fontWeight: 600 }}>
-                {talk.speakerName}
-              </span>
-              <span style={{ color: "#B4ADC6", fontSize: 18 }}>{talk.speakerCompany}</span>
-            </div>
-            <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
-              <span style={{ color: "#6C5FC7", fontSize: 18, fontWeight: 600 }}>
-                Next.js Conf 2025
-              </span>
-            </div>
+        {/* Bottom: Speaker + Branding */}
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "flex-end",
+          }}
+        >
+          <div style={{ display: "flex", flexDirection: "column", gap: 4 }}>
+            <span style={{ color: "white", fontSize: 24, fontWeight: 600 }}>
+              {talk.speakerName}
+            </span>
+            <span style={{ color: "#B4ADC6", fontSize: 18 }}>{talk.speakerCompany}</span>
+          </div>
+          <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+            <span style={{ color: "#6C5FC7", fontSize: 18, fontWeight: 600 }}>
+              Next.js Conf 2025
+            </span>
           </div>
         </div>
-      ),
+      </div>,
       { ...size },
     );
   });

@@ -7,7 +7,6 @@ type ScheduleGridProps = {
   serverNow?: number;
 };
 
-// Group talks by start time
 function groupTalksByTime(talks: Talk[]): Map<number, Talk[]> {
   const grouped = new Map<number, Talk[]>();
 

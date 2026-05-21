@@ -199,9 +199,7 @@ export const ReasoningContent = memo(({ className, children, ...props }: Reasoni
     )}
     {...props}
   >
-    <Streamdown plugins={streamdownPlugins}>
-      {children}
-    </Streamdown>
+    <Streamdown plugins={streamdownPlugins}>{children}</Streamdown>
   </CollapsibleContent>
 ));
 

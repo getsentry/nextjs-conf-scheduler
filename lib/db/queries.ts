@@ -85,11 +85,7 @@ export async function getAllSpeakers() {
 }
 
 export async function getSpeakerById(id: string) {
-  const speaker = await db
-    .select()
-    .from(speakers)
-    .where(eq(speakers.id, id))
-    .limit(1);
+  const speaker = await db.select().from(speakers).where(eq(speakers.id, id)).limit(1);
 
   if (!speaker[0]) return null;
 
@@ -164,9 +160,7 @@ export async function isInSchedule(userId: string, talkId: string) {
   const result = await db
     .select()
     .from(userSchedules)
-    .where(
-      and(eq(userSchedules.userId, userId), eq(userSchedules.talkId, talkId)),
-    )
+    .where(and(eq(userSchedules.userId, userId), eq(userSchedules.talkId, talkId)))
     .limit(1);
 
   return result.length > 0;

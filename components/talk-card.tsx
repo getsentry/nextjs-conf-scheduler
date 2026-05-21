@@ -46,7 +46,11 @@ export function TalkCard({ talk, showTime = true, serverNow }: TalkCardProps) {
               {serverNow && (
                 <>
                   <span>·</span>
-                  <TalkTimeStatus startTime={talk.startTime} endTime={talk.endTime} serverNow={serverNow} />
+                  <TalkTimeStatus
+                    startTime={talk.startTime}
+                    endTime={talk.endTime}
+                    serverNow={serverNow}
+                  />
                 </>
               )}
             </div>

@@ -32,7 +32,7 @@ export function getDb() {
   return globalThis[DB_KEY];
 }
 
-// For backwards compatibility - creates db on first access
+// Lazy proxy — defers initialization until first use to avoid build-time env var errors
 export const db = new Proxy({} as LibSQLDatabase<typeof schema>, {
   get(_target, prop) {
     return Reflect.get(getDb(), prop);

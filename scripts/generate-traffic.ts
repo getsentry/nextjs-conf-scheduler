@@ -24,11 +24,21 @@ const USERS = [
 ];
 
 const TALK_IDS = [
-  "coding-future", "composition-caching", "nextjs-ai-agents",
-  "clankers-content", "course-platform", "reactive-state",
-  "ambient-agents", "integrated-ai", "dx-ai-age",
-  "turbo-yet", "type-safe-url", "consent-banner",
-  "bun-speed", "open-web", "closing-keynote",
+  "coding-future",
+  "composition-caching",
+  "nextjs-ai-agents",
+  "clankers-content",
+  "course-platform",
+  "reactive-state",
+  "ambient-agents",
+  "integrated-ai",
+  "dx-ai-age",
+  "turbo-yet",
+  "type-safe-url",
+  "consent-banner",
+  "bun-speed",
+  "open-web",
+  "closing-keynote",
 ];
 
 function pick<T>(arr: T[], n: number): T[] {

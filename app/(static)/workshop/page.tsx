@@ -71,7 +71,10 @@ const modules = [
 ];
 
 const prerequisites = [
-  { label: "Completed 101 workshop", href: "https://sentry.io/resources/debugging-nextjs-apps-workshop/" },
+  {
+    label: "Completed 101 workshop",
+    href: "https://sentry.io/resources/debugging-nextjs-apps-workshop/",
+  },
   { label: "Sentry account with a Next.js project", href: "https://sentry.io/signup" },
   { label: "Sentry CLI installed", href: "https://cli.sentry.dev" },
 ];

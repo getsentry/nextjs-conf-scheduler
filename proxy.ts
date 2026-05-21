@@ -1,5 +1,5 @@
 import * as Sentry from "@sentry/nextjs";
-import { type NextRequest, NextResponse } from "next/server";
+import { type NextFetchEvent, type NextRequest, NextResponse } from "next/server";
 import { decrypt } from "@/lib/auth/session";
 
 const protectedRoutes = ["/my-schedule", "/ai-builder"];
@@ -16,7 +16,7 @@ function getRouteType(path: string): string {
   return "other";
 }
 
-export default async function proxy(req: NextRequest) {
+export default async function proxy(req: NextRequest, event: NextFetchEvent) {
   const path = req.nextUrl.pathname;
   const isProtectedRoute = protectedRoutes.some((route) => path.startsWith(route));
   const isPublicRoute = publicRoutes.includes(path);
@@ -42,6 +42,7 @@ export default async function proxy(req: NextRequest) {
       reason: "no_session",
       destination: "/login",
     });
+    event.waitUntil(Sentry.flush(2000));
     return NextResponse.redirect(new URL("/login", req.nextUrl));
   }
 
@@ -50,9 +51,11 @@ export default async function proxy(req: NextRequest) {
       reason: "already_authenticated",
       destination: "/",
     });
+    event.waitUntil(Sentry.flush(2000));
     return NextResponse.redirect(new URL("/", req.nextUrl));
   }
 
+  event.waitUntil(Sentry.flush(2000));
   return NextResponse.next();
 }
 

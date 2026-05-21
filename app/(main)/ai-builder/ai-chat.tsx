@@ -1,5 +1,6 @@
 "use client";
 
+import * as Sentry from "@sentry/nextjs";
 import { useChat } from "@ai-sdk/react";
 import { DefaultChatTransport } from "ai";
 import { CalendarPlusIcon, ClockIcon, MapPinIcon, UserIcon } from "lucide-react";
@@ -246,6 +247,12 @@ export function AIChat() {
       <PromptInput
         onSubmit={async ({ text }) => {
           if (!text.trim() || isLoading) return;
+          const messageCount = messages.filter((m) => m.role === "user").length + 1;
+          Sentry.logger.info("ai.message.sent", {
+            message_count: messageCount,
+            message_length: text.length,
+          });
+          Sentry.metrics.count("ai.message.sent", 1);
           setInputValue("");
           await sendMessage({ text });
         }}

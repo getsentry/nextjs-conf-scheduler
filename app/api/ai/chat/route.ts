@@ -6,6 +6,7 @@ import { requireAuth } from "@/lib/auth/dal";
 export async function POST(req: Request) {
   const startTime = Date.now();
   const { userId } = await requireAuth();
+  Sentry.setUser({ id: userId });
   const conversationId = req.headers.get("x-conversation-id");
   if (conversationId) {
     Sentry.setConversationId(conversationId);

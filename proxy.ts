@@ -29,10 +29,6 @@ export default async function proxy(req: NextRequest, event: NextFetchEvent) {
     Sentry.setUser({ id: session.userId, email: session.email, username: session.name });
   }
 
-  console.log(
-    `[proxy] ${path} route_type=${routeType} auth=${!!session?.userId} sentry_client=${!!Sentry.getClient()}`,
-  );
-
   Sentry.metrics.count("page.view", 1, {
     attributes: {
       path,

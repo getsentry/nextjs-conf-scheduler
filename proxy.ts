@@ -4,11 +4,23 @@ import { decrypt } from "@/lib/auth/session";
 
 const protectedRoutes = ["/my-schedule", "/ai-builder"];
 const publicRoutes = ["/login", "/signup"];
+const staticRoutes = ["/workshop"];
+const cachedRoutes = ["/", "/speakers"];
+
+function getRouteType(path: string): string {
+  if (staticRoutes.some((r) => path.startsWith(r))) return "static";
+  if (cachedRoutes.includes(path)) return "cached";
+  if (protectedRoutes.some((r) => path.startsWith(r))) return "dynamic";
+  if (path.startsWith("/talks/")) return "dynamic";
+  if (path.startsWith("/speakers/")) return "dynamic";
+  return "other";
+}
 
 export default async function proxy(req: NextRequest) {
   const path = req.nextUrl.pathname;
   const isProtectedRoute = protectedRoutes.some((route) => path.startsWith(route));
   const isPublicRoute = publicRoutes.includes(path);
+  const routeType = getRouteType(path);
 
   const cookie = req.cookies.get("session")?.value;
   const session = await decrypt(cookie);
@@ -16,6 +28,7 @@ export default async function proxy(req: NextRequest) {
   Sentry.metrics.count("page.view", 1, {
     attributes: {
       path,
+      route_type: routeType,
       authenticated: String(!!session?.userId),
     },
   });

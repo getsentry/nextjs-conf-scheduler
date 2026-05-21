@@ -180,21 +180,32 @@ async function phase3(page: Page) {
   }
 }
 
-// ─── Phase 4: Cache comparison ───────────────────────────────────────────────
+// ─── Phase 4: Route type comparison ─────────────────────────────────────────
 
 async function phase4(page: Page) {
-  console.log("\n── Phase 4: Cache HIT vs MISS comparison ──\n");
+  console.log("\n── Phase 4: Static vs Cached vs Dynamic comparison ──\n");
 
+  console.log("  Static (no server spans):");
+  for (let i = 0; i < 3; i++) {
+    const start = Date.now();
+    await page.goto(`${BASE_URL}/workshop`, { waitUntil: "domcontentloaded" });
+    log("[static]", `/workshop (${Date.now() - start}ms)`);
+  }
+
+  console.log("\n  Cached (remote cache hit/miss):");
   for (const path of ["/", "/speakers"]) {
-    const times: number[] = [];
-    for (let i = 0; i < 5; i++) {
+    for (let i = 0; i < 3; i++) {
       const start = Date.now();
       await page.goto(`${BASE_URL}${path}`, { waitUntil: "domcontentloaded" });
-      times.push(Date.now() - start);
+      log("[cached]", `${path} (${Date.now() - start}ms)`);
     }
-    const first = times[0];
-    const rest = Math.round(times.slice(1).reduce((a, b) => a + b, 0) / (times.length - 1));
-    log("[cache]", `${path}: first=${first}ms, avg_cached=${rest}ms`);
+  }
+
+  console.log("\n  Dynamic (DB every request):");
+  for (const id of pick(TALK_IDS, 3)) {
+    const start = Date.now();
+    await page.goto(`${BASE_URL}/talks/${id}`, { waitUntil: "domcontentloaded" });
+    log("[dynamic]", `/talks/${id} (${Date.now() - start}ms)`);
   }
 }
 

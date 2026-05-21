@@ -83,7 +83,12 @@ export async function routeRequest(userMessage: string): Promise<AgentType> {
         model: AGENTS.router.model,
         system: routerSystemPrompt,
         prompt: userMessage,
-        experimental_telemetry: { isEnabled: true, recordInputs: true, recordOutputs: true },
+        experimental_telemetry: {
+          isEnabled: true,
+          functionId: "router",
+          recordInputs: true,
+          recordOutputs: true,
+        },
       });
 
       const agent = text.trim().toLowerCase() as AgentType;
@@ -118,7 +123,12 @@ export async function executeSearchAgent(
         messages,
         tools: { searchTalks, getTalkDetails, checkConflicts },
         stopWhen: stepCountIs(10),
-        experimental_telemetry: { isEnabled: true, recordInputs: true, recordOutputs: true },
+        experimental_telemetry: {
+          isEnabled: true,
+          functionId: "search-agent",
+          recordInputs: true,
+          recordOutputs: true,
+        },
       });
 
       return result;
@@ -146,7 +156,12 @@ export async function executeInfoAgent(
         messages,
         tools: { getTracks, getUserSchedule: getUserSchedule(userId) },
         stopWhen: stepCountIs(5),
-        experimental_telemetry: { isEnabled: true, recordInputs: true, recordOutputs: true },
+        experimental_telemetry: {
+          isEnabled: true,
+          functionId: "info-agent",
+          recordInputs: true,
+          recordOutputs: true,
+        },
       });
 
       return result;

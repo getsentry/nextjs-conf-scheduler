@@ -22,7 +22,7 @@ async function getCachedScheduleData() {
     attributes: { cache_key: "schedule_data", path: "/" },
   });
 
-  Sentry.logger.info("cache.miss", {
+  Sentry.logger.info("Cache miss on schedule data", {
     cache_key: "schedule_data",
     cache_tags: "talks,tracks",
     cache_life: "hours",

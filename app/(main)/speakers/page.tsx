@@ -17,7 +17,7 @@ async function getCachedSpeakers() {
     attributes: { cache_key: "speakers_list", path: "/speakers" },
   });
 
-  Sentry.logger.info("cache.miss", {
+  Sentry.logger.info("Cache miss on speakers list", {
     cache_key: "speakers_list",
     cache_tags: "speakers",
     cache_life: "days",

@@ -261,11 +261,15 @@ export function AIChat() {
         onSubmit={async ({ text }) => {
           if (!text.trim() || isLoading) return;
           const messageCount = messages.filter((m) => m.role === "user").length + 1;
-          Sentry.logger.info("ai.message.sent", {
+          Sentry.logger.info("User sent AI chat message", {
+            action: "ai.message.sent",
             message_count: messageCount,
             message_length: text.length,
+            conversation_id: conversationId.current,
           });
-          Sentry.metrics.count("ai.message.sent", 1);
+          Sentry.metrics.count("ai.message.sent", 1, {
+            attributes: { message_count: messageCount },
+          });
           setInputValue("");
           await sendMessage({ text });
         }}

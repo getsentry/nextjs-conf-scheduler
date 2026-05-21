@@ -35,9 +35,11 @@ export async function POST(req: Request) {
 
         const result = await runAgentPipeline(formattedMessages, userId);
 
-        Sentry.logger.info("ai.chat", {
+        Sentry.logger.info("AI chat request completed", {
+          action: "ai.chat",
           result: "success",
           user_id: userId,
+          conversation_id: conversationId,
           message_count: messages.length,
           duration_ms: Date.now() - startTime,
         });
@@ -47,9 +49,11 @@ export async function POST(req: Request) {
         });
       } catch (error) {
         Sentry.captureException(error);
-        Sentry.logger.error("ai.chat", {
+        Sentry.logger.error("AI chat request failed", {
+          action: "ai.chat",
           result: "error",
           user_id: userId,
+          conversation_id: conversationId,
           error: error instanceof Error ? error.message : String(error),
           duration_ms: Date.now() - startTime,
         });

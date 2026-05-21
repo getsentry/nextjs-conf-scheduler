@@ -43,8 +43,9 @@ export async function signup(_prevState: AuthState, formData: FormData): Promise
 
       if (!validated.success) {
         const failedFields = Object.keys(validated.error.flatten().fieldErrors);
-        Sentry.logger.info("auth.validation_failed", {
+        Sentry.logger.info("Signup validation failed", {
           action: "signup",
+          email: rawData.email,
           failed_fields: failedFields.join(","),
           field_count: failedFields.length,
           duration_ms: Date.now() - startTime,
@@ -59,7 +60,8 @@ export async function signup(_prevState: AuthState, formData: FormData): Promise
       const existingUser = await db.select().from(users).where(eq(users.email, email)).limit(1);
 
       if (existingUser.length > 0) {
-        Sentry.logger.info("auth.signup", {
+        Sentry.logger.info("Signup attempted with existing email", {
+          action: "signup",
           result: "duplicate_email",
           email,
           duration_ms: Date.now() - startTime,
@@ -82,7 +84,8 @@ export async function signup(_prevState: AuthState, formData: FormData): Promise
 
       Sentry.setUser({ id: userId, email, username: name });
 
-      Sentry.logger.info("auth.signup", {
+      Sentry.logger.info("User signed up", {
+        action: "signup",
         result: "success",
         user_id: userId,
         email,
@@ -115,8 +118,9 @@ export async function login(_prevState: AuthState, formData: FormData): Promise<
       const validated = loginSchema.safeParse(rawData);
 
       if (!validated.success) {
-        Sentry.logger.info("auth.validation_failed", {
+        Sentry.logger.info("Login validation failed", {
           action: "login",
+          email: rawData.email,
           duration_ms: Date.now() - startTime,
         });
         return {
@@ -131,7 +135,8 @@ export async function login(_prevState: AuthState, formData: FormData): Promise<
       const user = found[0];
 
       if (!user) {
-        Sentry.logger.info("auth.login", {
+        Sentry.logger.info("Login failed — user not found", {
+          action: "login",
           result: "user_not_found",
           email,
           duration_ms: Date.now() - startTime,
@@ -142,7 +147,8 @@ export async function login(_prevState: AuthState, formData: FormData): Promise<
       const passwordMatch = await compare(password, user.password);
 
       if (!passwordMatch) {
-        Sentry.logger.info("auth.login", {
+        Sentry.logger.info("Login failed — invalid password", {
+          action: "login",
           result: "invalid_password",
           user_id: user.id,
           email,
@@ -155,7 +161,8 @@ export async function login(_prevState: AuthState, formData: FormData): Promise<
 
       Sentry.setUser({ id: user.id, email: user.email, username: user.name });
 
-      Sentry.logger.info("auth.login", {
+      Sentry.logger.info("User logged in", {
+        action: "login",
         result: "success",
         user_id: user.id,
         email: user.email,
@@ -184,8 +191,8 @@ export async function logout() {
 
       Sentry.setUser(null);
 
-      Sentry.logger.info("auth.logout", {
-        result: "success",
+      Sentry.logger.info("User logged out", {
+        action: "logout",
         duration_ms: Date.now() - startTime,
       });
     },

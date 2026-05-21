@@ -38,7 +38,9 @@ export default async function proxy(req: NextRequest, event: NextFetchEvent) {
   });
 
   if (isProtectedRoute && !session?.userId) {
-    Sentry.logger.info("proxy.redirect", {
+    Sentry.logger.info("Redirecting unauthenticated user to login", {
+      action: "proxy.redirect",
+      path,
       reason: "no_session",
       destination: "/login",
     });
@@ -47,7 +49,9 @@ export default async function proxy(req: NextRequest, event: NextFetchEvent) {
   }
 
   if (isPublicRoute && session?.userId) {
-    Sentry.logger.info("proxy.redirect", {
+    Sentry.logger.info("Redirecting authenticated user from public route", {
+      action: "proxy.redirect",
+      path,
       reason: "already_authenticated",
       destination: "/",
     });

@@ -38,7 +38,8 @@ export default async function OGImage({ params }: { params: Promise<Params> }) {
     );
 
     if (!talk) {
-      Sentry.logger.warn("og.image", {
+      Sentry.logger.warn("OG image talk not found", {
+        action: "og.image",
         result: "not_found",
         talk_id: id,
       });
@@ -64,14 +65,13 @@ export default async function OGImage({ params }: { params: Promise<Params> }) {
       );
     }
 
-    Sentry.logger.info("og.image", {
+    Sentry.logger.info("OG image generated", {
+      action: "og.image",
       result: "generated",
       talk_id: id,
       talk_title: talk.title,
       track: talk.trackName,
       speaker: talk.speakerName,
-      format: talk.format,
-      level: talk.level,
     });
 
     return new ImageResponse(

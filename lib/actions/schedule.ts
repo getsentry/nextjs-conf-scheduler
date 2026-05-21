@@ -24,7 +24,8 @@ export async function addToSchedule(talkId: string) {
         .limit(1);
 
       if (existing.length > 0) {
-        Sentry.logger.info("schedule.add", {
+        Sentry.logger.info("Schedule add attempted — already exists", {
+          action: "schedule.add",
           result: "duplicate",
           user_id: userId,
           talk_id: talkId,
@@ -42,7 +43,8 @@ export async function addToSchedule(talkId: string) {
       revalidatePath("/my-schedule");
       revalidatePath(`/talks/${talkId}`);
 
-      Sentry.logger.info("schedule.add", {
+      Sentry.logger.info("Talk added to schedule", {
+        action: "schedule.add",
         result: "success",
         user_id: userId,
         talk_id: talkId,
@@ -70,7 +72,8 @@ export async function removeFromSchedule(talkId: string) {
       revalidatePath("/my-schedule");
       revalidatePath(`/talks/${talkId}`);
 
-      Sentry.logger.info("schedule.remove", {
+      Sentry.logger.info("Talk removed from schedule", {
+        action: "schedule.remove",
         result: "success",
         user_id: userId,
         talk_id: talkId,

@@ -78,7 +78,7 @@ export async function signup(_prevState: AuthState, formData: FormData): Promise
         createdAt: Date.now(),
       });
 
-      await createSession(userId);
+      await createSession(userId, email, name);
 
       Sentry.setUser({ id: userId, email, username: name });
 
@@ -151,7 +151,7 @@ export async function login(_prevState: AuthState, formData: FormData): Promise<
         return { error: "Invalid email or password" };
       }
 
-      await createSession(user.id);
+      await createSession(user.id, user.email, user.name);
 
       Sentry.setUser({ id: user.id, email: user.email, username: user.name });
 

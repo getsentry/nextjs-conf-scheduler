@@ -26,7 +26,7 @@ export default async function proxy(req: NextRequest) {
   const session = await decrypt(cookie);
 
   if (session?.userId) {
-    Sentry.setUser({ id: session.userId });
+    Sentry.setUser({ id: session.userId, email: session.email, username: session.name });
   }
 
   Sentry.metrics.count("page.view", 1, {

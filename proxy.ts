@@ -25,6 +25,10 @@ export default async function proxy(req: NextRequest) {
   const cookie = req.cookies.get("session")?.value;
   const session = await decrypt(cookie);
 
+  if (session?.userId) {
+    Sentry.setUser({ id: session.userId });
+  }
+
   Sentry.metrics.count("page.view", 1, {
     attributes: {
       path,

@@ -29,6 +29,10 @@ export default async function proxy(req: NextRequest, event: NextFetchEvent) {
     Sentry.setUser({ id: session.userId, email: session.email, username: session.name });
   }
 
+  console.log(
+    `[proxy] ${path} route_type=${routeType} auth=${!!session?.userId} sentry_client=${!!Sentry.getClient()}`,
+  );
+
   Sentry.metrics.count("page.view", 1, {
     attributes: {
       path,
@@ -44,7 +48,7 @@ export default async function proxy(req: NextRequest, event: NextFetchEvent) {
       reason: "no_session",
       destination: "/login",
     });
-    event.waitUntil(Sentry.flush(2000));
+    event.waitUntil(Sentry.flush());
     return NextResponse.redirect(new URL("/login", req.nextUrl));
   }
 
@@ -55,11 +59,11 @@ export default async function proxy(req: NextRequest, event: NextFetchEvent) {
       reason: "already_authenticated",
       destination: "/",
     });
-    event.waitUntil(Sentry.flush(2000));
+    event.waitUntil(Sentry.flush());
     return NextResponse.redirect(new URL("/", req.nextUrl));
   }
 
-  event.waitUntil(Sentry.flush(2000));
+  event.waitUntil(Sentry.flush());
   return NextResponse.next();
 }
 

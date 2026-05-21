@@ -4,7 +4,7 @@ import * as Sentry from "@sentry/nextjs";
 import { useChat } from "@ai-sdk/react";
 import { DefaultChatTransport } from "ai";
 import { CalendarPlusIcon, ClockIcon, MapPinIcon, UserIcon } from "lucide-react";
-import { useMemo, useState, useTransition } from "react";
+import { useEffect, useMemo, useRef, useState, useTransition } from "react";
 import {
   Conversation,
   ConversationContent,
@@ -139,8 +139,21 @@ function ToolOutputContent({ toolName, output }: { toolName: string; output: unk
 
 export function AIChat() {
   const [inputValue, setInputValue] = useState("");
+  const conversationId = useRef(`conv_${crypto.randomUUID()}`);
 
-  const transport = useMemo(() => new DefaultChatTransport({ api: "/api/ai/chat" }), []);
+  useEffect(() => {
+    Sentry.setConversationId(conversationId.current);
+    return () => Sentry.setConversationId(null);
+  }, []);
+
+  const transport = useMemo(
+    () =>
+      new DefaultChatTransport({
+        api: "/api/ai/chat",
+        headers: { "x-conversation-id": conversationId.current },
+      }),
+    [],
+  );
 
   const { messages, sendMessage, status } = useChat({
     transport,

@@ -5,4 +5,5 @@ Sentry.init({
   tracesSampleRate: 1,
   enableLogs: true,
   sendDefaultPii: true,
+  ignoreSpans: [{ op: "http", name: /^GET middleware GET$/ }],
 });

@@ -1,6 +1,16 @@
+import { createRequire } from "node:module";
 import { drizzle, type PostgresJsDatabase } from "drizzle-orm/postgres-js";
-import postgres, { type Sql } from "postgres";
+import type postgres from "postgres";
+import type { Sql } from "postgres";
 import * as schema from "./schema";
+
+const require = createRequire(import.meta.url);
+
+type PostgresFactory = typeof postgres;
+
+function loadPostgres(): PostgresFactory {
+  return require("postgres") as PostgresFactory;
+}
 
 // Store singletons on globalThis so route handlers and instrumentation share one pool per process.
 const SQL_KEY = "__postgres_client" as const;
@@ -19,7 +29,7 @@ export function getClient(): Sql {
       throw new Error("DATABASE_URL environment variable is not set");
     }
 
-    globalThis[SQL_KEY] = postgres(connectionString, {
+    globalThis[SQL_KEY] = loadPostgres()(connectionString, {
       // Neon/Vercel pooled connections use PgBouncer; disable prepared statements for compatibility.
       prepare: false,
     });

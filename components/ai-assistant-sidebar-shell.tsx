@@ -2,7 +2,7 @@
 
 import { PanelRightCloseIcon, PanelRightOpenIcon, SparklesIcon } from "lucide-react";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
-import { Activity, useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { AIChat } from "@/components/ai-assistant-chat";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -70,15 +70,16 @@ export function AiAssistantSidebarShell({ isAuthenticated }: { isAuthenticated: 
       <aside
         aria-hidden={collapsed}
         className={cn(
-          "sticky top-14 hidden h-[calc(100dvh-3.5rem)] shrink-0 overflow-hidden border-l bg-background transition-opacity duration-150 motion-reduce:transition-none xl:flex xl:flex-col",
-          collapsed ? "w-0 opacity-0" : "w-[30rem] opacity-100 2xl:w-[34rem]",
+          "sticky top-14 hidden h-[calc(100dvh-3.5rem)] shrink-0 overflow-hidden border-l bg-background transition-[width,opacity] duration-300 ease-out motion-reduce:transition-none xl:flex",
+          collapsed ? "w-0 border-l-0 opacity-0" : "w-[30rem] opacity-100 2xl:w-[34rem]",
         )}
+        inert={collapsed ? true : undefined}
       >
         {desktopChatMounted && isDesktop ? (
-          <Activity mode={collapsed ? "hidden" : "visible"} name="AI assistant sidebar">
+          <div className="flex h-full w-[30rem] shrink-0 flex-col 2xl:w-[34rem]">
             <AssistantHeader isAuthenticated={isAuthenticated} onCollapse={collapseAssistant} />
             <AIChat isAuthenticated={isAuthenticated} />
-          </Activity>
+          </div>
         ) : null}
       </aside>
 

@@ -131,6 +131,10 @@ export const createSearchTalksTool = (context?: SearchToolContext) =>
       const limit = maxResults ?? 12;
       const normalizedQuery = query.trim();
 
+      if (!normalizedQuery && !trackId && !level && !format) {
+        return [];
+      }
+
       if (
         context?.identity?.isInternalSentry === true &&
         normalizedQuery &&

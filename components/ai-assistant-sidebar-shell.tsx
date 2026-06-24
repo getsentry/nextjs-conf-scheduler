@@ -22,7 +22,7 @@ export function AiAssistantSidebarShell({ isAuthenticated }: { isAuthenticated: 
     }
 
     const isDesktop = window.matchMedia("(min-width: 1280px)").matches;
-    setCollapsed(false);
+    setCollapsed(!isDesktop);
     setMobileOpen(!isDesktop);
 
     const params = new URLSearchParams(searchParams.toString());

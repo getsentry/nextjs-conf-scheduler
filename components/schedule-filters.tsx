@@ -224,6 +224,7 @@ export function ScheduleFilters({
               <Input
                 className="h-9 pl-7"
                 defaultValue={activeQuery}
+                key={activeQuery}
                 name="q"
                 placeholder="Search sessions, speakers, companies..."
               />

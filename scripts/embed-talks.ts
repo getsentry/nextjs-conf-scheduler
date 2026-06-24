@@ -1,13 +1,13 @@
 import { embedMany, gateway } from "ai";
 import * as dotenv from "dotenv";
-import { eq } from "drizzle-orm";
+import { eq, inArray } from "drizzle-orm";
 import {
   buildTalkEmbeddingText,
   embeddingContentHash,
   TALK_EMBEDDING_MODEL,
 } from "../lib/ai/embeddings";
 import { db, getClient } from "../lib/db";
-import { rooms, speakers, talkEmbeddings, talks, tracks } from "../lib/db/schema";
+import { rooms, speakers, talkEmbeddings, talkSpeakers, talks, tracks } from "../lib/db/schema";
 
 dotenv.config({ path: ".env.local" });
 
@@ -30,7 +30,7 @@ async function ensureVectorIndex() {
 }
 
 async function loadTalks() {
-  return db
+  const talkRows = await db
     .select({
       id: talks.id,
       title: talks.title,
@@ -51,6 +51,39 @@ async function loadTalks() {
     .innerJoin(tracks, eq(talks.trackId, tracks.id))
     .innerJoin(rooms, eq(talks.roomId, rooms.id))
     .orderBy(talks.startTime);
+
+  if (talkRows.length === 0) {
+    return [];
+  }
+
+  const speakerRows = await db
+    .select({
+      talkId: talkSpeakers.talkId,
+      name: speakers.name,
+      company: speakers.company,
+      role: speakers.role,
+    })
+    .from(talkSpeakers)
+    .innerJoin(speakers, eq(talkSpeakers.speakerId, speakers.id))
+    .where(
+      inArray(
+        talkSpeakers.talkId,
+        talkRows.map((talk) => talk.id),
+      ),
+    )
+    .orderBy(talkSpeakers.talkId, talkSpeakers.position);
+
+  const speakersByTalkId = new Map<string, string[]>();
+  for (const speaker of speakerRows) {
+    const speakersForTalk = speakersByTalkId.get(speaker.talkId) ?? [];
+    speakersForTalk.push([speaker.name, speaker.role, speaker.company].filter(Boolean).join(" — "));
+    speakersByTalkId.set(speaker.talkId, speakersForTalk);
+  }
+
+  return talkRows.map((talk) => ({
+    ...talk,
+    speakers: speakersByTalkId.get(talk.id)?.join("; ") ?? talk.speaker,
+  }));
 }
 
 function toEmbeddingDocument(talk: TalkRow) {

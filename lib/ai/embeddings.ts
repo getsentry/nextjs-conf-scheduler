@@ -29,6 +29,7 @@ export type TalkEmbeddingSource = {
   speaker: string;
   speakerCompany: string;
   speakerRole: string;
+  speakers?: string;
   track: string;
   trackDescription: string;
   room: string;
@@ -59,6 +60,7 @@ export function buildTalkEmbeddingText(talk: TalkEmbeddingSource) {
     `Title: ${talk.title}`,
     `Description: ${talk.description}`,
     `Speaker: ${talk.speaker}`,
+    talk.speakers ? `All speakers: ${talk.speakers}` : null,
     `Speaker role: ${talk.speakerRole}`,
     `Speaker company: ${talk.speakerCompany}`,
     `Track: ${talk.track}`,
@@ -68,7 +70,9 @@ export function buildTalkEmbeddingText(talk: TalkEmbeddingSource) {
     `Room: ${talk.room}`,
     `Starts: ${formatConferenceTime(talk.startTime)}`,
     `Ends: ${formatConferenceTime(talk.endTime)}`,
-  ].join("\n");
+  ]
+    .filter(Boolean)
+    .join("\n");
 }
 
 export function embeddingContentHash(content: string) {

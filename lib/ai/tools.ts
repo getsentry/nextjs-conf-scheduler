@@ -1,6 +1,6 @@
 import * as Sentry from "@sentry/nextjs";
 import { tool } from "ai";
-import { and, eq, ilike, inArray, or, type SQL } from "drizzle-orm";
+import { and, eq, ilike, inArray, or, type SQL, sql } from "drizzle-orm";
 import { z } from "zod";
 import { db } from "@/lib/db";
 import { rooms, speakers, talkSpeakers, talks, tracks, userSchedules } from "@/lib/db/schema";
@@ -182,12 +182,21 @@ export const createSearchTalksTool = (context?: SearchToolContext) =>
       const conditions: SQL[] = [];
 
       if (normalizedQuery) {
+        const keywordPattern = `%${normalizedQuery}%`;
+        const coSpeakerCondition = sql<boolean>`exists (
+          select 1
+          from talk_speakers all_talk_speakers
+          join speakers all_speakers on all_speakers.id = all_talk_speakers.speaker_id
+          where all_talk_speakers.talk_id = ${talks.id}
+            and (all_speakers.name ilike ${keywordPattern} or all_speakers.company ilike ${keywordPattern})
+        )`;
         const keywordCondition = or(
-          ilike(talks.title, `%${normalizedQuery}%`),
-          ilike(talks.description, `%${normalizedQuery}%`),
-          ilike(speakers.name, `%${normalizedQuery}%`),
-          ilike(speakers.company, `%${normalizedQuery}%`),
-          ilike(tracks.name, `%${normalizedQuery}%`),
+          ilike(talks.title, keywordPattern),
+          ilike(talks.description, keywordPattern),
+          ilike(speakers.name, keywordPattern),
+          ilike(speakers.company, keywordPattern),
+          coSpeakerCondition,
+          ilike(tracks.name, keywordPattern),
         );
 
         if (keywordCondition) {

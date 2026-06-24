@@ -41,6 +41,8 @@ async function TalkDetailContent({ params }: { params: Params }) {
     notFound();
   }
 
+  const talkSpeakers = talk.speakers?.length ? talk.speakers : [talk.speaker];
+
   return (
     <>
       {/* Breadcrumb */}
@@ -126,28 +128,34 @@ async function TalkDetailContent({ params }: { params: Params }) {
 
           {/* Speaker card */}
           <Card>
-            <CardContent className="pt-4">
-              <h3 className="font-medium mb-4">Speaker</h3>
-              <Link href={`/speakers/${talk.speaker.id}`} className="flex items-start gap-4 group">
-                <Image
-                  src={talk.speaker.avatar}
-                  alt={talk.speaker.name}
-                  width={64}
-                  height={64}
-                  className="h-16 w-16 rounded-full object-cover"
-                />
-                <div>
-                  <p className="font-medium group-hover:text-primary transition-colors">
-                    {talk.speaker.name}
-                  </p>
-                  <p className="text-sm text-muted-foreground">{talk.speaker.role}</p>
-                  <p className="text-sm text-muted-foreground">{talk.speaker.company}</p>
-                  {talk.speaker.twitter && (
-                    <p className="text-sm text-primary mt-1">@{talk.speaker.twitter}</p>
-                  )}
+            <CardContent className="space-y-4 pt-4">
+              <h3 className="font-medium">
+                {talkSpeakers.length === 1 ? "Speaker" : `Speakers (${talkSpeakers.length})`}
+              </h3>
+              {talkSpeakers.map((speaker) => (
+                <div className="space-y-3" key={speaker.id}>
+                  <Link href={`/speakers/${speaker.id}`} className="flex items-start gap-4 group">
+                    <Image
+                      src={speaker.avatar}
+                      alt={speaker.name}
+                      width={64}
+                      height={64}
+                      className="h-16 w-16 rounded-full object-cover"
+                    />
+                    <div>
+                      <p className="font-medium group-hover:text-primary transition-colors">
+                        {speaker.name}
+                      </p>
+                      <p className="text-sm text-muted-foreground">{speaker.role}</p>
+                      <p className="text-sm text-muted-foreground">{speaker.company}</p>
+                      {speaker.twitter && (
+                        <p className="text-sm text-primary mt-1">@{speaker.twitter}</p>
+                      )}
+                    </div>
+                  </Link>
+                  <p className="text-sm text-muted-foreground line-clamp-3">{speaker.bio}</p>
                 </div>
-              </Link>
-              <p className="text-sm text-muted-foreground mt-4 line-clamp-3">{talk.speaker.bio}</p>
+              ))}
             </CardContent>
           </Card>
         </div>

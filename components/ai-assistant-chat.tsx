@@ -89,6 +89,12 @@ type AiChatMessage = UIMessage<{
   };
 }>;
 
+type SpeakerResult = {
+  name: string;
+  company?: string;
+  avatar?: string;
+};
+
 interface TalkResult {
   id: string;
   title: string;
@@ -101,6 +107,7 @@ interface TalkResult {
   speaker: string;
   speakerCompany?: string;
   speakerAvatar?: string;
+  speakers?: SpeakerResult[];
   track: string;
   trackId?: string;
   trackColor?: string;
@@ -122,7 +129,9 @@ function normalizeTalkResult(value: unknown): TalkResult | null {
   }
 
   const raw = value as Record<string, unknown>;
-  if (typeof raw.id !== "string" || typeof raw.title !== "string") {
+  const id =
+    typeof raw.id === "string" ? raw.id : typeof raw.talkId === "string" ? raw.talkId : null;
+  if (!id || typeof raw.title !== "string") {
     return null;
   }
 
@@ -132,9 +141,34 @@ function normalizeTalkResult(value: unknown): TalkResult | null {
     typeof speaker === "object" && speaker !== null ? (speaker as Record<string, unknown>) : null;
   const trackObject =
     typeof track === "object" && track !== null ? (track as Record<string, unknown>) : null;
+  const speakers = Array.isArray(raw.speakers)
+    ? raw.speakers
+        .map((item): SpeakerResult | null => {
+          if (typeof item === "string") {
+            return { name: item };
+          }
+          if (typeof item !== "object" || item === null) {
+            return null;
+          }
+          const speaker = item as Record<string, unknown>;
+          return typeof speaker.name === "string"
+            ? {
+                name: speaker.name,
+                company: typeof speaker.company === "string" ? speaker.company : undefined,
+                avatar:
+                  typeof speaker.avatar === "string"
+                    ? speaker.avatar
+                    : typeof speaker.speakerAvatar === "string"
+                      ? speaker.speakerAvatar
+                      : undefined,
+              }
+            : null;
+        })
+        .filter((speaker): speaker is SpeakerResult => speaker !== null)
+    : undefined;
 
   return {
-    id: raw.id,
+    id,
     title: raw.title,
     description: typeof raw.description === "string" ? raw.description : "",
     date: typeof raw.date === "string" ? raw.date : undefined,
@@ -160,6 +194,7 @@ function normalizeTalkResult(value: unknown): TalkResult | null {
         : typeof speakerObject?.avatar === "string"
           ? speakerObject.avatar
           : undefined,
+    speakers: speakers?.length ? speakers : undefined,
     track:
       typeof track === "string"
         ? track
@@ -203,6 +238,14 @@ function EventResultCard({
 }) {
   const [isPending, startTransition] = useTransition();
   const [added, setAdded] = useState(talk.saved === true);
+  const talkSpeakers = talk.speakers?.length
+    ? talk.speakers
+    : [{ name: talk.speaker, company: talk.speakerCompany, avatar: talk.speakerAvatar }];
+  const primarySpeaker = talkSpeakers[0];
+  const speakerNames = talkSpeakers.map((speaker) => speaker.name).join(", ");
+  const speakerCompanies = Array.from(
+    new Set(talkSpeakers.map((speaker) => speaker.company).filter(Boolean)),
+  ).join(", ");
 
   const toggleSchedule = () => {
     if (!isAuthenticated) {
@@ -280,23 +323,30 @@ function EventResultCard({
         <p className="line-clamp-2 text-xs text-muted-foreground">{talk.description}</p>
 
         <div className="flex items-center gap-2">
-          {talk.speakerAvatar ? (
-            <Image
-              alt={talk.speaker}
-              className="size-7 rounded-full object-cover ring-1 ring-border"
-              height={28}
-              src={talk.speakerAvatar}
-              width={28}
-            />
+          {primarySpeaker?.avatar ? (
+            <div className="relative shrink-0">
+              <Image
+                alt={primarySpeaker.name}
+                className="size-7 rounded-full object-cover ring-1 ring-border"
+                height={28}
+                src={primarySpeaker.avatar}
+                width={28}
+              />
+              {talkSpeakers.length > 1 ? (
+                <span className="-bottom-1 -right-1 absolute rounded-full bg-primary px-1 text-[8px] text-primary-foreground">
+                  +{talkSpeakers.length - 1}
+                </span>
+              ) : null}
+            </div>
           ) : (
             <div className="grid size-7 place-items-center rounded-full bg-muted text-muted-foreground">
               <UserIcon className="size-3.5" />
             </div>
           )}
           <div className="min-w-0 flex-1">
-            <p className="truncate text-xs font-medium">{talk.speaker}</p>
-            {talk.speakerCompany ? (
-              <p className="truncate text-[0.68rem] text-muted-foreground">{talk.speakerCompany}</p>
+            <p className="truncate text-xs font-medium">{speakerNames}</p>
+            {speakerCompanies ? (
+              <p className="truncate text-[0.68rem] text-muted-foreground">{speakerCompanies}</p>
             ) : null}
           </div>
         </div>
@@ -446,7 +496,12 @@ function ToolOutputContent({
   output: unknown;
   toolName: string;
 }) {
-  if ((toolName === "searchTalks" || toolName === "getTalkDetails") && output != null) {
+  if (
+    (toolName === "searchTalks" ||
+      toolName === "getTalkDetails" ||
+      toolName === "getUserSchedule") &&
+    output != null
+  ) {
     const talks = (Array.isArray(output) ? output : [output])
       .map(normalizeTalkResult)
       .filter((talk): talk is TalkResult => talk !== null);

@@ -185,6 +185,12 @@ function SessionBlock({
   saved: boolean;
   talk: Talk;
 }) {
+  const talkSpeakers = talk.speakers?.length ? talk.speakers : [talk.speaker];
+  const speakerNames = talkSpeakers.map((speaker) => speaker.name).join(", ");
+  const speakerCompanies = Array.from(
+    new Set(talkSpeakers.map((speaker) => speaker.company).filter(Boolean)),
+  ).join(", ");
+
   return (
     <article
       className={cn(
@@ -202,9 +208,9 @@ function SessionBlock({
             {formatDuration(talk.startTime, talk.endTime)}
           </span>
         </div>
-        <p className="mt-1 line-clamp-2 text-muted-foreground">{talk.speaker.name}</p>
-        {talk.speaker.company ? (
-          <p className="line-clamp-1 text-muted-foreground/80">{talk.speaker.company}</p>
+        <p className="mt-1 line-clamp-2 text-muted-foreground">{speakerNames}</p>
+        {speakerCompanies ? (
+          <p className="line-clamp-1 text-muted-foreground/80">{speakerCompanies}</p>
         ) : null}
         <div className="mt-2 flex flex-wrap gap-1">
           <span className="rounded-md border px-1.5 py-0.5 text-[0.62rem] capitalize text-muted-foreground">

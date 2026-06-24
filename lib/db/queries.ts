@@ -1,9 +1,71 @@
-import { and, eq } from "drizzle-orm";
+import { and, eq, inArray } from "drizzle-orm";
 import { db } from "./index";
-import { rooms, speakers, talks, tracks, userSchedules } from "./schema";
+import { rooms, speakers, talkSpeakers, talks, tracks, userSchedules } from "./schema";
+
+type SpeakerSummary = {
+  id: string;
+  name: string;
+  avatar: string;
+  company: string;
+};
+
+async function getTalkSpeakerSummaries(talkIds: string[]) {
+  if (talkIds.length === 0) return new Map<string, SpeakerSummary[]>();
+
+  const rows = await db
+    .select({
+      talkId: talkSpeakers.talkId,
+      speaker: {
+        id: speakers.id,
+        name: speakers.name,
+        avatar: speakers.avatar,
+        company: speakers.company,
+      },
+    })
+    .from(talkSpeakers)
+    .innerJoin(speakers, eq(talkSpeakers.speakerId, speakers.id))
+    .where(inArray(talkSpeakers.talkId, talkIds))
+    .orderBy(talkSpeakers.talkId, talkSpeakers.position);
+
+  const byTalkId = new Map<string, SpeakerSummary[]>();
+  for (const row of rows) {
+    const talkSpeakers = byTalkId.get(row.talkId) ?? [];
+    talkSpeakers.push(row.speaker);
+    byTalkId.set(row.talkId, talkSpeakers);
+  }
+
+  return byTalkId;
+}
+
+async function getTalkSpeakerDetails(talkId: string) {
+  return db
+    .select({
+      id: speakers.id,
+      name: speakers.name,
+      bio: speakers.bio,
+      avatar: speakers.avatar,
+      company: speakers.company,
+      role: speakers.role,
+      twitter: speakers.twitter,
+    })
+    .from(talkSpeakers)
+    .innerJoin(speakers, eq(talkSpeakers.speakerId, speakers.id))
+    .where(eq(talkSpeakers.talkId, talkId))
+    .orderBy(talkSpeakers.position);
+}
+
+function attachSpeakerSummaries<T extends { id: string; speaker: SpeakerSummary }>(
+  talkRows: T[],
+  speakersByTalkId: Map<string, SpeakerSummary[]>,
+) {
+  return talkRows.map((talk) => ({
+    ...talk,
+    speakers: speakersByTalkId.get(talk.id) ?? [talk.speaker],
+  }));
+}
 
 export async function getAllTalks() {
-  return db
+  const result = await db
     .select({
       id: talks.id,
       title: talks.title,
@@ -33,6 +95,9 @@ export async function getAllTalks() {
     .innerJoin(tracks, eq(talks.trackId, tracks.id))
     .innerJoin(rooms, eq(talks.roomId, rooms.id))
     .orderBy(talks.startTime);
+
+  const speakersByTalkId = await getTalkSpeakerSummaries(result.map((talk) => talk.id));
+  return attachSpeakerSummaries(result, speakersByTalkId);
 }
 
 export async function getTalkById(id: string) {
@@ -73,7 +138,11 @@ export async function getTalkById(id: string) {
     .where(eq(talks.id, id))
     .limit(1);
 
-  return result[0] ?? null;
+  const talk = result[0];
+  if (!talk) return null;
+
+  const talkSpeakerRows = await getTalkSpeakerDetails(talk.id);
+  return { ...talk, speakers: talkSpeakerRows.length > 0 ? talkSpeakerRows : [talk.speaker] };
 }
 
 export async function getAllTracks() {
@@ -108,10 +177,11 @@ export async function getSpeakerById(id: string) {
         name: rooms.name,
       },
     })
-    .from(talks)
+    .from(talkSpeakers)
+    .innerJoin(talks, eq(talkSpeakers.talkId, talks.id))
     .innerJoin(tracks, eq(talks.trackId, tracks.id))
     .innerJoin(rooms, eq(talks.roomId, rooms.id))
-    .where(eq(talks.speakerId, id))
+    .where(eq(talkSpeakers.speakerId, id))
     .orderBy(talks.startTime);
 
   return { ...speaker[0], talks: speakerTalks };
@@ -127,7 +197,7 @@ export async function getUserScheduleTalkIds(userId: string) {
 }
 
 export async function getUserSchedule(userId: string) {
-  return db
+  const result = await db
     .select({
       talkId: userSchedules.talkId,
       addedAt: userSchedules.addedAt,
@@ -163,6 +233,13 @@ export async function getUserSchedule(userId: string) {
     .innerJoin(rooms, eq(talks.roomId, rooms.id))
     .where(eq(userSchedules.userId, userId))
     .orderBy(talks.startTime);
+
+  const speakersByTalkId = await getTalkSpeakerSummaries(result.map((row) => row.talk.id));
+
+  return result.map((row) => ({
+    ...row,
+    speakers: speakersByTalkId.get(row.talk.id) ?? [row.speaker],
+  }));
 }
 
 export async function isInSchedule(userId: string, talkId: string) {

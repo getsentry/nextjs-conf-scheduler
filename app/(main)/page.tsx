@@ -100,6 +100,7 @@ async function ScheduleContent({ searchParams }: { searchParams: SearchParams })
         talk.description,
         talk.speaker.name,
         talk.speaker.company,
+        ...(talk.speakers ?? []).flatMap((speaker) => [speaker.name, speaker.company]),
         talk.track.name,
         talk.room.name,
         talk.level,

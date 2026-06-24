@@ -30,11 +30,11 @@ const TALK_IDS = [
   "aiewf-571-total-recall-agent-memory-and-harness-engineerin",
   "aiewf-577-agents-that-own-their-inference-building-product",
   "aiewf-588-advanced-workshop-mastering-ai-observability",
-  "aiewf-545-your-evals-are-lying-to-you",
+  "aiewf-545-evals-in-ai-a-deep-dive",
   "aiewf-568-from-zero-to-leaderboard-building-an-end-to-end-",
   "aiewf-579-beyond-rag-build-a-relational-context-engine-fro",
   "aiewf-585-building-ai-agents-with-real-time-web-data",
-  "aiewf-590-agent-speedrun-idea-code-deploy-observe-fix-ship",
+  "aiewf-589-agent-speedrun-idea-code-deploy-observe-fix-ship",
   "aiewf-546-the-cheat-sheet-get-evals-up-and-running-in-minu",
 ];
 

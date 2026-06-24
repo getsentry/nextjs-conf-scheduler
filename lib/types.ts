@@ -12,6 +12,12 @@ export type Talk = {
     avatar: string;
     company: string;
   };
+  speakers?: Array<{
+    id: string;
+    name: string;
+    avatar: string;
+    company: string;
+  }>;
   track: {
     id: string;
     name: string;

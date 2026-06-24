@@ -3,7 +3,7 @@ import { tool } from "ai";
 import { and, eq, ilike, inArray, or, type SQL } from "drizzle-orm";
 import { z } from "zod";
 import { db } from "@/lib/db";
-import { rooms, speakers, talks, tracks, userSchedules } from "@/lib/db/schema";
+import { rooms, speakers, talkSpeakers, talks, tracks, userSchedules } from "@/lib/db/schema";
 import { isSentryTalkSearchQuery, SENTRY_SEARCH_ERROR_MESSAGE } from "@/lib/sentry-demo";
 import { semanticSearchTalks } from "./embeddings";
 
@@ -63,10 +63,57 @@ function formatTalkTimes<T extends { startTime: number; endTime: number }>(talk:
   };
 }
 
+type ToolSpeaker = {
+  id: string;
+  name: string;
+  bio: string;
+  company: string;
+  role: string;
+  avatar: string;
+};
+
+async function getToolSpeakers(talkIds: string[]) {
+  if (talkIds.length === 0) return new Map<string, ToolSpeaker[]>();
+
+  const result = await db
+    .select({
+      talkId: talkSpeakers.talkId,
+      speaker: {
+        id: speakers.id,
+        name: speakers.name,
+        bio: speakers.bio,
+        company: speakers.company,
+        role: speakers.role,
+        avatar: speakers.avatar,
+      },
+    })
+    .from(talkSpeakers)
+    .innerJoin(speakers, eq(talkSpeakers.speakerId, speakers.id))
+    .where(inArray(talkSpeakers.talkId, talkIds))
+    .orderBy(talkSpeakers.talkId, talkSpeakers.position);
+
+  const speakersByTalkId = new Map<string, ToolSpeaker[]>();
+  for (const row of result) {
+    const speakerRows = speakersByTalkId.get(row.talkId) ?? [];
+    speakerRows.push(row.speaker);
+    speakersByTalkId.set(row.talkId, speakerRows);
+  }
+
+  return speakersByTalkId;
+}
+
+async function withSpeakerArrays<T extends { id: string; speaker?: unknown }>(talkRows: T[]) {
+  const speakersByTalkId = await getToolSpeakers(talkRows.map((talk) => talk.id));
+  return talkRows.map((talk) => ({
+    ...talk,
+    speakers: speakersByTalkId.get(talk.id) ?? [],
+  }));
+}
+
 export const createSearchTalksTool = (context?: SearchToolContext) =>
   tool({
     description:
-      "Search for conference sessions by topic, speaker name, company, or keywords. Uses semantic embeddings when available and falls back to keyword search.",
+      "Search for conference sessions by topic, speaker name, company, schedule gap, or keywords. Uses semantic embeddings when available and falls back to keyword search. For broad recommendation or schedule-gap questions, request 8-12 results.",
     inputSchema: z.object({
       query: z.string().describe("Search query (topic, keyword, company, or speaker name)"),
       trackId: z.string().optional().describe("Filter by track ID from getTracks"),
@@ -119,7 +166,8 @@ export const createSearchTalksTool = (context?: SearchToolContext) =>
           });
 
           if (semanticResults.length > 0) {
-            return (await withSavedState(semanticResults, context)).map(formatTalkTimes);
+            const resultsWithSpeakers = await withSpeakerArrays(semanticResults);
+            return (await withSavedState(resultsWithSpeakers, context)).map(formatTalkTimes);
           }
         } catch (error) {
           Sentry.logger.warn("Semantic talk search failed; falling back to keyword search", {
@@ -181,7 +229,8 @@ export const createSearchTalksTool = (context?: SearchToolContext) =>
         .orderBy(talks.startTime)
         .limit(limit);
 
-      return (await withSavedState(result, context)).map(formatTalkTimes);
+      const resultsWithSpeakers = await withSpeakerArrays(result);
+      return (await withSavedState(resultsWithSpeakers, context)).map(formatTalkTimes);
     },
   });
 
@@ -196,7 +245,8 @@ export const getTracks = tool({
 });
 
 export const getTalkDetails = tool({
-  description: "Get complete details of a specific talk including speaker bio and track info.",
+  description:
+    "Get complete details of one specific talk by ID. Do not use this to discover sessions or fill schedule gaps; use searchTalks for that.",
   inputSchema: z.object({
     talkId: z.string().describe("The ID of the talk to get details for"),
   }),
@@ -235,7 +285,11 @@ export const getTalkDetails = tool({
       return null;
     }
 
-    return formatTalkTimes(result[0]);
+    const speakersByTalkId = await getToolSpeakers([talkId]);
+    return formatTalkTimes({
+      ...result[0],
+      speakers: speakersByTalkId.get(talkId) ?? [],
+    });
   },
 });
 
@@ -291,25 +345,41 @@ export const checkConflicts = tool({
 
 export const getUserSchedule = (userId: string) =>
   tool({
-    description: "Get the user's currently saved schedule.",
+    description:
+      "Get the user's currently saved schedule as session cards. Use this before answering questions about what is missing from their schedule.",
     inputSchema: z.object({}),
     execute: async () => {
       const result = await db
         .select({
-          talkId: userSchedules.talkId,
+          id: userSchedules.talkId,
           title: talks.title,
+          description: talks.description,
           startTime: talks.startTime,
           endTime: talks.endTime,
+          level: talks.level,
+          format: talks.format,
+          speaker: speakers.name,
+          speakerCompany: speakers.company,
+          speakerAvatar: speakers.avatar,
           track: tracks.name,
+          trackId: tracks.id,
+          trackColor: tracks.color,
           room: rooms.name,
+          saved: userSchedules.talkId,
         })
         .from(userSchedules)
         .innerJoin(talks, eq(userSchedules.talkId, talks.id))
+        .innerJoin(speakers, eq(talks.speakerId, speakers.id))
         .innerJoin(tracks, eq(talks.trackId, tracks.id))
         .innerJoin(rooms, eq(talks.roomId, rooms.id))
         .where(eq(userSchedules.userId, userId))
         .orderBy(talks.startTime);
 
-      return result.map(formatTalkTimes);
+      const resultsWithSpeakers = (await withSpeakerArrays(result)).map((talk) => ({
+        ...talk,
+        saved: Boolean(talk.saved),
+      }));
+
+      return resultsWithSpeakers.map(formatTalkTimes);
     },
   });

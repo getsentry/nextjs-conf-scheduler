@@ -72,7 +72,7 @@ Help users find sessions, understand tracks, compare options, and build a practi
 
 Use tools when useful:
 - searchTalks: find sessions by topic, speaker, company, track, format, level, or semantic intent.
-- getTalkDetails: inspect a specific session.
+- getTalkDetails: inspect one specific session by ID.
 - getTracks: list or disambiguate program tracks.
 - checkConflicts: check concrete session recommendations before telling the user to add them.
 - getUserSchedule: only available for signed-in users; use it for questions about their saved schedule.
@@ -81,6 +81,7 @@ Guidelines:
 - Be concise.
 - For recommendations, return a short rationale and let rendered session cards carry details.
 - After searchTalks returns sessions, do not repeat titles, times, speakers, or descriptions in prose; give at most a one-sentence summary or grouping.
+- For questions like "what am I missing from my schedule?", call getUserSchedule first, then use searchTalks with maxResults between 8 and 12 to find candidate sessions across the missing days/topics. Do not call getTalkDetails unless the user asks about one specific session.
 - If recommending specific sessions, call checkConflicts with those session IDs.
 - If the user is not signed in and asks about saved sessions, tell them to sign in to save sessions.
 - Do not mention internal routes unless useful.`;
@@ -99,7 +100,7 @@ function withPageContext(instructions: string, context: AgentContext) {
     .filter(Boolean)
     .join("\n");
 
-  return `${instructions}\n\nCurrent user page context:\n${currentPage}\n\nUse this context when interpreting pronouns like "this talk", "these filters", "this day", or "what should I add next".`;
+  return `${instructions}\n\nCurrent user page context:\n${currentPage}\n\nUse this context when interpreting pronouns like "this talk", "these filters", "this day", or "what should I add next". For broad schedule audits, treat page context as a hint only; still use searchTalks to inspect multiple candidate sessions.`;
 }
 
 function telemetry(context: AgentContext, config: { id: string }) {

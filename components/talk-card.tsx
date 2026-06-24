@@ -21,6 +21,13 @@ const formatIcons = {
 };
 
 export function TalkCard({ talk, showTime = true, serverNow }: TalkCardProps) {
+  const talkSpeakers = talk.speakers?.length ? talk.speakers : [talk.speaker];
+  const speakerNames = talkSpeakers.map((speaker) => speaker.name).join(", ");
+  const speakerCompanies = Array.from(
+    new Set(talkSpeakers.map((speaker) => speaker.company).filter(Boolean)),
+  ).join(", ");
+  const primarySpeaker = talkSpeakers[0] ?? talk.speaker;
+
   return (
     <Link href={`/talks/${talk.id}`} className="block">
       <Card className="h-full transition-shadow hover:ring-2 hover:ring-primary/30 hover:shadow-lg motion-reduce:transition-none">
@@ -61,16 +68,25 @@ export function TalkCard({ talk, showTime = true, serverNow }: TalkCardProps) {
           <p className="text-muted-foreground line-clamp-2 text-xs">{talk.description}</p>
 
           <div className="flex items-center gap-2">
-            <Image
-              src={talk.speaker.avatar}
-              alt={talk.speaker.name}
-              width={24}
-              height={24}
-              className="h-6 w-6 rounded-full object-cover"
-            />
+            <div className="relative shrink-0">
+              <Image
+                alt={primarySpeaker.name}
+                className="h-6 w-6 rounded-full object-cover"
+                height={24}
+                src={primarySpeaker.avatar}
+                width={24}
+              />
+              {talkSpeakers.length > 1 ? (
+                <span className="-bottom-1 -right-1 absolute rounded-full bg-primary px-1 text-[8px] text-primary-foreground">
+                  +{talkSpeakers.length - 1}
+                </span>
+              ) : null}
+            </div>
             <div className="flex-1 min-w-0">
-              <p className="text-xs font-medium truncate">{talk.speaker.name}</p>
-              <p className="text-xs text-muted-foreground truncate">{talk.speaker.company}</p>
+              <p className="text-xs font-medium truncate">{speakerNames}</p>
+              {speakerCompanies ? (
+                <p className="text-xs text-muted-foreground truncate">{speakerCompanies}</p>
+              ) : null}
             </div>
           </div>
 

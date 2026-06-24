@@ -13,32 +13,29 @@ import { chromium, type Page } from "playwright";
 const BASE_URL = process.argv[2] || "http://localhost:3000";
 
 const USERS = [
-  { name: "Alice Chen", email: "alice@workshop.test", password: "workshop2025" },
-  { name: "Bob Martinez", email: "bob@workshop.test", password: "workshop2025" },
-  { name: "Carol Williams", email: "carol@workshop.test", password: "workshop2025" },
-  { name: "Dave Kim", email: "dave@workshop.test", password: "workshop2025" },
-  { name: "Eve Johnson", email: "eve@workshop.test", password: "workshop2025" },
-  { name: "Frank Liu", email: "frank@workshop.test", password: "workshop2025" },
-  { name: "Grace Park", email: "grace@workshop.test", password: "workshop2025" },
-  { name: "Henry Brown", email: "henry@workshop.test", password: "workshop2025" },
+  { name: "Alice Chen", email: "alice@demo.test", password: "demo2026" },
+  { name: "Bob Martinez", email: "bob@demo.test", password: "demo2026" },
+  { name: "Carol Williams", email: "carol@demo.test", password: "demo2026" },
+  { name: "Dave Kim", email: "dave@demo.test", password: "demo2026" },
+  { name: "Eve Johnson", email: "eve@demo.test", password: "demo2026" },
+  { name: "Frank Liu", email: "frank@demo.test", password: "demo2026" },
+  { name: "Grace Park", email: "grace@demo.test", password: "demo2026" },
+  { name: "Henry Brown", email: "henry@demo.test", password: "demo2026" },
 ];
 
 const TALK_IDS = [
-  "coding-future",
-  "composition-caching",
-  "nextjs-ai-agents",
-  "clankers-content",
-  "course-platform",
-  "reactive-state",
-  "ambient-agents",
-  "integrated-ai",
-  "dx-ai-age",
-  "turbo-yet",
-  "type-safe-url",
-  "consent-banner",
-  "bun-speed",
-  "open-web",
-  "closing-keynote",
+  "aiewf-543-from-vibes-to-production-evaluating-and-shipping",
+  "aiewf-549-intro-to-graphrag",
+  "aiewf-555-cooking-with-codex",
+  "aiewf-571-total-recall-agent-memory-and-harness-engineerin",
+  "aiewf-577-agents-that-own-their-inference-building-product",
+  "aiewf-588-advanced-workshop-mastering-ai-observability",
+  "aiewf-545-your-evals-are-lying-to-you",
+  "aiewf-568-from-zero-to-leaderboard-building-an-end-to-end-",
+  "aiewf-579-beyond-rag-build-a-relational-context-engine-fro",
+  "aiewf-585-building-ai-agents-with-real-time-web-data",
+  "aiewf-590-agent-speedrun-idea-code-deploy-observe-fix-ship",
+  "aiewf-546-the-cheat-sheet-get-evals-up-and-running-in-minu",
 ];
 
 function pick<T>(arr: T[], n: number): T[] {
@@ -63,13 +60,13 @@ async function logout(page: Page) {
 async function phase1(page: Page) {
   console.log("\n── Phase 1: Anonymous browsing ──\n");
 
-  for (const path of ["/", "/speakers", "/workshop"]) {
+  for (const path of ["/", "/speakers"]) {
     const start = Date.now();
     await page.goto(`${BASE_URL}${path}`, { waitUntil: "domcontentloaded" });
     log("[anon]", `${path} (${Date.now() - start}ms)`);
   }
 
-  for (const id of pick(["swyx", "aurora", "rhys"], 2)) {
+  for (const id of pick(["spk_addy_osmani", "spk_aaron_francis", "spk_abdul_dakkak"], 2)) {
     const start = Date.now();
     await page.goto(`${BASE_URL}/speakers/${id}`, { waitUntil: "domcontentloaded" });
     log("[anon]", `/speakers/${id} (${Date.now() - start}ms)`);
@@ -81,19 +78,24 @@ async function phase1(page: Page) {
     log("[anon]", `/talks/${id} (${Date.now() - start}ms)`);
   }
 
-  // Try protected pages — should redirect to login (proxy.redirect logs)
+  const aiStart = Date.now();
+  await page.goto(`${BASE_URL}/?assistant=open`, { waitUntil: "domcontentloaded" });
+  log("[anon][ai]", `/?assistant=open (${Date.now() - aiStart}ms)`);
+
+  // Try saved-events view — should redirect to login.
   console.log("");
-  for (const path of ["/my-schedule", "/ai-builder"]) {
-    const start = Date.now();
-    await page.goto(`${BASE_URL}${path}`, { waitUntil: "domcontentloaded" });
-    log("[anon][redirect]", `${path} → ${new URL(page.url()).pathname} (${Date.now() - start}ms)`);
-  }
+  const start = Date.now();
+  await page.goto(`${BASE_URL}/?view=my-events`, { waitUntil: "domcontentloaded" });
+  log(
+    "[anon][redirect]",
+    `/?view=my-events → ${new URL(page.url()).pathname} (${Date.now() - start}ms)`,
+  );
 }
 
 // ─── Phase 2: Signup + Login ─────────────────────────────────────────────────
 
 async function phase2(page: Page) {
-  console.log("\n── Phase 2: Signup & Login (auth telemetry) ──\n");
+  console.log("\n── Phase 2: Signup & Login (account telemetry) ──\n");
 
   for (const user of USERS) {
     // Try signup
@@ -121,11 +123,11 @@ async function phase2(page: Page) {
   // Generate some failed logins
   console.log("");
   await page.goto(`${BASE_URL}/login`, { waitUntil: "domcontentloaded" });
-  await page.fill('input[name="email"]', "nobody@workshop.test");
+  await page.fill('input[name="email"]', "nobody@demo.test");
   await page.fill('input[name="password"]', "wrongpassword");
   await page.click('button[type="submit"]');
   await page.waitForTimeout(1000);
-  log("[login][fail]", "nobody@workshop.test — user not found");
+  log("[login][fail]", "nobody@demo.test — user not found");
 
   await page.fill('input[name="email"]', USERS[0].email);
   await page.fill('input[name="password"]', "wrongpassword");
@@ -153,7 +155,10 @@ async function phase3(page: Page) {
 
     console.log(`\n  ${user.name}:`);
 
-    for (const path of pick(["/", "/speakers", "/speakers/swyx", "/speakers/aurora"], 2)) {
+    for (const path of pick(
+      ["/", "/speakers", "/speakers/spk_addy_osmani", "/speakers/spk_aaron_francis"],
+      2,
+    )) {
       const start = Date.now();
       await page.goto(`${BASE_URL}${path}`, { waitUntil: "domcontentloaded" });
       log("[browse]", `${path} (${Date.now() - start}ms)`);
@@ -173,8 +178,8 @@ async function phase3(page: Page) {
     }
 
     const start = Date.now();
-    await page.goto(`${BASE_URL}/my-schedule`, { waitUntil: "domcontentloaded" });
-    log("[schedule]", `/my-schedule (${Date.now() - start}ms)`);
+    await page.goto(`${BASE_URL}/?view=my-events`, { waitUntil: "domcontentloaded" });
+    log("[schedule]", `/?view=my-events (${Date.now() - start}ms)`);
 
     await logout(page);
   }
@@ -183,16 +188,9 @@ async function phase3(page: Page) {
 // ─── Phase 4: Route type comparison ─────────────────────────────────────────
 
 async function phase4(page: Page) {
-  console.log("\n── Phase 4: Static vs Cached vs Dynamic comparison ──\n");
+  console.log("\n── Phase 4: Cached vs Dynamic comparison ──\n");
 
-  console.log("  Static (no server spans):");
-  for (let i = 0; i < 3; i++) {
-    const start = Date.now();
-    await page.goto(`${BASE_URL}/workshop`, { waitUntil: "domcontentloaded" });
-    log("[static]", `/workshop (${Date.now() - start}ms)`);
-  }
-
-  console.log("\n  Cached (remote cache hit/miss):");
+  console.log("  Cached (remote cache hit/miss):");
   for (const path of ["/", "/speakers"]) {
     for (let i = 0; i < 3; i++) {
       const start = Date.now();
@@ -234,8 +232,8 @@ async function main() {
   await browser.close();
 
   console.log("\n✓ Done! Check Sentry for:");
-  console.log("  - Logs: auth.signup, auth.login, schedule.add, proxy.redirect, cache.miss");
-  console.log("  - Metrics: page.view (by path/browser/auth), cache.miss (by cache_key)");
+  console.log("  - Logs: account.signup, account.login, schedule.add, proxy.redirect, cache.miss");
+  console.log("  - Metrics: page.view (by path/browser/signed_in), cache.miss (by cache_key)");
   console.log("  - Traces: compare cached vs dynamic page waterfalls");
 }
 

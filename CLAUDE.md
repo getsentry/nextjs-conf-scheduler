@@ -1,70 +1,80 @@
 # CLAUDE.md
 
-This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
+Guidance for coding agents working in this repository.
 
 ## Commands
 
 ```bash
-pnpm dev          # Start dev server (Turbopack) — NO caching
+pnpm dev          # Start dev server (Turbopack) — no cache behavior
 pnpm build        # Production build
-pnpm start        # Start production server — caching works here
-pnpm lint         # Run Biome linter + formatter check
-pnpm format       # Auto-format with Biome
-pnpm db:init      # Create Turso DB & write credentials to .env.local
-pnpm db:push      # Apply Drizzle schema to database
-pnpm db:seed      # Seed conference data
+pnpm start        # Start production server — cache behavior works here
+pnpm lint         # Run Biome checks
+pnpm format       # Format with Biome
+pnpm db:init      # Prompt for Neon/Postgres DATABASE_URL and write .env.local
+pnpm db:push      # Enable pgvector and apply Drizzle schema
+pnpm db:seed      # Seed AI Engineer World's Fair 2026 data
+pnpm db:embed     # Generate pgvector embeddings for semantic AI search
 pnpm db:studio    # Open Drizzle Studio
-pnpm traffic      # Generate traffic from 8 test users (run against dev or prod server)
+pnpm traffic      # Generate demo traffic against dev or prod server
 ```
 
 ## Architecture
 
-This is a Next.js 16 demo app for a Sentry workshop, showcasing multiple data fetching patterns.
+This is a Next.js 16 demo app for the AI Engineer World's Fair 2026 schedule. It showcases cached and dynamic data fetching, signed-in schedule mutations, a sidebar AI assistant, and Sentry-first observability.
 
 ### Data Flow Patterns
 
 | Pattern | Usage | Example |
 |---------|-------|---------|
-| RSC + direct DB queries | Page data loading | `app/page.tsx`, `app/talks/[id]/page.tsx` |
+| RSC + direct DB queries | Page data loading | `app/(main)/page.tsx`, `app/(main)/talks/[id]/page.tsx` |
 | `"use cache"` + `cacheTag` | Cached data functions | `getCachedScheduleData()`, `getCachedSpeakers()` |
 | Server Actions | Mutations | `lib/actions/auth.ts`, `lib/actions/schedule.ts` |
-| API Routes | AI streaming | `app/api/ai/chat/route.ts` |
+| API Routes | AI streaming and usage | `app/api/ai/chat/route.ts`, `app/api/ai/usage/route.ts` |
 
 ### Key Layers
 
-- **`lib/db/queries.ts`** - All data access functions (direct Drizzle queries, no abstraction layer)
-- **`lib/auth/`** - JWT session in cookies, DAL pattern with `requireAuth()` for protected routes
-- **`lib/db/`** - Drizzle ORM with Turso, lazy initialization via Proxy to avoid build-time errors
-- **`lib/ai/tools.ts`** - AI SDK tools using `inputSchema` (not `parameters`) for v4+ compatibility
-- **`proxy.ts`** - Next.js 16 proxy (replaces middleware) for optimistic auth redirects
+- **`lib/db/queries.ts`** — Data access functions using direct Drizzle queries.
+- **`lib/auth/`** — JWT cookie sessions; protected pages call `requireAuth()`.
+- **`lib/db/`** — Drizzle ORM with Neon Postgres, pgvector embeddings, and lazy DB initialization.
+- **`lib/ai/models.ts`** — Selectable AI Gateway model configuration.
+- **`lib/ai/agents.ts`** — Single `ToolLoopAgent` schedule assistant.
+- **`lib/ai/tools.ts`** — AI SDK tools using `inputSchema`.
+- **`lib/ai/usage.ts`** — Daily quota and token usage tracking.
+- **`components/ai-assistant-*`** — Header trigger, sidebar shell, and AI chat UI.
+- **`proxy.ts`** — Next.js 16 proxy for optimistic auth redirects and `page.view` metrics.
 
 ### Auth Pattern
 
-Protected pages call `requireAuth()` from `lib/auth/dal.ts` which redirects if no session. The proxy layer (`proxy.ts`) provides optimistic redirects but actual security is in the DAL.
+Protected pages call `requireAuth()` from `lib/auth/dal.ts`. The proxy gives early redirects, but the DAL is the security boundary.
 
 ### Caching
 
-`cacheComponents: true` is enabled in `next.config.ts`. Caching only works in production (`pnpm build && pnpm start`).
+`cacheComponents: true` is enabled in `next.config.ts`. Cache behavior only works in production (`pnpm build && pnpm start`).
 
-- **Cached function**: `getCachedScheduleData()` in `app/page.tsx` — `cacheTag("talks","tracks")`, `cacheLife("hours")`
-- **Cached function**: `getCachedSpeakers()` in `app/speakers/page.tsx` — `cacheTag("speakers")`, `cacheLife("days")`
-- **Dynamic**: `/my-schedule` — user-specific, always fresh
-- All pages use Suspense boundaries for PPR (Partial Prerender)
+- **Cached**: Home schedule data — `cacheTag("talks", "tracks")`, `cacheLife("hours")`
+- **Cached**: Speakers list — `cacheTag("speakers")`, `cacheLife("days")`
+- **Dynamic**: saved-event state on `/`, talk detail, speaker detail, AI API routes
+- Pages use Suspense boundaries for partial prerendering.
+
+### AI Assistant
+
+- Guests can chat with open models through Vercel AI Gateway.
+- Authenticated users can choose Claude models plus the open-model list.
+- Authenticated `@sentry.io` users bypass quota but are still tracked.
+- Keep `experimental_telemetry` enabled on AI SDK calls so Sentry can emit AI spans.
+- Do not wrap AI SDK calls in manual `Sentry.startSpan`; avoid duplicate `gen_ai` spans.
 
 ### Observability (Sentry)
 
-**When to use what:**
-- **Metric** — counting and alerting: "how many", "how often", "what rate". Low cardinality attributes.
-- **Log** — investigating a specific event: "what happened, who was affected, why". High cardinality attributes.
-- **Span** — timing within a request: "where was time spent". Auto-instrumented where possible.
-- **Don't duplicate** — Sentry auto-adds `browser.name`, `release`, `environment`, `sdk.*`. Vercel auto-adds `vercel.proxy.path`, `vercel.proxy.referer`, `vercel.execution_region`, `vercel.proxy.vercel_cache`.
+**Use metrics for counting, logs for investigation details, and spans for timing.** Avoid duplicating fields Sentry/Vercel already add automatically.
 
-**What we emit:**
-- **Metrics**: `page.view` counter (proxy), `cache.miss` counter (cached functions)
-- **Logs**: `auth.signup`, `auth.login`, `auth.logout`, `schedule.add`, `schedule.remove`, `proxy.redirect`, `cache.miss`, `og.image`
-- **Spans**: `libsqlIntegration` for DB, `vercelAIIntegration` for AI, custom `og.image` span
-- **Config**: `sentry.server.config.ts` has DB + AI integrations, `tracePropagationTargets` includes Turso
+What we emit:
+
+- **Metrics**: `page.view`, `cache.miss`, `ai.message.sent`, `ai.chat.requests`, `ai.quota.*`, `ai.tokens.*`, `ai.embedding.*`, `ai.usage.threshold_exceeded`
+- **Logs**: `account.signup`, `account.login`, `account.logout`, `schedule.add`, `schedule.remove`, `proxy.redirect`, `cache.miss`, `og.image`, `ai.chat`, `ai.usage`
+- **Spans**: DB spans via `postgresJsIntegration`; AI spans via Sentry's default Vercel AI integration and AI SDK telemetry
+- **Config**: `sentry.server.config.ts` should stay minimal: `postgresJsIntegration()`, `streamGenAiSpans: true`, no explicit `vercelAIIntegration`, no custom AI span wrappers
 
 ### Database
 
-Turso (hosted SQLite) with Drizzle. Schema in `lib/db/schema.ts`. The `db` export uses a Proxy for lazy initialization to prevent build-time errors when env vars aren't available.
+Neon Postgres with Drizzle and pgvector. Schema is in `lib/db/schema.ts`. `pnpm db:push` creates the `vector` extension before applying schema. `pnpm db:embed` generates schedule embeddings used by semantic AI search.

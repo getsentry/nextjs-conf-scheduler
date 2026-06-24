@@ -15,7 +15,7 @@ export default function SignupPage() {
     <Card className="w-full max-w-sm">
       <CardHeader className="text-center">
         <CardTitle className="text-xl">Create an account</CardTitle>
-        <CardDescription>Join Next.js Conf 2025</CardDescription>
+        <CardDescription>Join AI Engineer World's Fair 2026</CardDescription>
       </CardHeader>
       <CardContent>
         <form action={action} className="space-y-4">

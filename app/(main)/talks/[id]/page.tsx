@@ -1,11 +1,11 @@
 import Image from "next/image";
 import Link from "next/link";
-import { Suspense } from "react";
 import { notFound } from "next/navigation";
+import { Suspense } from "react";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
 import { verifySession } from "@/lib/auth/dal";
-import { getTalkById, isInSchedule as checkInSchedule } from "@/lib/db/queries";
+import { isInSchedule as checkInSchedule, getTalkById } from "@/lib/db/queries";
 import { formatDate, formatDuration, formatTime, levelColors } from "@/lib/types";
 import { AddToScheduleButton } from "./add-to-schedule-button";
 
@@ -16,6 +16,8 @@ const formatLabels = {
   workshop: "Workshop",
   keynote: "Keynote",
   panel: "Panel Discussion",
+  sponsor: "Sponsor Session",
+  plenary: "Plenary",
 };
 
 export default function TalkDetailPage({ params }: { params: Params }) {
@@ -132,7 +134,7 @@ async function TalkDetailContent({ params }: { params: Params }) {
                   alt={talk.speaker.name}
                   width={64}
                   height={64}
-                  className="rounded-full"
+                  className="h-16 w-16 rounded-full object-cover"
                 />
                 <div>
                   <p className="font-medium group-hover:text-primary transition-colors">

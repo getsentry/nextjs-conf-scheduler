@@ -1,26 +1,43 @@
+import "./sentry.server.config";
 import * as Sentry from "@sentry/nextjs";
 import { type NextFetchEvent, type NextRequest, NextResponse } from "next/server";
 import { decrypt } from "@/lib/auth/session";
 
-const protectedRoutes = ["/my-schedule", "/ai-builder"];
 const publicRoutes = ["/login", "/signup"];
-const staticRoutes = ["/workshop"];
 const cachedRoutes = ["/", "/speakers"];
 
-function getRouteType(path: string): string {
-  if (staticRoutes.some((r) => path.startsWith(r))) return "static";
-  if (cachedRoutes.includes(path)) return "cached";
-  if (protectedRoutes.some((r) => path.startsWith(r))) return "dynamic";
-  if (path.startsWith("/talks/")) return "dynamic";
-  if (path.startsWith("/speakers/")) return "dynamic";
-  return "other";
+type PageRoute = {
+  route: string;
+  routeType: "account" | "cached" | "dynamic";
+};
+
+function getPageRoute(path: string): PageRoute | null {
+  if (cachedRoutes.includes(path)) return { route: path, routeType: "cached" };
+  if (publicRoutes.includes(path)) return { route: path, routeType: "account" };
+  if (path.startsWith("/talks/")) return { route: "/talks/[id]", routeType: "dynamic" };
+  if (path.startsWith("/speakers/")) return { route: "/speakers/[id]", routeType: "dynamic" };
+  return null;
+}
+
+function isPageViewRequest(req: NextRequest): boolean {
+  if (req.method !== "GET") return false;
+
+  const purpose = req.headers.get("purpose") ?? req.headers.get("sec-purpose") ?? "";
+  if (purpose.includes("prefetch") || req.headers.has("next-router-prefetch")) return false;
+
+  const destination = req.headers.get("sec-fetch-dest");
+  if (destination && destination !== "document" && destination !== "empty") return false;
+
+  const accept = req.headers.get("accept") ?? "";
+  const isRscRequest = req.headers.get("rsc") === "1" || req.nextUrl.searchParams.has("_rsc");
+
+  return isRscRequest || accept.includes("text/html");
 }
 
 export default async function proxy(req: NextRequest, event: NextFetchEvent) {
   const path = req.nextUrl.pathname;
-  const isProtectedRoute = protectedRoutes.some((route) => path.startsWith(route));
   const isPublicRoute = publicRoutes.includes(path);
-  const routeType = getRouteType(path);
+  const pageRoute = getPageRoute(path);
 
   const cookie = req.cookies.get("session")?.value;
   const session = await decrypt(cookie);
@@ -29,30 +46,23 @@ export default async function proxy(req: NextRequest, event: NextFetchEvent) {
     Sentry.setUser({ id: session.userId, email: session.email, username: session.name });
   }
 
-  Sentry.metrics.count("page.view", 1, {
-    attributes: {
-      path,
-      route_type: routeType,
-      authenticated: String(!!session?.userId),
-    },
-  });
-
-  if (isProtectedRoute && !session?.userId) {
-    Sentry.logger.info("Redirecting unauthenticated user to login", {
-      action: "proxy.redirect",
-      path,
-      reason: "no_session",
-      destination: "/login",
+  if (pageRoute && isPageViewRequest(req)) {
+    Sentry.metrics.count("page.view", 1, {
+      attributes: {
+        is_page: "true",
+        path,
+        route: pageRoute.route,
+        route_type: pageRoute.routeType,
+        signed_in: String(!!session?.userId),
+      },
     });
-    event.waitUntil(Sentry.flush());
-    return NextResponse.redirect(new URL("/login", req.nextUrl));
   }
 
   if (isPublicRoute && session?.userId) {
-    Sentry.logger.info("Redirecting authenticated user from public route", {
+    Sentry.logger.info("Redirecting signed-in user from public route", {
       action: "proxy.redirect",
       path,
-      reason: "already_authenticated",
+      reason: "already_signed_in",
       destination: "/",
     });
     event.waitUntil(Sentry.flush());
@@ -64,5 +74,5 @@ export default async function proxy(req: NextRequest, event: NextFetchEvent) {
 }
 
 export const config = {
-  matcher: ["/((?!api|_next/static|_next/image|monitoring|sentry-tunnel|.*\\.png$).*)"],
+  matcher: ["/((?!api|_next/static|_next/image|monitoring|sentry-tunnel|.*\\..*).*)"],
 };

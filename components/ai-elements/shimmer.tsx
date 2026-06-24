@@ -1,7 +1,7 @@
 "use client";
 
 import type { MotionProps } from "motion/react";
-import { motion } from "motion/react";
+import { motion, useReducedMotion } from "motion/react";
 import type { CSSProperties, ElementType, JSX } from "react";
 import { memo, useMemo } from "react";
 import { cn } from "@/lib/utils";
@@ -39,18 +39,20 @@ const ShimmerComponent = ({
   spread = 2,
 }: TextShimmerProps) => {
   const MotionComponent = getMotionComponent(Component as keyof JSX.IntrinsicElements);
+  const shouldReduceMotion = useReducedMotion();
 
   const dynamicSpread = useMemo(() => (children?.length ?? 0) * spread, [children, spread]);
 
   return (
     <MotionComponent
-      animate={{ backgroundPosition: "0% center" }}
+      animate={shouldReduceMotion ? undefined : { backgroundPosition: "0% center" }}
       className={cn(
-        "relative inline-block bg-[length:250%_100%,auto] bg-clip-text text-transparent",
-        "[--bg:linear-gradient(90deg,#0000_calc(50%-var(--spread)),var(--color-background),#0000_calc(50%+var(--spread)))] [background-repeat:no-repeat,padding-box]",
+        shouldReduceMotion
+          ? "text-muted-foreground"
+          : "relative inline-block bg-[length:250%_100%,auto] bg-clip-text text-transparent [--bg:linear-gradient(90deg,#0000_calc(50%-var(--spread)),var(--color-background),#0000_calc(50%+var(--spread)))] [background-repeat:no-repeat,padding-box]",
         className,
       )}
-      initial={{ backgroundPosition: "100% center" }}
+      initial={shouldReduceMotion ? undefined : { backgroundPosition: "100% center" }}
       style={
         {
           "--spread": `${dynamicSpread}px`,
@@ -58,11 +60,15 @@ const ShimmerComponent = ({
             "var(--bg), linear-gradient(var(--color-muted-foreground), var(--color-muted-foreground))",
         } as CSSProperties
       }
-      transition={{
-        duration,
-        ease: "linear",
-        repeat: Number.POSITIVE_INFINITY,
-      }}
+      transition={
+        shouldReduceMotion
+          ? undefined
+          : {
+              duration,
+              ease: "linear",
+              repeat: Number.POSITIVE_INFINITY,
+            }
+      }
     >
       {children}
     </MotionComponent>

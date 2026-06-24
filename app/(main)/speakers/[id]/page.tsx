@@ -1,10 +1,14 @@
+import * as Sentry from "@sentry/nextjs";
 import Image from "next/image";
 import Link from "next/link";
-import { Suspense } from "react";
 import { notFound } from "next/navigation";
+import { Suspense } from "react";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { getUser } from "@/lib/auth/dal";
+import { getClient } from "@/lib/db";
 import { getSpeakerById } from "@/lib/db/queries";
+import { GREG_PSTRUCHA_SPEAKER_ID, isSentryEmail } from "@/lib/sentry-demo";
 import { formatTime, levelColors } from "@/lib/types";
 
 type Params = Promise<{ id: string }>;
@@ -19,6 +23,18 @@ export default function SpeakerDetailPage({ params }: { params: Params }) {
 
 async function SpeakerDetailContent({ params }: { params: Params }) {
   const { id } = await params;
+  const user = await getUser();
+
+  if (id === GREG_PSTRUCHA_SPEAKER_ID && isSentryEmail(user?.email)) {
+    Sentry.logger.warn("Running demo slow speaker query", {
+      action: "speaker.load",
+      result: "demo_slow_query",
+      speaker_id: id,
+      user_id: user?.id,
+    });
+    await getClient()`select pg_sleep(6)`;
+  }
+
   const speaker = await getSpeakerById(id);
 
   if (!speaker) {
@@ -46,7 +62,7 @@ async function SpeakerDetailContent({ params }: { params: Params }) {
                 alt={speaker.name}
                 width={160}
                 height={160}
-                className="rounded-full mx-auto mb-4"
+                className="h-40 w-40 rounded-full object-cover mx-auto mb-4"
               />
               <h1 className="text-2xl font-bold">{speaker.name}</h1>
               <p className="text-muted-foreground">{speaker.role}</p>
@@ -72,7 +88,7 @@ async function SpeakerDetailContent({ params }: { params: Params }) {
           <div className="space-y-4">
             {speaker.talks.map((talk) => (
               <Link key={talk.id} href={`/talks/${talk.id}`}>
-                <Card className="transition-all hover:ring-2 hover:ring-primary/20 hover:shadow-md">
+                <Card className="transition-shadow hover:ring-2 hover:ring-primary/20 hover:shadow-md motion-reduce:transition-none">
                   <CardHeader className="pb-2">
                     <div className="flex items-start justify-between gap-2">
                       <div

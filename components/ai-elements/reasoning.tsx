@@ -165,7 +165,7 @@ export const ReasoningTrigger = memo(
     return (
       <CollapsibleTrigger
         className={cn(
-          "flex w-full items-center gap-2 text-muted-foreground text-sm transition-colors hover:text-foreground",
+          "flex w-full items-center gap-2 text-muted-foreground text-sm transition-colors motion-reduce:transition-none hover:text-foreground",
           className,
         )}
         {...props}
@@ -175,7 +175,10 @@ export const ReasoningTrigger = memo(
             <BrainIcon className="size-4" />
             {getThinkingMessage(isStreaming, duration)}
             <ChevronDownIcon
-              className={cn("size-4 transition-transform", isOpen ? "rotate-180" : "rotate-0")}
+              className={cn(
+                "size-4 transition-transform motion-reduce:transition-none",
+                isOpen ? "rotate-180" : "rotate-0",
+              )}
             />
           </>
         )}
@@ -192,11 +195,7 @@ const streamdownPlugins = { cjk, code, math, mermaid };
 
 export const ReasoningContent = memo(({ className, children, ...props }: ReasoningContentProps) => (
   <CollapsibleContent
-    className={cn(
-      "mt-4 text-sm",
-      "data-[state=closed]:fade-out-0 data-[state=closed]:slide-out-to-top-2 data-[state=open]:slide-in-from-top-2 text-muted-foreground outline-none data-[state=closed]:animate-out data-[state=open]:animate-in",
-      className,
-    )}
+    className={cn("mt-4 text-muted-foreground text-sm outline-none", className)}
     {...props}
   >
     <Streamdown plugins={streamdownPlugins}>{children}</Streamdown>

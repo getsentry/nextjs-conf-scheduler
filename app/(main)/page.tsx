@@ -1,14 +1,27 @@
 import * as Sentry from "@sentry/nextjs";
+import { cacheLife, cacheTag } from "next/cache";
+import { redirect } from "next/navigation";
 import { Suspense } from "react";
-import { cacheTag, cacheLife } from "next/cache";
 import { ScheduleFilters } from "@/components/schedule-filters";
 import { ScheduleGrid } from "@/components/schedule-grid";
-import { getAllTalks, getAllTracks } from "@/lib/db/queries";
+import { verifySession } from "@/lib/auth/dal";
+import { getAllTalks, getAllTracks, getUserScheduleTalkIds } from "@/lib/db/queries";
+import { formatDate, formatDayKey, type Talk } from "@/lib/types";
+
+type ScheduleDay = {
+  id: string;
+  label: string;
+  dateLabel: string;
+  count: number;
+};
 
 type SearchParams = Promise<{
   track?: string;
   level?: string;
   format?: string;
+  q?: string;
+  day?: string;
+  view?: string;
 }>;
 
 async function getCachedScheduleData() {
@@ -38,8 +51,10 @@ export default function SchedulePage({ searchParams }: { searchParams: SearchPar
   return (
     <>
       <div className="mb-8">
-        <h1 className="text-3xl font-bold tracking-tight mb-2">Conference Schedule</h1>
-        <p className="text-muted-foreground">October 22, 2025 · San Francisco, CA</p>
+        <h1 className="text-3xl font-bold tracking-tight mb-2">
+          AI Engineer World's Fair Schedule
+        </h1>
+        <p className="text-muted-foreground">June 29 – July 2, 2026 · San Francisco, CA</p>
       </div>
 
       <Suspense>
@@ -52,10 +67,22 @@ export default function SchedulePage({ searchParams }: { searchParams: SearchPar
 async function ScheduleContent({ searchParams }: { searchParams: SearchParams }) {
   const params = await searchParams;
 
-  const { talks: allTalks, tracks } = await getCachedScheduleData();
-  const serverNow = Date.now();
+  const [{ talks: allTalks, tracks }, session] = await Promise.all([
+    getCachedScheduleData(),
+    verifySession(),
+  ]);
+  const isMyEventsView = params.view === "my-events";
 
-  let filteredTalks = allTalks;
+  if (isMyEventsView && !session.isAuth) {
+    redirect("/login");
+  }
+
+  const savedTalkIds = session.userId ? await getUserScheduleTalkIds(session.userId) : [];
+  const savedTalkIdSet = new Set(savedTalkIds);
+  const query = params.q?.trim().toLowerCase();
+  let filteredTalks = isMyEventsView
+    ? allTalks.filter((talk) => savedTalkIdSet.has(talk.id))
+    : allTalks;
 
   if (params.track) {
     filteredTalks = filteredTalks.filter((talk) => talk.track.id === params.track);
@@ -66,13 +93,123 @@ async function ScheduleContent({ searchParams }: { searchParams: SearchParams })
   if (params.format) {
     filteredTalks = filteredTalks.filter((talk) => talk.format === params.format);
   }
+  if (query) {
+    filteredTalks = filteredTalks.filter((talk) => {
+      const haystack = [
+        talk.title,
+        talk.description,
+        talk.speaker.name,
+        talk.speaker.company,
+        talk.track.name,
+        talk.room.name,
+        talk.level,
+        talk.format,
+      ]
+        .join(" ")
+        .toLowerCase();
+
+      return haystack.includes(query);
+    });
+  }
+
+  const dayNumberById = getScheduleDayNumbers(allTalks);
+  const days = getScheduleDays(
+    filteredTalks.length > 0 || isMyEventsView ? filteredTalks : allTalks,
+    dayNumberById,
+  );
+  const activeDay = days.some((day) => day.id === params.day) ? params.day : (days[0]?.id ?? "");
+  const trackCounts = getTrackCounts(allTalks);
+  const trackOptions = tracks
+    .map((track) => ({ ...track, count: trackCounts.get(track.id) ?? 0 }))
+    .filter((track) => isProgramTrack(track.id, track.name))
+    .sort((a, b) => a.name.localeCompare(b.name));
+  const visibleTalks =
+    activeDay === "all"
+      ? filteredTalks
+      : filteredTalks.filter((talk) => formatDayKey(talk.startTime) === activeDay);
 
   return (
     <>
-      <div className="mb-8">
-        <ScheduleFilters tracks={tracks} />
+      <div className="mb-6">
+        <ScheduleFilters
+          days={days}
+          filteredCount={visibleTalks.length}
+          totalCount={allTalks.length}
+          isAuthenticated={session.isAuth}
+          savedCount={savedTalkIds.length}
+          tracks={trackOptions}
+        />
       </div>
-      <ScheduleGrid talks={filteredTalks} serverNow={serverNow} />
+      <ScheduleGrid
+        isAuthenticated={session.isAuth}
+        savedTalkIds={savedTalkIds}
+        talks={visibleTalks}
+      />
     </>
   );
+}
+
+function getTrackCounts(talks: Talk[]) {
+  const counts = new Map<string, number>();
+
+  for (const talk of talks) {
+    counts.set(talk.track.id, (counts.get(talk.track.id) ?? 0) + 1);
+  }
+
+  return counts;
+}
+
+function isProgramTrack(id: string, name: string) {
+  if (id === "general" || id === "main-stage") return false;
+  if (id.startsWith("expo-stage")) return false;
+  if (id.startsWith("workshops-day")) return false;
+  if (/^track-(\d+|m)$/i.test(id)) return false;
+  if (/^Track [\dA-Z]+$/i.test(name)) return false;
+
+  return true;
+}
+
+function getScheduleDayNumbers(talks: Talk[]) {
+  const firstTalkByDay = new Map<string, Talk>();
+
+  for (const talk of talks) {
+    const dayKey = formatDayKey(talk.startTime);
+    const firstTalk = firstTalkByDay.get(dayKey);
+    if (!firstTalk || talk.startTime < firstTalk.startTime) {
+      firstTalkByDay.set(dayKey, talk);
+    }
+  }
+
+  return new Map(
+    Array.from(firstTalkByDay.entries())
+      .sort(([, a], [, b]) => a.startTime - b.startTime)
+      .map(([id], index) => [id, index + 1]),
+  );
+}
+
+function getScheduleDays(talks: Talk[], dayNumberById: Map<string, number>): ScheduleDay[] {
+  const grouped = new Map<string, Talk[]>();
+
+  for (const talk of talks) {
+    const dayKey = formatDayKey(talk.startTime);
+    const dayTalks = grouped.get(dayKey);
+    if (dayTalks) {
+      dayTalks.push(talk);
+    } else {
+      grouped.set(dayKey, [talk]);
+    }
+  }
+
+  return Array.from(grouped.entries())
+    .sort(([, a], [, b]) => (a[0]?.startTime ?? 0) - (b[0]?.startTime ?? 0))
+    .map(([id, dayTalks]) => {
+      const sorted = [...dayTalks].sort((a, b) => a.startTime - b.startTime);
+      const firstTalk = sorted[0];
+      return {
+        id,
+        label: `Day ${dayNumberById.get(id) ?? 1}`,
+        dateLabel: firstTalk ? formatDate(firstTalk.startTime).replace(", 2026", "") : id,
+        count: dayTalks.length,
+      };
+    });
 }

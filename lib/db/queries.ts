@@ -117,6 +117,15 @@ export async function getSpeakerById(id: string) {
   return { ...speaker[0], talks: speakerTalks };
 }
 
+export async function getUserScheduleTalkIds(userId: string) {
+  const result = await db
+    .select({ talkId: userSchedules.talkId })
+    .from(userSchedules)
+    .where(eq(userSchedules.userId, userId));
+
+  return result.map((row) => row.talkId);
+}
+
 export async function getUserSchedule(userId: string) {
   return db
     .select({

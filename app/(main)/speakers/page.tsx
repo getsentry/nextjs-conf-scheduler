@@ -1,8 +1,8 @@
 import * as Sentry from "@sentry/nextjs";
+import { cacheLife, cacheTag } from "next/cache";
 import Image from "next/image";
 import Link from "next/link";
 import { Suspense } from "react";
-import { cacheTag, cacheLife } from "next/cache";
 import { Card, CardContent } from "@/components/ui/card";
 import { getAllSpeakers } from "@/lib/db/queries";
 
@@ -33,7 +33,7 @@ export default function SpeakersPage() {
     <>
       <div className="mb-8">
         <h1 className="text-3xl font-bold tracking-tight mb-2">Speakers</h1>
-        <p className="text-muted-foreground">Meet the speakers at Next.js Conf 2025</p>
+        <p className="text-muted-foreground">Meet the AI Engineer World's Fair 2026 speakers</p>
       </div>
 
       <Suspense>
@@ -50,14 +50,14 @@ async function SpeakersList() {
     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
       {speakers.map((speaker) => (
         <Link key={speaker.id} href={`/speakers/${speaker.id}`}>
-          <Card className="h-full transition-all hover:ring-2 hover:ring-primary/20 hover:shadow-md">
+          <Card className="h-full transition-shadow hover:ring-2 hover:ring-primary/20 hover:shadow-md motion-reduce:transition-none">
             <CardContent className="pt-6 text-center">
               <Image
                 src={speaker.avatar}
                 alt={speaker.name}
                 width={96}
                 height={96}
-                className="rounded-full mx-auto mb-4"
+                className="h-24 w-24 rounded-full object-cover mx-auto mb-4"
               />
               <h2 className="font-semibold">{speaker.name}</h2>
               <p className="text-sm text-muted-foreground">{speaker.role}</p>

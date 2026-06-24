@@ -1,6 +1,7 @@
 "use client";
 
 import { useTransition } from "react";
+import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import { addToSchedule, removeFromSchedule } from "@/lib/actions/schedule";
 
@@ -14,10 +15,9 @@ export function AddToScheduleButton({ talkId, isInSchedule }: AddToScheduleButto
 
   const handleClick = () => {
     startTransition(async () => {
-      if (isInSchedule) {
-        await removeFromSchedule(talkId);
-      } else {
-        await addToSchedule(talkId);
+      const result = isInSchedule ? await removeFromSchedule(talkId) : await addToSchedule(talkId);
+      if ("error" in result) {
+        toast.error(result.error);
       }
     });
   };
@@ -29,7 +29,7 @@ export function AddToScheduleButton({ talkId, isInSchedule }: AddToScheduleButto
       variant={isInSchedule ? "outline" : "default"}
       className="w-full"
     >
-      {isPending ? "Updating..." : isInSchedule ? "Remove from My Schedule" : "Add to My Schedule"}
+      {isPending ? "Updating..." : isInSchedule ? "Remove from my events" : "Add to my events"}
     </Button>
   );
 }

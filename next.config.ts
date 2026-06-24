@@ -20,8 +20,8 @@ const nextConfig: NextConfig = {
 };
 
 export default withSentryConfig(nextConfig, {
-  org: "sentry-developer-experience",
-  project: "nextjs-conf-scheduler",
+  org: "demo",
+  project: "ai-engineer-conf",
   silent: !process.env.CI,
   widenClientFileUpload: true,
   tunnelRoute: "/sentry-tunnel",

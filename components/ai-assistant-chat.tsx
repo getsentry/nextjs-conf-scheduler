@@ -231,10 +231,12 @@ function EventResultCard({
   className,
   talk,
   isAuthenticated,
+  showScheduleAction = true,
 }: {
   className?: string;
   talk: TalkResult;
   isAuthenticated: boolean;
+  showScheduleAction?: boolean;
 }) {
   const [isPending, startTransition] = useTransition();
   const [added, setAdded] = useState(talk.saved === true);
@@ -315,9 +317,11 @@ function EventResultCard({
               </span>
             </div>
           </div>
-          <Badge className="shrink-0 text-[0.65rem] capitalize" variant="secondary">
-            {talk.format}
-          </Badge>
+          {talk.format ? (
+            <Badge className="shrink-0 text-[0.65rem] capitalize" variant="secondary">
+              {talk.format}
+            </Badge>
+          ) : null}
         </div>
 
         <p className="line-clamp-2 text-xs text-muted-foreground">{talk.description}</p>
@@ -362,37 +366,39 @@ function EventResultCard({
           ) : null}
         </div>
 
-        <Button
-          className="w-full"
-          disabled={isPending}
-          onClick={toggleSchedule}
-          size="sm"
-          type="button"
-          variant={added ? "outline" : "default"}
-        >
-          {isPending ? (
-            added ? (
-              "Removing…"
+        {showScheduleAction ? (
+          <Button
+            className="w-full"
+            disabled={isPending}
+            onClick={toggleSchedule}
+            size="sm"
+            type="button"
+            variant={added ? "outline" : "default"}
+          >
+            {isPending ? (
+              added ? (
+                "Removing…"
+              ) : (
+                "Adding…"
+              )
+            ) : added ? (
+              <>
+                <CalendarMinusIcon className="size-3" />
+                Remove from schedule
+              </>
+            ) : isAuthenticated ? (
+              <>
+                <CalendarPlusIcon className="size-3" />
+                Add to my schedule
+              </>
             ) : (
-              "Adding…"
-            )
-          ) : added ? (
-            <>
-              <CalendarMinusIcon className="size-3" />
-              Remove from schedule
-            </>
-          ) : isAuthenticated ? (
-            <>
-              <CalendarPlusIcon className="size-3" />
-              Add to my schedule
-            </>
-          ) : (
-            <>
-              <TicketIcon className="size-3" />
-              Sign in to save
-            </>
-          )}
-        </Button>
+              <>
+                <TicketIcon className="size-3" />
+                Sign in to save
+              </>
+            )}
+          </Button>
+        ) : null}
       </div>
     </article>
   );
@@ -517,6 +523,7 @@ function ToolOutputContent({
                 className="w-72 shrink-0 sm:w-80"
                 isAuthenticated={isAuthenticated}
                 key={talk.id}
+                showScheduleAction={toolName !== "getUserSchedule"}
                 talk={talk}
               />
             ))}

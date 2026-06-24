@@ -1,6 +1,6 @@
 import * as Sentry from "@sentry/nextjs";
-import { ImageResponse } from "next/og";
 import { eq } from "drizzle-orm";
+import { ImageResponse } from "next/og";
 import { db } from "@/lib/db";
 import { speakers, talks, tracks } from "@/lib/db/schema";
 
@@ -150,7 +150,7 @@ export default async function OGImage({ params }: { params: Promise<Params> }) {
           </div>
           <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
             <span style={{ color: "#6C5FC7", fontSize: 18, fontWeight: 600 }}>
-              Next.js Conf 2025
+              AI Engineer World's Fair 2026
             </span>
           </div>
         </div>

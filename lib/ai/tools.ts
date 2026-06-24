@@ -1,78 +1,253 @@
+import * as Sentry from "@sentry/nextjs";
 import { tool } from "ai";
-import { and, eq, inArray, like, or } from "drizzle-orm";
+import { and, eq, ilike, inArray, or, type SQL, sql } from "drizzle-orm";
 import { z } from "zod";
 import { db } from "@/lib/db";
-import { rooms, speakers, talks, tracks, userSchedules } from "@/lib/db/schema";
+import { rooms, speakers, talkSpeakers, talks, tracks, userSchedules } from "@/lib/db/schema";
+import { isSentryTalkSearchQuery, SENTRY_SEARCH_ERROR_MESSAGE } from "@/lib/sentry-demo";
+import { semanticSearchTalks } from "./embeddings";
 
-export const searchTalks = tool({
-  description:
-    "Search for conference talks by topic, speaker name, or keywords. Returns matching talks with details.",
-  inputSchema: z.object({
-    query: z.string().describe("Search query (topic, keyword, or speaker name)"),
-    trackId: z
-      .string()
-      .optional()
-      .describe("Filter by track ID (ai, perf, fullstack, dx, platform)"),
-    level: z
-      .enum(["beginner", "intermediate", "advanced"])
-      .optional()
-      .describe("Filter by difficulty level"),
-    format: z
-      .enum(["talk", "workshop", "keynote", "panel"])
-      .optional()
-      .describe("Filter by talk format"),
-  }),
-  execute: async ({ query, trackId, level, format }) => {
-    const conditions = [];
+type SearchToolContext = {
+  identity?: {
+    id: string;
+    type: "user" | "guest";
+    accessTier: "guest" | "authenticated";
+    isInternalSentry?: boolean;
+  };
+};
 
-    if (query) {
-      conditions.push(or(like(talks.title, `%${query}%`), like(talks.description, `%${query}%`)));
-    }
-    if (trackId) {
-      conditions.push(eq(talks.trackId, trackId));
-    }
-    if (level) {
-      conditions.push(eq(talks.level, level));
-    }
-    if (format) {
-      conditions.push(eq(talks.format, format));
-    }
+async function withSavedState<T extends { id: string }>(
+  talksToMark: T[],
+  context: SearchToolContext | undefined,
+) {
+  if (context?.identity?.type !== "user" || talksToMark.length === 0) {
+    return talksToMark;
+  }
 
-    const result = await db
-      .select({
-        id: talks.id,
-        title: talks.title,
-        description: talks.description,
-        startTime: talks.startTime,
-        endTime: talks.endTime,
-        level: talks.level,
-        format: talks.format,
-        speaker: speakers.name,
-        speakerCompany: speakers.company,
-        track: tracks.name,
-        trackId: tracks.id,
-        room: rooms.name,
-      })
-      .from(talks)
-      .innerJoin(speakers, eq(talks.speakerId, speakers.id))
-      .innerJoin(tracks, eq(talks.trackId, tracks.id))
-      .innerJoin(rooms, eq(talks.roomId, rooms.id))
-      .where(conditions.length > 0 ? and(...conditions) : undefined)
-      .orderBy(talks.startTime);
+  const savedRows = await db
+    .select({ talkId: userSchedules.talkId })
+    .from(userSchedules)
+    .where(
+      and(
+        eq(userSchedules.userId, context.identity.id),
+        inArray(
+          userSchedules.talkId,
+          talksToMark.map((talk) => talk.id),
+        ),
+      ),
+    );
+  const savedTalkIds = new Set(savedRows.map((row) => row.talkId));
 
-    return result.map((talk) => ({
-      ...talk,
-      startTime: new Date(talk.startTime * 1000).toLocaleTimeString("en-US", {
-        hour: "numeric",
-        minute: "2-digit",
-      }),
-      endTime: new Date(talk.endTime * 1000).toLocaleTimeString("en-US", {
-        hour: "numeric",
-        minute: "2-digit",
-      }),
-    }));
-  },
-});
+  return talksToMark.map((talk) => ({ ...talk, saved: savedTalkIds.has(talk.id) }));
+}
+
+function formatTalkTimes<T extends { startTime: number; endTime: number }>(talk: T) {
+  return {
+    ...talk,
+    date: new Date(talk.startTime * 1000).toLocaleDateString("en-US", {
+      weekday: "short",
+      month: "short",
+      day: "numeric",
+      timeZone: "America/Los_Angeles",
+    }),
+    startTime: new Date(talk.startTime * 1000).toLocaleTimeString("en-US", {
+      hour: "numeric",
+      minute: "2-digit",
+      timeZone: "America/Los_Angeles",
+    }),
+    endTime: new Date(talk.endTime * 1000).toLocaleTimeString("en-US", {
+      hour: "numeric",
+      minute: "2-digit",
+      timeZone: "America/Los_Angeles",
+    }),
+  };
+}
+
+type ToolSpeaker = {
+  id: string;
+  name: string;
+  bio: string;
+  company: string;
+  role: string;
+  avatar: string;
+};
+
+async function getToolSpeakers(talkIds: string[]) {
+  if (talkIds.length === 0) return new Map<string, ToolSpeaker[]>();
+
+  const result = await db
+    .select({
+      talkId: talkSpeakers.talkId,
+      speaker: {
+        id: speakers.id,
+        name: speakers.name,
+        bio: speakers.bio,
+        company: speakers.company,
+        role: speakers.role,
+        avatar: speakers.avatar,
+      },
+    })
+    .from(talkSpeakers)
+    .innerJoin(speakers, eq(talkSpeakers.speakerId, speakers.id))
+    .where(inArray(talkSpeakers.talkId, talkIds))
+    .orderBy(talkSpeakers.talkId, talkSpeakers.position);
+
+  const speakersByTalkId = new Map<string, ToolSpeaker[]>();
+  for (const row of result) {
+    const speakerRows = speakersByTalkId.get(row.talkId) ?? [];
+    speakerRows.push(row.speaker);
+    speakersByTalkId.set(row.talkId, speakerRows);
+  }
+
+  return speakersByTalkId;
+}
+
+async function withSpeakerArrays<T extends { id: string; speaker?: unknown }>(talkRows: T[]) {
+  const speakersByTalkId = await getToolSpeakers(talkRows.map((talk) => talk.id));
+  return talkRows.map((talk) => ({
+    ...talk,
+    speakers: speakersByTalkId.get(talk.id) ?? [],
+  }));
+}
+
+export const createSearchTalksTool = (context?: SearchToolContext) =>
+  tool({
+    description:
+      "Search for conference sessions by topic, speaker name, company, schedule gap, or keywords. Uses semantic embeddings when available and falls back to keyword search. For broad recommendation or schedule-gap questions, request 8-12 results.",
+    inputSchema: z.object({
+      query: z.string().describe("Search query (topic, keyword, company, or speaker name)"),
+      trackId: z.string().optional().describe("Filter by track ID from getTracks"),
+      level: z
+        .enum(["beginner", "intermediate", "advanced"])
+        .optional()
+        .describe("Filter by difficulty level"),
+      format: z
+        .enum(["talk", "workshop", "keynote", "panel", "sponsor", "plenary"])
+        .optional()
+        .describe("Filter by talk format"),
+      maxResults: z.number().int().min(1).max(20).optional().describe("Maximum results to return"),
+    }),
+    execute: async ({ query, trackId, level, format, maxResults }) => {
+      const limit = maxResults ?? 12;
+      const normalizedQuery = query.trim();
+
+      if (!normalizedQuery && !trackId && !level && !format) {
+        return [];
+      }
+
+      if (
+        context?.identity?.isInternalSentry === true &&
+        normalizedQuery &&
+        isSentryTalkSearchQuery(normalizedQuery)
+      ) {
+        const error = new Error(SENTRY_SEARCH_ERROR_MESSAGE);
+
+        Sentry.withScope((scope) => {
+          scope.setUser({ id: context.identity?.id });
+          scope.setTag("demo.scenario", "sentry_search_tool_error");
+          scope.setContext("tool", {
+            name: "searchTalks",
+            query: normalizedQuery.slice(0, 120),
+          });
+          Sentry.captureException(error);
+        });
+
+        throw error;
+      }
+
+      if (normalizedQuery) {
+        try {
+          const semanticResults = await semanticSearchTalks({
+            query: normalizedQuery,
+            trackId,
+            level,
+            format,
+            limit,
+            context: {
+              identity: context?.identity,
+              operation: "query",
+            },
+          });
+
+          if (semanticResults.length > 0) {
+            const resultsWithSpeakers = await withSpeakerArrays(semanticResults);
+            return (await withSavedState(resultsWithSpeakers, context)).map(formatTalkTimes);
+          }
+        } catch (error) {
+          Sentry.logger.warn("Semantic talk search failed; falling back to keyword search", {
+            action: "ai.embedding.search",
+            result: "fallback",
+            query: normalizedQuery.slice(0, 120),
+            error: error instanceof Error ? error.message : String(error),
+          });
+        }
+      }
+
+      const conditions: SQL[] = [];
+
+      if (normalizedQuery) {
+        const keywordPattern = `%${normalizedQuery}%`;
+        const coSpeakerCondition = sql<boolean>`exists (
+          select 1
+          from talk_speakers all_talk_speakers
+          join speakers all_speakers on all_speakers.id = all_talk_speakers.speaker_id
+          where all_talk_speakers.talk_id = ${talks.id}
+            and (all_speakers.name ilike ${keywordPattern} or all_speakers.company ilike ${keywordPattern})
+        )`;
+        const keywordCondition = or(
+          ilike(talks.title, keywordPattern),
+          ilike(talks.description, keywordPattern),
+          ilike(speakers.name, keywordPattern),
+          ilike(speakers.company, keywordPattern),
+          coSpeakerCondition,
+          ilike(tracks.name, keywordPattern),
+        );
+
+        if (keywordCondition) {
+          conditions.push(keywordCondition);
+        }
+      }
+      if (trackId) {
+        conditions.push(eq(talks.trackId, trackId));
+      }
+      if (level) {
+        conditions.push(eq(talks.level, level));
+      }
+      if (format) {
+        conditions.push(eq(talks.format, format));
+      }
+
+      const result = await db
+        .select({
+          id: talks.id,
+          title: talks.title,
+          description: talks.description,
+          startTime: talks.startTime,
+          endTime: talks.endTime,
+          level: talks.level,
+          format: talks.format,
+          speaker: speakers.name,
+          speakerCompany: speakers.company,
+          speakerAvatar: speakers.avatar,
+          track: tracks.name,
+          trackId: tracks.id,
+          trackColor: tracks.color,
+          room: rooms.name,
+        })
+        .from(talks)
+        .innerJoin(speakers, eq(talks.speakerId, speakers.id))
+        .innerJoin(tracks, eq(talks.trackId, tracks.id))
+        .innerJoin(rooms, eq(talks.roomId, rooms.id))
+        .where(conditions.length > 0 ? and(...conditions) : undefined)
+        .orderBy(talks.startTime)
+        .limit(limit);
+
+      const resultsWithSpeakers = await withSpeakerArrays(result);
+      return (await withSavedState(resultsWithSpeakers, context)).map(formatTalkTimes);
+    },
+  });
+
+export const searchTalks = createSearchTalksTool();
 
 export const getTracks = tool({
   description: "Get all available conference tracks with their descriptions.",
@@ -83,7 +258,8 @@ export const getTracks = tool({
 });
 
 export const getTalkDetails = tool({
-  description: "Get complete details of a specific talk including speaker bio and track info.",
+  description:
+    "Get complete details of one specific talk by ID. Do not use this to discover sessions or fill schedule gaps; use searchTalks for that.",
   inputSchema: z.object({
     talkId: z.string().describe("The ID of the talk to get details for"),
   }),
@@ -102,10 +278,12 @@ export const getTalkDetails = tool({
           bio: speakers.bio,
           company: speakers.company,
           role: speakers.role,
+          avatar: speakers.avatar,
         },
         track: {
           name: tracks.name,
           description: tracks.description,
+          color: tracks.color,
         },
         room: rooms.name,
       })
@@ -120,17 +298,11 @@ export const getTalkDetails = tool({
       return null;
     }
 
-    return {
+    const speakersByTalkId = await getToolSpeakers([talkId]);
+    return formatTalkTimes({
       ...result[0],
-      startTime: new Date(result[0].startTime * 1000).toLocaleTimeString("en-US", {
-        hour: "numeric",
-        minute: "2-digit",
-      }),
-      endTime: new Date(result[0].endTime * 1000).toLocaleTimeString("en-US", {
-        hour: "numeric",
-        minute: "2-digit",
-      }),
-    };
+      speakers: speakersByTalkId.get(talkId) ?? [],
+    });
   },
 });
 
@@ -186,35 +358,41 @@ export const checkConflicts = tool({
 
 export const getUserSchedule = (userId: string) =>
   tool({
-    description: "Get the user's currently saved schedule.",
+    description:
+      "Get the user's currently saved schedule as session cards. Use this before answering questions about what is missing from their schedule.",
     inputSchema: z.object({}),
     execute: async () => {
       const result = await db
         .select({
-          talkId: userSchedules.talkId,
+          id: userSchedules.talkId,
           title: talks.title,
+          description: talks.description,
           startTime: talks.startTime,
           endTime: talks.endTime,
+          level: talks.level,
+          format: talks.format,
+          speaker: speakers.name,
+          speakerCompany: speakers.company,
+          speakerAvatar: speakers.avatar,
           track: tracks.name,
+          trackId: tracks.id,
+          trackColor: tracks.color,
           room: rooms.name,
+          saved: userSchedules.talkId,
         })
         .from(userSchedules)
         .innerJoin(talks, eq(userSchedules.talkId, talks.id))
+        .innerJoin(speakers, eq(talks.speakerId, speakers.id))
         .innerJoin(tracks, eq(talks.trackId, tracks.id))
         .innerJoin(rooms, eq(talks.roomId, rooms.id))
         .where(eq(userSchedules.userId, userId))
         .orderBy(talks.startTime);
 
-      return result.map((item) => ({
-        ...item,
-        startTime: new Date(item.startTime * 1000).toLocaleTimeString("en-US", {
-          hour: "numeric",
-          minute: "2-digit",
-        }),
-        endTime: new Date(item.endTime * 1000).toLocaleTimeString("en-US", {
-          hour: "numeric",
-          minute: "2-digit",
-        }),
+      const resultsWithSpeakers = (await withSpeakerArrays(result)).map((talk) => ({
+        ...talk,
+        saved: Boolean(talk.saved),
       }));
+
+      return resultsWithSpeakers.map(formatTalkTimes);
     },
   });

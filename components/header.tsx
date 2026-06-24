@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { Suspense } from "react";
+import { AiAssistantOpenButton } from "@/components/ai-assistant-open-button";
 import { ThemeToggle } from "@/components/theme-toggle";
 import { Button } from "@/components/ui/button";
 import { logout } from "@/lib/actions/auth";
@@ -8,10 +9,10 @@ import { verifySession } from "@/lib/auth/dal";
 export function Header() {
   return (
     <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-      <div className="container flex h-14 items-center justify-between">
+      <div className="flex h-14 items-center justify-between px-4 sm:px-6 lg:px-8">
         <div className="flex items-center gap-6">
           <Link href="/" className="flex items-center gap-2">
-            <span className="text-lg">Next.js Conf 2025</span>
+            <span className="text-lg">AI Engineer WF 2026</span>
           </Link>
           <nav className="hidden md:flex items-center gap-4 text-sm">
             <Link
@@ -34,6 +35,9 @@ export function Header() {
 
         <div className="flex items-center gap-2">
           <ThemeToggle />
+          <Suspense>
+            <AiAssistantOpenButton />
+          </Suspense>
           <Suspense
             fallback={
               <Link
@@ -58,20 +62,12 @@ async function AuthNav() {
   if (!session.isAuth) return null;
 
   return (
-    <>
-      <Link
-        href="/my-schedule"
-        className="text-muted-foreground hover:text-foreground transition-colors"
-      >
-        My Schedule
-      </Link>
-      <Link
-        href="/ai-builder"
-        className="text-muted-foreground hover:text-foreground transition-colors"
-      >
-        AI Builder
-      </Link>
-    </>
+    <Link
+      href="/?view=my-events"
+      className="text-muted-foreground hover:text-foreground transition-colors"
+    >
+      My Events
+    </Link>
   );
 }
 

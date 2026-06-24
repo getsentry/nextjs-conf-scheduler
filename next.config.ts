@@ -2,8 +2,8 @@ import { withSentryConfig } from "@sentry/nextjs";
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  // Externalize so instrumentation and page handlers share the same module instance
-  serverExternalPackages: ["@libsql/client"],
+  // Externalize so Sentry instrumentation and route handlers share one postgres module instance.
+  serverExternalPackages: ["postgres"],
   cacheComponents: true,
   images: {
     remotePatterns: [
@@ -11,12 +11,16 @@ const nextConfig: NextConfig = {
         protocol: "https",
         hostname: "avatars.githubusercontent.com",
       },
+      {
+        protocol: "https",
+        hostname: "www.ai.engineer",
+      },
     ],
   },
 };
 
 export default withSentryConfig(nextConfig, {
-  org: "sergtech",
+  org: "sentry-developer-experience",
   project: "nextjs-conf-scheduler",
   silent: !process.env.CI,
   widenClientFileUpload: true,

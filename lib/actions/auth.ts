@@ -30,7 +30,7 @@ export async function signup(_prevState: AuthState, formData: FormData): Promise
   const startTime = Date.now();
 
   const result = await Sentry.withServerActionInstrumentation(
-    "auth.signup",
+    "account.signup",
     { headers: await headers() },
     async () => {
       const rawData = {
@@ -43,8 +43,11 @@ export async function signup(_prevState: AuthState, formData: FormData): Promise
 
       if (!validated.success) {
         const failedFields = Object.keys(validated.error.flatten().fieldErrors);
+        Sentry.metrics.count("account.event", 1, {
+          attributes: { action: "signup", result: "validation_failed" },
+        });
         Sentry.logger.info("Signup validation failed", {
-          action: "signup",
+          action: "account.signup",
           email: rawData.email,
           failed_fields: failedFields.join(","),
           field_count: failedFields.length,
@@ -60,8 +63,11 @@ export async function signup(_prevState: AuthState, formData: FormData): Promise
       const existingUser = await db.select().from(users).where(eq(users.email, email)).limit(1);
 
       if (existingUser.length > 0) {
+        Sentry.metrics.count("account.event", 1, {
+          attributes: { action: "signup", result: "duplicate_email" },
+        });
         Sentry.logger.info("Signup attempted with existing email", {
-          action: "signup",
+          action: "account.signup",
           result: "duplicate_email",
           email,
           duration_ms: Date.now() - startTime,
@@ -77,15 +83,18 @@ export async function signup(_prevState: AuthState, formData: FormData): Promise
         name,
         email,
         password: hashedPassword,
-        createdAt: Date.now(),
+        createdAt: Math.floor(Date.now() / 1000),
       });
 
       await createSession(userId, email, name);
 
       Sentry.setUser({ id: userId, email, username: name });
 
+      Sentry.metrics.count("account.event", 1, {
+        attributes: { action: "signup", result: "success" },
+      });
       Sentry.logger.info("User signed up", {
-        action: "signup",
+        action: "account.signup",
         result: "success",
         user_id: userId,
         email,
@@ -107,7 +116,7 @@ export async function login(_prevState: AuthState, formData: FormData): Promise<
   const startTime = Date.now();
 
   const result = await Sentry.withServerActionInstrumentation(
-    "auth.login",
+    "account.login",
     { headers: await headers() },
     async () => {
       const rawData = {
@@ -118,8 +127,11 @@ export async function login(_prevState: AuthState, formData: FormData): Promise<
       const validated = loginSchema.safeParse(rawData);
 
       if (!validated.success) {
+        Sentry.metrics.count("account.event", 1, {
+          attributes: { action: "login", result: "validation_failed" },
+        });
         Sentry.logger.info("Login validation failed", {
-          action: "login",
+          action: "account.login",
           email: rawData.email,
           duration_ms: Date.now() - startTime,
         });
@@ -135,8 +147,11 @@ export async function login(_prevState: AuthState, formData: FormData): Promise<
       const user = found[0];
 
       if (!user) {
+        Sentry.metrics.count("account.event", 1, {
+          attributes: { action: "login", result: "user_not_found" },
+        });
         Sentry.logger.info("Login failed — user not found", {
-          action: "login",
+          action: "account.login",
           result: "user_not_found",
           email,
           duration_ms: Date.now() - startTime,
@@ -147,8 +162,11 @@ export async function login(_prevState: AuthState, formData: FormData): Promise<
       const passwordMatch = await compare(password, user.password);
 
       if (!passwordMatch) {
+        Sentry.metrics.count("account.event", 1, {
+          attributes: { action: "login", result: "invalid_password" },
+        });
         Sentry.logger.info("Login failed — invalid password", {
-          action: "login",
+          action: "account.login",
           result: "invalid_password",
           user_id: user.id,
           email,
@@ -161,8 +179,11 @@ export async function login(_prevState: AuthState, formData: FormData): Promise<
 
       Sentry.setUser({ id: user.id, email: user.email, username: user.name });
 
+      Sentry.metrics.count("account.event", 1, {
+        attributes: { action: "login", result: "success" },
+      });
       Sentry.logger.info("User logged in", {
-        action: "login",
+        action: "account.login",
         result: "success",
         user_id: user.id,
         email: user.email,
@@ -184,15 +205,18 @@ export async function logout() {
   const startTime = Date.now();
 
   await Sentry.withServerActionInstrumentation(
-    "auth.logout",
+    "account.logout",
     { headers: await headers() },
     async () => {
       await deleteSession();
 
       Sentry.setUser(null);
 
+      Sentry.metrics.count("account.event", 1, {
+        attributes: { action: "logout", result: "success" },
+      });
       Sentry.logger.info("User logged out", {
-        action: "logout",
+        action: "account.logout",
         duration_ms: Date.now() - startTime,
       });
     },

@@ -45,7 +45,7 @@ export function TalkTimeStatus({
     setNow(Date.now());
     const interval = setInterval(() => setNow(Date.now()), 60000);
     return () => clearInterval(interval);
-  }, [serverNow]);
+  }, []);
 
   const status = getStatus(startTime, endTime, now);
 
@@ -54,7 +54,7 @@ export function TalkTimeStatus({
       className={`inline-flex items-center rounded-md px-1.5 py-0.5 text-[10px] font-medium ${variantStyles[status.variant]}`}
     >
       {status.variant === "live" && (
-        <span className="mr-1 h-1.5 w-1.5 rounded-full bg-emerald-500 animate-pulse" />
+        <span className="mr-1 h-1.5 w-1.5 rounded-full bg-emerald-500 motion-safe:animate-pulse" />
       )}
       {status.label}
     </span>

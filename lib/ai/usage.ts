@@ -87,12 +87,16 @@ export function aiTier(identity: Pick<AiIdentity, "accessTier">) {
   return identity.accessTier === "authenticated" ? "member" : "guest";
 }
 
+function userEmail(identity: AiIdentity) {
+  return identity.email?.toLowerCase() ?? identity.id;
+}
+
 export function aiMetricAttributes(identity: AiIdentity) {
   return {
     ai_tier: aiTier(identity),
     identity_type: identity.type,
     is_internal_sentry: identity.isInternalSentry === true,
-    ...(identity.type === "user" ? { identity_id: identity.id } : {}),
+    ...(identity.type === "user" ? { user_email: userEmail(identity) } : {}),
   };
 }
 
@@ -101,12 +105,9 @@ export function aiLogFields(identity: AiIdentity) {
     ai_tier: aiTier(identity),
     identity_type: identity.type,
     identity_id: identity.id,
+    ...(identity.type === "user" ? { user_email: userEmail(identity) } : {}),
     is_internal_sentry: identity.isInternalSentry === true,
   };
-}
-
-export function aiMetricOwner(identity: AiIdentity) {
-  return identity.type === "user" ? identity.id : "guest";
 }
 
 function hasUnlimitedQuota(identity: AiIdentity) {

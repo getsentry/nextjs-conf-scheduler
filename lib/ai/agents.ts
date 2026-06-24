@@ -19,7 +19,6 @@ import {
   type AiIdentity,
   aiLogFields,
   aiMetricAttributes,
-  aiMetricOwner,
   aiTier,
   recordAiTokenUsage,
 } from "./usage";
@@ -41,29 +40,6 @@ type AgentContext = {
   pageContext?: PageContext;
   selectedModelId?: string;
 };
-
-const MODEL_COST_PER_MILLION_TOKENS: Record<string, { input: number; output: number }> = {
-  "openai/gpt-oss-120b": { input: 0.15, output: 0.6 },
-  "openai/gpt-oss-20b": { input: 0.05, output: 0.2 },
-  "deepseek/deepseek-v3.2": { input: 0.27, output: 1.1 },
-  "deepseek/deepseek-r1": { input: 0.55, output: 2.19 },
-  "alibaba/qwen-3-235b": { input: 0.2, output: 0.8 },
-  "mistral/devstral-2": { input: 0.4, output: 2 },
-  "meta/llama-4-maverick": { input: 0.18, output: 0.6 },
-  "anthropic/claude-sonnet-4.6": { input: 3, output: 15 },
-  "anthropic/claude-haiku-4.5": { input: 1, output: 5 },
-  "anthropic/claude-opus-4.8": { input: 15, output: 75 },
-};
-
-function estimateCostUsd(modelId: string, usage: LanguageModelUsage) {
-  const price = MODEL_COST_PER_MILLION_TOKENS[modelId];
-  if (!price) return 0;
-
-  const inputTokens = usage.inputTokens ?? 0;
-  const outputTokens = usage.outputTokens ?? 0;
-
-  return (inputTokens * price.input + outputTokens * price.output) / 1_000_000;
-}
 
 const scheduleAgentInstructions = `You are the AI Engineer World's Fair 2026 schedule assistant.
 The conference runs June 29 – July 2, 2026 at Moscone West in San Francisco.
@@ -114,7 +90,9 @@ function telemetry(context: AgentContext, config: { id: string }) {
       model_id: config.id,
       ai_tier: aiTier(context.identity),
       identity_type: context.identity.type,
-      ...(context.identity.type === "user" ? { identity_id: context.identity.id } : {}),
+      ...(context.identity.type === "user" && context.identity.email
+        ? { user_email: context.identity.email.toLowerCase() }
+        : {}),
       quota_limit: context.quota.limit,
       quota_remaining: context.quota.remaining,
       ...(context.selectedModelId ? { selected_model_id: context.selectedModelId } : {}),
@@ -145,16 +123,6 @@ async function recordUsage(context: AgentContext, modelId: string, usage: Langua
     attributes,
   });
 
-  const estimatedCostUsd = estimateCostUsd(modelId, usage);
-  if (estimatedCostUsd > 0) {
-    Sentry.metrics.distribution("ai.cost.estimated_usd", estimatedCostUsd, {
-      attributes: {
-        ...attributes,
-        metric_owner: aiMetricOwner(context.identity),
-      },
-    });
-  }
-
   Sentry.logger.info("AI model usage recorded", {
     action: "ai.usage",
     result: "success",
@@ -165,7 +133,6 @@ async function recordUsage(context: AgentContext, modelId: string, usage: Langua
     input_tokens: tokenUsage.inputTokens,
     output_tokens: tokenUsage.outputTokens,
     total_tokens: tokenUsage.totalTokens,
-    estimated_cost_usd: estimatedCostUsd,
   });
 }
 

@@ -14,6 +14,7 @@ type EmbeddingContext = {
     id: string;
     type: "user" | "guest";
     accessTier: "guest" | "authenticated";
+    email?: string;
   };
   operation?: "query" | "index";
 };
@@ -86,7 +87,9 @@ function metricAttributes(context: EmbeddingContext | undefined) {
       ? {
           ai_tier: aiTier(context.identity),
           identity_type: context.identity.type,
-          ...(context.identity.type === "user" ? { identity_id: context.identity.id } : {}),
+          ...(context.identity.type === "user" && context.identity.email
+            ? { user_email: context.identity.email.toLowerCase() }
+            : {}),
         }
       : {}),
   };

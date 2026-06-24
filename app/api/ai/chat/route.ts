@@ -58,7 +58,11 @@ export async function POST(req: Request) {
   const conversationId = req.headers.get("x-conversation-id");
   const identity = await getAiIdentity();
 
-  Sentry.setUser({ id: identity.id, segment: aiTier(identity) });
+  Sentry.setUser({
+    id: identity.id,
+    ...(identity.email ? { email: identity.email } : {}),
+    segment: aiTier(identity),
+  });
   Sentry.setTag("ai.tier", aiTier(identity));
   Sentry.setTag("ai.identity_type", identity.type);
 

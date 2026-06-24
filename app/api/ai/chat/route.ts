@@ -73,7 +73,7 @@ export async function POST(req: Request) {
   let quotaUsageId: string | undefined;
   let quotaRolledBack = false;
 
-  async function rollbackQuotaForFailedRequest() {
+  async function rollbackQuotaForSetupFailure() {
     if (!quotaUsageId || quotaRolledBack) {
       return;
     }
@@ -172,7 +172,6 @@ export async function POST(req: Request) {
             error: error instanceof Error ? error.message : String(error),
             duration_ms: Date.now() - startTime,
           });
-          void rollbackQuotaForFailedRequest();
           return streamErrorMessage(error);
         },
         messageMetadata: ({ part }) => {
@@ -203,7 +202,7 @@ export async function POST(req: Request) {
       }),
     });
   } catch (error) {
-    await rollbackQuotaForFailedRequest();
+    await rollbackQuotaForSetupFailure();
     Sentry.captureException(error);
     Sentry.metrics.count("ai.chat.requests", 1, {
       attributes: {

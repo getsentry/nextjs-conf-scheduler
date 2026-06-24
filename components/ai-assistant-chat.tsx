@@ -14,7 +14,7 @@ import {
 } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
-import { usePathname, useSearchParams } from "next/navigation";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useCallback, useEffect, useMemo, useRef, useState, useTransition } from "react";
 import { toast } from "sonner";
 import {
@@ -238,6 +238,7 @@ function EventResultCard({
   isAuthenticated: boolean;
   showScheduleAction?: boolean;
 }) {
+  const router = useRouter();
   const [isPending, startTransition] = useTransition();
   const [added, setAdded] = useState(talk.saved === true);
   const talkSpeakers = talk.speakers?.length
@@ -269,6 +270,7 @@ function EventResultCard({
         }
         if (result.success) {
           setAdded(false);
+          router.refresh();
         }
         return;
       }
@@ -277,6 +279,7 @@ function EventResultCard({
       if ("error" in result) {
         if (result.error === "Talk already in your schedule") {
           setAdded(true);
+          router.refresh();
           return;
         }
         toast.error(result.error);
@@ -284,6 +287,7 @@ function EventResultCard({
       }
       if (result.success) {
         setAdded(true);
+        router.refresh();
       }
     });
   };

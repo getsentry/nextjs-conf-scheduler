@@ -41,6 +41,10 @@ export function ScheduleSaveButton({
       } else {
         const result = await addToSchedule(talkId);
         if ("error" in result) {
+          if (result.error === "Talk already in your schedule") {
+            router.refresh();
+            return;
+          }
           toast.error(result.error);
           return;
         }

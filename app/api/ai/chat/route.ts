@@ -8,7 +8,13 @@ import {
 import { runAgentPipeline } from "@/lib/ai/agents";
 import { getAiIdentity } from "@/lib/ai/identity";
 import { getModelOption } from "@/lib/ai/models";
-import { aiLogFields, aiMetricAttributes, aiTier, checkAndIncrementAiQuota } from "@/lib/ai/usage";
+import {
+  aiLogFields,
+  aiMetricAttributes,
+  aiTier,
+  checkAndIncrementAiQuota,
+  rollbackAiQuotaRequest,
+} from "@/lib/ai/usage";
 
 type PageContext = {
   path: string;
@@ -60,6 +66,25 @@ export async function POST(req: Request) {
     Sentry.setConversationId(conversationId);
   }
 
+  let quotaUsageId: string | undefined;
+  let quotaRolledBack = false;
+
+  async function rollbackQuotaForFailedRequest() {
+    if (!quotaUsageId || quotaRolledBack) {
+      return;
+    }
+    quotaRolledBack = true;
+    await rollbackAiQuotaRequest(quotaUsageId).catch((rollbackError) => {
+      Sentry.logger.warn("Failed to roll back AI quota after chat error", {
+        action: "ai.chat",
+        result: "quota_rollback_failed",
+        ...aiLogFields(identity),
+        conversation_id: conversationId,
+        error: rollbackError instanceof Error ? rollbackError.message : String(rollbackError),
+      });
+    });
+  }
+
   try {
     const body = (await req.json()) as { messages?: unknown; context?: unknown; model?: unknown };
     const uiMessages = getUiMessages(body.messages);
@@ -82,6 +107,10 @@ export async function POST(req: Request) {
 
     const quotaResult = await checkAndIncrementAiQuota(identity);
     const requestAttributes = aiMetricAttributes(identity);
+
+    if (quotaResult.allowed) {
+      quotaUsageId = quotaResult.quota.id;
+    }
 
     if (!quotaResult.allowed) {
       Sentry.metrics.count("ai.chat.requests", 1, {
@@ -127,25 +156,37 @@ export async function POST(req: Request) {
       selectedModelId: selectedModel?.id,
     });
 
-    Sentry.logger.info("AI chat request completed", {
-      action: "ai.chat",
-      result: "success",
-      ...aiLogFields(identity),
-      conversation_id: conversationId,
-      message_count: uiMessages.length,
-      quota_limit: quotaResult.quota.limit,
-      quota_remaining: quotaResult.quota.remaining,
-      selected_model_id: selectedModel?.id,
-      duration_ms: Date.now() - startTime,
-    });
-
     return createUIMessageStreamResponse({
       stream: result.toUIMessageStream({
-        onError: streamErrorMessage,
+        onError: (error) => {
+          Sentry.captureException(error);
+          Sentry.logger.error("AI chat stream failed", {
+            action: "ai.chat",
+            result: "stream_error",
+            ...aiLogFields(identity),
+            conversation_id: conversationId,
+            error: error instanceof Error ? error.message : String(error),
+            duration_ms: Date.now() - startTime,
+          });
+          void rollbackQuotaForFailedRequest();
+          return streamErrorMessage(error);
+        },
         messageMetadata: ({ part }) => {
           if (part.type !== "finish") {
             return undefined;
           }
+
+          Sentry.logger.info("AI chat request completed", {
+            action: "ai.chat",
+            result: "success",
+            ...aiLogFields(identity),
+            conversation_id: conversationId,
+            message_count: uiMessages.length,
+            quota_limit: quotaResult.quota.limit,
+            quota_remaining: quotaResult.quota.remaining,
+            selected_model_id: selectedModel?.id,
+            duration_ms: Date.now() - startTime,
+          });
 
           return {
             usage: {
@@ -158,6 +199,7 @@ export async function POST(req: Request) {
       }),
     });
   } catch (error) {
+    await rollbackQuotaForFailedRequest();
     Sentry.captureException(error);
     Sentry.metrics.count("ai.chat.requests", 1, {
       attributes: {

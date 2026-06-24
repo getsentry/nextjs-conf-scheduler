@@ -114,10 +114,7 @@ async function ScheduleContent({ searchParams }: { searchParams: SearchParams })
   }
 
   const dayNumberById = getScheduleDayNumbers(allTalks);
-  const days = getScheduleDays(
-    filteredTalks.length > 0 || isMyEventsView ? filteredTalks : allTalks,
-    dayNumberById,
-  );
+  const days = getScheduleDays(filteredTalks, dayNumberById);
   const activeDay = days.some((day) => day.id === params.day) ? params.day : (days[0]?.id ?? "");
   const trackCounts = getTrackCounts(allTalks);
   const trackOptions = tracks
@@ -134,7 +131,7 @@ async function ScheduleContent({ searchParams }: { searchParams: SearchParams })
       <div className="mb-6">
         <ScheduleFilters
           days={days}
-          filteredCount={visibleTalks.length}
+          filteredCount={filteredTalks.length}
           totalCount={allTalks.length}
           isAuthenticated={session.isAuth}
           savedCount={savedTalkIds.length}

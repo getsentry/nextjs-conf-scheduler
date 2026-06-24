@@ -263,6 +263,19 @@ export async function checkAndIncrementAiQuota(
   return { allowed: true, quota };
 }
 
+export async function rollbackAiQuotaRequest(usageId: string) {
+  const [updatedUsage] = await db
+    .update(aiUsage)
+    .set({
+      requestCount: sql`greatest(${aiUsage.requestCount} - 1, 0)`,
+      updatedAt: Math.floor(Date.now() / 1000),
+    })
+    .where(eq(aiUsage.id, usageId))
+    .returning({ requestCount: aiUsage.requestCount });
+
+  return updatedUsage?.requestCount;
+}
+
 export async function recordAiTokenUsage(
   usageId: string,
   usage: LanguageModelUsage,

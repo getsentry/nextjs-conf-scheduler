@@ -85,15 +85,23 @@ export function ScheduleFilters({
       params.delete("assistant");
       const nextValue = value === ALL_VALUE ? null : value;
 
+      if (key === "day") {
+        if (nextValue === null) {
+          params.delete("day");
+        } else {
+          params.set("day", nextValue);
+        }
+        router.push(getUrl(params), { scroll: false });
+        return;
+      }
+
       if (nextValue === null || params.get(key) === nextValue) {
         params.delete(key);
       } else {
         params.set(key, nextValue);
       }
 
-      if (key !== "day") {
-        params.delete("day");
-      }
+      params.delete("day");
 
       router.push(getUrl(params), { scroll: false });
     },

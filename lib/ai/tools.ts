@@ -16,6 +16,129 @@ type SearchToolContext = {
   };
 };
 
+const QUERY_STOP_WORDS = new Set([
+  "about",
+  "any",
+  "are",
+  "at",
+  "by",
+  "do",
+  "does",
+  "find",
+  "for",
+  "from",
+  "have",
+  "in",
+  "is",
+  "me",
+  "of",
+  "on",
+  "recommend",
+  "session",
+  "sessions",
+  "show",
+  "talk",
+  "talks",
+  "the",
+  "there",
+  "to",
+  "with",
+]);
+
+function entitySearchTerms(query: string) {
+  const terms =
+    query
+      .match(/[a-z0-9][a-z0-9+.#-]*/gi)
+      ?.map((term) => term.toLowerCase())
+      .filter((term) => term.length >= 3 && !QUERY_STOP_WORDS.has(term)) ?? [];
+
+  return [...new Set(terms)].slice(0, 4);
+}
+
+function hasEntityIntent(query: string) {
+  return /\b(by|company|from|presented by|presenter|speaker|speakers)\b/i.test(query);
+}
+
+function entityKeywordCondition(pattern: string) {
+  const coSpeakerCondition = sql<boolean>`exists (
+    select 1
+    from talk_speakers all_talk_speakers
+    join speakers all_speakers on all_speakers.id = all_talk_speakers.speaker_id
+    where all_talk_speakers.talk_id = ${talks.id}
+      and (all_speakers.name ilike ${pattern} or all_speakers.company ilike ${pattern})
+  )`;
+
+  return or(
+    ilike(speakers.name, pattern),
+    ilike(speakers.company, pattern),
+    coSpeakerCondition,
+    ilike(tracks.name, pattern),
+  );
+}
+
+function fullKeywordCondition(pattern: string) {
+  return or(
+    ilike(talks.title, pattern),
+    ilike(talks.description, pattern),
+    entityKeywordCondition(pattern),
+  );
+}
+
+async function keywordSearchTalks({
+  format,
+  keywordConditions,
+  level,
+  limit,
+  trackId,
+}: {
+  keywordConditions: SQL[];
+  trackId?: string;
+  level?: "beginner" | "intermediate" | "advanced";
+  format?: "talk" | "workshop" | "keynote" | "panel" | "sponsor" | "plenary";
+  limit: number;
+}) {
+  const conditions: SQL[] = [...keywordConditions];
+
+  if (trackId) {
+    conditions.push(eq(talks.trackId, trackId));
+  }
+  if (level) {
+    conditions.push(eq(talks.level, level));
+  }
+  if (format) {
+    conditions.push(eq(talks.format, format));
+  }
+
+  if (conditions.length === 0) {
+    return [];
+  }
+
+  return db
+    .select({
+      id: talks.id,
+      title: talks.title,
+      description: talks.description,
+      startTime: talks.startTime,
+      endTime: talks.endTime,
+      level: talks.level,
+      format: talks.format,
+      speaker: speakers.name,
+      speakerCompany: speakers.company,
+      speakerAvatar: speakers.avatar,
+      track: tracks.name,
+      trackId: tracks.id,
+      trackColor: tracks.color,
+      room: rooms.name,
+    })
+    .from(talks)
+    .innerJoin(speakers, eq(talks.speakerId, speakers.id))
+    .innerJoin(tracks, eq(talks.trackId, tracks.id))
+    .innerJoin(rooms, eq(talks.roomId, rooms.id))
+    .where(and(...conditions))
+    .orderBy(talks.startTime)
+    .limit(limit);
+}
+
 async function withSavedState<T extends { id: string }>(
   talksToMark: T[],
   context: SearchToolContext | undefined,
@@ -128,7 +251,7 @@ export const createSearchTalksTool = (context?: SearchToolContext) =>
       maxResults: z.number().int().min(1).max(20).optional().describe("Maximum results to return"),
     }),
     execute: async ({ query, trackId, level, format, maxResults }) => {
-      const limit = maxResults ?? 12;
+      const limit = maxResults ?? 6;
       const normalizedQuery = query.trim();
 
       if (!normalizedQuery && !trackId && !level && !format) {
@@ -156,6 +279,27 @@ export const createSearchTalksTool = (context?: SearchToolContext) =>
       }
 
       if (normalizedQuery) {
+        const exactTerms = entitySearchTerms(normalizedQuery);
+        const exactEntityResults = await keywordSearchTalks({
+          keywordConditions: exactTerms
+            .map((term) => entityKeywordCondition(`%${term}%`))
+            .filter((condition): condition is SQL => !!condition),
+          trackId,
+          level,
+          format,
+          limit,
+        });
+
+        if (
+          exactEntityResults.length > 0 &&
+          (exactTerms.length === 1 ||
+            hasEntityIntent(normalizedQuery) ||
+            exactEntityResults.length <= 3)
+        ) {
+          const resultsWithSpeakers = await withSpeakerArrays(exactEntityResults);
+          return (await withSavedState(resultsWithSpeakers, context)).map(formatTalkTimes);
+        }
+
         try {
           const semanticResults = await semanticSearchTalks({
             query: normalizedQuery,
@@ -183,64 +327,18 @@ export const createSearchTalksTool = (context?: SearchToolContext) =>
         }
       }
 
-      const conditions: SQL[] = [];
-
-      if (normalizedQuery) {
-        const keywordPattern = `%${normalizedQuery}%`;
-        const coSpeakerCondition = sql<boolean>`exists (
-          select 1
-          from talk_speakers all_talk_speakers
-          join speakers all_speakers on all_speakers.id = all_talk_speakers.speaker_id
-          where all_talk_speakers.talk_id = ${talks.id}
-            and (all_speakers.name ilike ${keywordPattern} or all_speakers.company ilike ${keywordPattern})
-        )`;
-        const keywordCondition = or(
-          ilike(talks.title, keywordPattern),
-          ilike(talks.description, keywordPattern),
-          ilike(speakers.name, keywordPattern),
-          ilike(speakers.company, keywordPattern),
-          coSpeakerCondition,
-          ilike(tracks.name, keywordPattern),
-        );
-
-        if (keywordCondition) {
-          conditions.push(keywordCondition);
-        }
-      }
-      if (trackId) {
-        conditions.push(eq(talks.trackId, trackId));
-      }
-      if (level) {
-        conditions.push(eq(talks.level, level));
-      }
-      if (format) {
-        conditions.push(eq(talks.format, format));
-      }
-
-      const result = await db
-        .select({
-          id: talks.id,
-          title: talks.title,
-          description: talks.description,
-          startTime: talks.startTime,
-          endTime: talks.endTime,
-          level: talks.level,
-          format: talks.format,
-          speaker: speakers.name,
-          speakerCompany: speakers.company,
-          speakerAvatar: speakers.avatar,
-          track: tracks.name,
-          trackId: tracks.id,
-          trackColor: tracks.color,
-          room: rooms.name,
-        })
-        .from(talks)
-        .innerJoin(speakers, eq(talks.speakerId, speakers.id))
-        .innerJoin(tracks, eq(talks.trackId, tracks.id))
-        .innerJoin(rooms, eq(talks.roomId, rooms.id))
-        .where(conditions.length > 0 ? and(...conditions) : undefined)
-        .orderBy(talks.startTime)
-        .limit(limit);
+      const keywordConditions = normalizedQuery
+        ? [fullKeywordCondition(`%${normalizedQuery}%`)].filter(
+            (condition): condition is SQL => !!condition,
+          )
+        : [];
+      const result = await keywordSearchTalks({
+        keywordConditions,
+        trackId,
+        level,
+        format,
+        limit,
+      });
 
       const resultsWithSpeakers = await withSpeakerArrays(result);
       return (await withSavedState(resultsWithSpeakers, context)).map(formatTalkTimes);

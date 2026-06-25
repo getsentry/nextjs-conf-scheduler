@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useActionState } from "react";
+import { useActionState, useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -10,6 +10,18 @@ import { type AuthState, signup } from "@/lib/actions/auth";
 
 export default function SignupPage() {
   const [state, action, pending] = useActionState<AuthState, FormData>(signup, {});
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+
+  useEffect(() => {
+    if (!state.resetFields) return;
+
+    const resetFields = new Set(state.resetFields);
+    if (resetFields.has("name")) setName("");
+    if (resetFields.has("email")) setEmail("");
+    if (resetFields.has("password")) setPassword("");
+  }, [state.resetFields]);
 
   return (
     <Card className="w-full max-w-sm">
@@ -28,45 +40,67 @@ export default function SignupPage() {
           <div className="space-y-2">
             <Label htmlFor="name">Name</Label>
             <Input
+              aria-describedby={state.fieldErrors?.name ? "name-error" : undefined}
+              aria-invalid={!!state.fieldErrors?.name}
+              autoComplete="name"
               id="name"
               name="name"
-              type="text"
+              onChange={(event) => setName(event.target.value)}
               placeholder="Your name"
               required
-              aria-invalid={!!state.fieldErrors?.name}
+              type="text"
+              value={name}
             />
             {state.fieldErrors?.name && (
-              <p className="text-xs text-destructive">{state.fieldErrors.name[0]}</p>
+              <p className="text-xs text-destructive" id="name-error">
+                {state.fieldErrors.name[0]}
+              </p>
             )}
           </div>
 
           <div className="space-y-2">
             <Label htmlFor="email">Email</Label>
             <Input
+              aria-describedby={state.fieldErrors?.email ? "email-error" : undefined}
+              aria-invalid={!!state.fieldErrors?.email}
+              autoComplete="email"
               id="email"
               name="email"
-              type="email"
+              onChange={(event) => setEmail(event.target.value)}
               placeholder="you@example.com"
               required
-              aria-invalid={!!state.fieldErrors?.email}
+              type="email"
+              value={email}
             />
             {state.fieldErrors?.email && (
-              <p className="text-xs text-destructive">{state.fieldErrors.email[0]}</p>
+              <p className="text-xs text-destructive" id="email-error">
+                {state.fieldErrors.email[0]}
+              </p>
             )}
           </div>
 
           <div className="space-y-2">
             <Label htmlFor="password">Password</Label>
             <Input
+              aria-describedby={state.fieldErrors?.password ? "password-error" : "password-hint"}
+              aria-invalid={!!state.fieldErrors?.password}
+              autoComplete="new-password"
               id="password"
               name="password"
-              type="password"
+              onChange={(event) => setPassword(event.target.value)}
               placeholder="••••••••"
               required
-              aria-invalid={!!state.fieldErrors?.password}
+              type="password"
+              value={password}
             />
-            {state.fieldErrors?.password && (
-              <p className="text-xs text-destructive">{state.fieldErrors.password[0]}</p>
+            {state.fieldErrors?.password ? (
+              <p className="text-xs text-destructive" id="password-error">
+                {state.fieldErrors.password[0]}
+              </p>
+            ) : (
+              <p className="text-xs text-muted-foreground" id="password-hint">
+                At least 8 characters.
+              </p>
             )}
           </div>
 

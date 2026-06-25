@@ -21,28 +21,34 @@ const loginSchema = z.object({
   password: z.string().min(1, "Password is required"),
 });
 
+type AuthField = "name" | "email" | "password";
+
+type AuthFieldErrors = Partial<Record<AuthField, string[]>>;
+
 export type AuthState = {
   error?: string;
-  fieldErrors?: Record<string, string[]>;
+  fieldErrors?: AuthFieldErrors;
+  resetFields?: AuthField[];
 };
 
 export async function signup(_prevState: AuthState, formData: FormData): Promise<AuthState> {
   const startTime = Date.now();
 
-  const result = await Sentry.withServerActionInstrumentation(
+  const result: AuthState = await Sentry.withServerActionInstrumentation(
     "account.signup",
     { headers: await headers() },
     async () => {
       const rawData = {
-        name: formData.get("name") as string,
-        email: formData.get("email") as string,
-        password: formData.get("password") as string,
+        name: String(formData.get("name") ?? ""),
+        email: String(formData.get("email") ?? ""),
+        password: String(formData.get("password") ?? ""),
       };
 
       const validated = signupSchema.safeParse(rawData);
 
       if (!validated.success) {
-        const failedFields = Object.keys(validated.error.flatten().fieldErrors);
+        const fieldErrors = validated.error.flatten().fieldErrors as AuthFieldErrors;
+        const failedFields = Object.keys(fieldErrors) as AuthField[];
         Sentry.metrics.count("account.event", 1, {
           attributes: { action: "signup", result: "validation_failed" },
         });
@@ -54,7 +60,8 @@ export async function signup(_prevState: AuthState, formData: FormData): Promise
           duration_ms: Date.now() - startTime,
         });
         return {
-          fieldErrors: validated.error.flatten().fieldErrors,
+          fieldErrors,
+          resetFields: failedFields,
         };
       }
 
@@ -72,7 +79,10 @@ export async function signup(_prevState: AuthState, formData: FormData): Promise
           email,
           duration_ms: Date.now() - startTime,
         });
-        return { error: "An account with this email already exists" };
+        return {
+          fieldErrors: { email: ["An account with this email already exists"] },
+          resetFields: ["email"] as AuthField[],
+        };
       }
 
       const hashedPassword = await hash(password, 10);
@@ -115,18 +125,20 @@ export async function signup(_prevState: AuthState, formData: FormData): Promise
 export async function login(_prevState: AuthState, formData: FormData): Promise<AuthState> {
   const startTime = Date.now();
 
-  const result = await Sentry.withServerActionInstrumentation(
+  const result: AuthState = await Sentry.withServerActionInstrumentation(
     "account.login",
     { headers: await headers() },
     async () => {
       const rawData = {
-        email: formData.get("email") as string,
-        password: formData.get("password") as string,
+        email: String(formData.get("email") ?? ""),
+        password: String(formData.get("password") ?? ""),
       };
 
       const validated = loginSchema.safeParse(rawData);
 
       if (!validated.success) {
+        const fieldErrors = validated.error.flatten().fieldErrors as AuthFieldErrors;
+        const failedFields = Object.keys(fieldErrors) as AuthField[];
         Sentry.metrics.count("account.event", 1, {
           attributes: { action: "login", result: "validation_failed" },
         });
@@ -136,7 +148,8 @@ export async function login(_prevState: AuthState, formData: FormData): Promise<
           duration_ms: Date.now() - startTime,
         });
         return {
-          fieldErrors: validated.error.flatten().fieldErrors,
+          fieldErrors,
+          resetFields: failedFields,
         };
       }
 
@@ -156,7 +169,10 @@ export async function login(_prevState: AuthState, formData: FormData): Promise<
           email,
           duration_ms: Date.now() - startTime,
         });
-        return { error: "Invalid email or password" };
+        return {
+          fieldErrors: { email: ["No account found for this email"] },
+          resetFields: ["email"] as AuthField[],
+        };
       }
 
       const passwordMatch = await compare(password, user.password);
@@ -172,7 +188,10 @@ export async function login(_prevState: AuthState, formData: FormData): Promise<
           email,
           duration_ms: Date.now() - startTime,
         });
-        return { error: "Invalid email or password" };
+        return {
+          fieldErrors: { password: ["Incorrect password"] },
+          resetFields: ["password"] as AuthField[],
+        };
       }
 
       await createSession(user.id, user.email, user.name);

@@ -29,8 +29,7 @@ export default function TalkDetailPage({ params }: { params: Params }) {
 }
 
 async function TalkDetailContent({ params }: { params: Params }) {
-  const { id } = await params;
-  const session = await verifySession();
+  const [{ id }, session] = await Promise.all([params, verifySession()]);
 
   const [talk, isInSchedule] = await Promise.all([
     getTalkById(id),
@@ -134,7 +133,11 @@ async function TalkDetailContent({ params }: { params: Params }) {
               </h3>
               {talkSpeakers.map((speaker) => (
                 <div className="space-y-3" key={speaker.id}>
-                  <Link href={`/speakers/${speaker.id}`} className="flex items-start gap-4 group">
+                  <Link
+                    className="flex items-start gap-4 group"
+                    href={`/speakers/${speaker.id}`}
+                    prefetch={false}
+                  >
                     <Image
                       src={speaker.avatar}
                       alt={speaker.name}

@@ -22,8 +22,7 @@ export default function SpeakerDetailPage({ params }: { params: Params }) {
 }
 
 async function SpeakerDetailContent({ params }: { params: Params }) {
-  const { id } = await params;
-  const user = await getUser();
+  const [{ id }, user] = await Promise.all([params, getUser()]);
 
   if (id === GREG_PSTRUCHA_SPEAKER_ID && isSentryEmail(user?.email)) {
     Sentry.logger.warn("Running demo slow speaker query", {
@@ -87,7 +86,7 @@ async function SpeakerDetailContent({ params }: { params: Params }) {
           <h2 className="text-xl font-semibold mb-4">Sessions ({speaker.talks.length})</h2>
           <div className="space-y-4">
             {speaker.talks.map((talk) => (
-              <Link key={talk.id} href={`/talks/${talk.id}`}>
+              <Link key={talk.id} href={`/talks/${talk.id}`} prefetch={false}>
                 <Card className="transition-shadow hover:ring-2 hover:ring-primary/20 hover:shadow-md motion-reduce:transition-none">
                   <CardHeader className="pb-2">
                     <div className="flex items-start justify-between gap-2">

@@ -49,7 +49,7 @@ async function SpeakersList() {
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
       {speakers.map((speaker) => (
-        <Link key={speaker.id} href={`/speakers/${speaker.id}`}>
+        <Link key={speaker.id} href={`/speakers/${speaker.id}`} prefetch={false}>
           <Card className="h-full transition-shadow hover:ring-2 hover:ring-primary/20 hover:shadow-md motion-reduce:transition-none">
             <CardContent className="pt-6 text-center">
               <Image

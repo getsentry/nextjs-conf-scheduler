@@ -14,7 +14,7 @@ import {
 } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
-import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { useCallback, useEffect, useMemo, useRef, useState, useTransition } from "react";
 import { toast } from "sonner";
 import {
@@ -246,9 +246,13 @@ function EventResultCard({
     : [{ name: talk.speaker, company: talk.speakerCompany, avatar: talk.speakerAvatar }];
   const primarySpeaker = talkSpeakers[0];
   const speakerNames = talkSpeakers.map((speaker) => speaker.name).join(", ");
-  const speakerCompanies = Array.from(
-    new Set(talkSpeakers.map((speaker) => speaker.company).filter(Boolean)),
-  ).join(", ");
+  const speakerCompanySet = new Set<string>();
+  for (const speaker of talkSpeakers) {
+    if (speaker.company) {
+      speakerCompanySet.add(speaker.company);
+    }
+  }
+  const speakerCompanies = Array.from(speakerCompanySet).join(", ");
 
   const toggleSchedule = () => {
     if (!isAuthenticated) {
@@ -306,6 +310,7 @@ function EventResultCard({
             <Link
               className="line-clamp-2 font-semibold text-sm hover:underline"
               href={`/talks/${talk.id}`}
+              prefetch={false}
             >
               {talk.title}
             </Link>
@@ -478,23 +483,38 @@ function partForContextEstimate(part: unknown) {
 }
 
 function estimateConversationTokens(messages: AiChatMessage[], draft: string) {
-  const messageText = messages
-    .flatMap((message) => message.parts.map(partForContextEstimate))
-    .filter(Boolean)
-    .join("\n");
+  const parts: string[] = [];
+  for (const message of messages) {
+    for (const part of message.parts) {
+      const text = partForContextEstimate(part);
+      if (text) {
+        parts.push(text);
+      }
+    }
+  }
 
-  return estimateTokens(`${messageText}\n${draft}`.trim());
+  return estimateTokens(`${parts.join("\n")}\n${draft}`.trim());
 }
 
 function latestTokenUsage(messages: AiChatMessage[]) {
-  for (const message of [...messages].reverse()) {
-    const usage = message.metadata?.usage;
+  for (let index = messages.length - 1; index >= 0; index--) {
+    const usage = messages[index]?.metadata?.usage;
     if (usage && usage.totalTokens > 0) {
       return usage;
     }
   }
 
   return undefined;
+}
+
+function getCurrentPageContext() {
+  const url = new URL(window.location.href);
+
+  return {
+    path: url.pathname,
+    query: url.searchParams.toString(),
+    title: document.title,
+  };
 }
 
 function ToolOutputContent({
@@ -563,11 +583,7 @@ export function AIChat({
   className?: string;
   isAuthenticated: boolean;
 }) {
-  const pathname = usePathname();
-  const searchParams = useSearchParams();
-  const searchParamString = searchParams.toString();
   const [inputValue, setInputValue] = useState("");
-  const [pageTitle, setPageTitle] = useState("");
   const [selectedModelId, setSelectedModelId] = useState("");
   const [usage, setUsage] = useState<AiUsageSnapshot | null>(null);
   const conversationId = useRef(`conv_${crypto.randomUUID()}`);
@@ -588,22 +604,9 @@ export function AIChat({
   }, [refreshUsage]);
 
   useEffect(() => {
-    setPageTitle(document.title);
-  });
-
-  useEffect(() => {
     Sentry.setConversationId(conversationId.current);
     return () => Sentry.setConversationId(null);
   }, []);
-
-  const pageContext = useMemo(
-    () => ({
-      path: pathname,
-      query: searchParamString,
-      title: pageTitle,
-    }),
-    [pageTitle, pathname, searchParamString],
-  );
 
   const transport = useMemo(
     () =>
@@ -631,13 +634,6 @@ export function AIChat({
     estimateConversationTokens(messages, inputValue),
     (latestUsage?.totalTokens ?? 0) + estimateTokens(inputValue),
   );
-
-  useEffect(() => {
-    const defaultModelId = modelOptions[0]?.id;
-    if (defaultModelId && !modelOptions.some((model) => model.id === selectedModelId)) {
-      setSelectedModelId(defaultModelId);
-    }
-  }, [modelOptions, selectedModelId]);
 
   return (
     <div
@@ -755,6 +751,7 @@ export function AIChat({
                 className="h-auto rounded-full px-3 py-1.5 text-xs"
                 key={prompt.id}
                 onClick={() => {
+                  const pageContext = getCurrentPageContext();
                   Sentry.metrics.count("ai.prompt.selected", 1, {
                     attributes: {
                       prompt_id: prompt.id,
@@ -778,6 +775,7 @@ export function AIChat({
           onSubmit={async ({ text }) => {
             if (!text.trim() || isLoading) return;
             const messageCount = messages.filter((message) => message.role === "user").length + 1;
+            const pageContext = getCurrentPageContext();
             Sentry.logger.info("User sent AI chat message", {
               action: "ai.message.sent",
               conversation_id: conversationId.current,

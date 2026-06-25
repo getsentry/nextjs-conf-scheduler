@@ -1,22 +1,30 @@
 "use client";
 
 import { MessageSquareIcon } from "lucide-react";
-import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { Button } from "@/components/ui/button";
 
-export function AiAssistantOpenButton() {
-  const pathname = usePathname();
-  const router = useRouter();
-  const searchParams = useSearchParams();
+const OPEN_ASSISTANT_EVENT = "ai-assistant:open";
 
+function setAssistantDeepLink() {
+  const url = new URL(window.location.href);
+  url.searchParams.set("assistant", "open");
+  window.history.replaceState(window.history.state, "", `${url.pathname}${url.search}${url.hash}`);
+}
+
+function preloadAssistant() {
+  void import("@/components/ai-assistant-chat");
+}
+
+export function AiAssistantOpenButton() {
   return (
     <Button
       className="hidden sm:inline-flex"
       onClick={() => {
-        const params = new URLSearchParams(searchParams.toString());
-        params.set("assistant", "open");
-        router.push(`${pathname}?${params.toString()}`, { scroll: false });
+        setAssistantDeepLink();
+        window.dispatchEvent(new Event(OPEN_ASSISTANT_EVENT));
       }}
+      onFocus={preloadAssistant}
+      onMouseEnter={preloadAssistant}
       size="sm"
       type="button"
       variant="outline"

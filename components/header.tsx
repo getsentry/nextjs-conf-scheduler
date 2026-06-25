@@ -1,9 +1,9 @@
 import Link from "next/link";
 import { Suspense } from "react";
 import { AiAssistantOpenButton } from "@/components/ai-assistant-open-button";
+import { SignOutButton } from "@/components/sign-out-button";
 import { ThemeToggle } from "@/components/theme-toggle";
 import { Button } from "@/components/ui/button";
-import { logout } from "@/lib/actions/auth";
 import { verifySession } from "@/lib/auth/dal";
 
 export function Header() {
@@ -75,13 +75,7 @@ async function AuthButtons() {
   const session = await verifySession();
 
   if (session.isAuth) {
-    return (
-      <form action={logout}>
-        <Button variant="outline" size="sm" type="submit">
-          Sign Out
-        </Button>
-      </form>
-    );
+    return <SignOutButton />;
   }
 
   return (

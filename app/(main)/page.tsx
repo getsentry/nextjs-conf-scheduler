@@ -65,9 +65,8 @@ export default function SchedulePage({ searchParams }: { searchParams: SearchPar
 }
 
 async function ScheduleContent({ searchParams }: { searchParams: SearchParams }) {
-  const params = await searchParams;
-
-  const [{ talks: allTalks, tracks }, session] = await Promise.all([
+  const [params, { talks: allTalks, tracks }, session] = await Promise.all([
+    searchParams,
     getCachedScheduleData(),
     verifySession(),
   ]);
@@ -117,10 +116,13 @@ async function ScheduleContent({ searchParams }: { searchParams: SearchParams })
   const days = getScheduleDays(filteredTalks, dayNumberById);
   const activeDay = days.some((day) => day.id === params.day) ? params.day : (days[0]?.id ?? "");
   const trackCounts = getTrackCounts(allTalks);
-  const trackOptions = tracks
-    .map((track) => ({ ...track, count: trackCounts.get(track.id) ?? 0 }))
-    .filter((track) => isProgramTrack(track.id, track.name))
-    .sort((a, b) => a.name.localeCompare(b.name));
+  const trackOptions: Array<(typeof tracks)[number] & { count: number }> = [];
+  for (const track of tracks) {
+    if (isProgramTrack(track.id, track.name)) {
+      trackOptions.push({ ...track, count: trackCounts.get(track.id) ?? 0 });
+    }
+  }
+  trackOptions.sort((a, b) => a.name.localeCompare(b.name));
   const visibleTalks =
     activeDay === "all"
       ? filteredTalks
@@ -129,14 +131,16 @@ async function ScheduleContent({ searchParams }: { searchParams: SearchParams })
   return (
     <>
       <div className="mb-6">
-        <ScheduleFilters
-          days={days}
-          filteredCount={filteredTalks.length}
-          totalCount={allTalks.length}
-          isAuthenticated={session.isAuth}
-          savedCount={savedTalkIds.length}
-          tracks={trackOptions}
-        />
+        <Suspense>
+          <ScheduleFilters
+            days={days}
+            filteredCount={filteredTalks.length}
+            totalCount={allTalks.length}
+            isAuthenticated={session.isAuth}
+            savedCount={savedTalkIds.length}
+            tracks={trackOptions}
+          />
+        </Suspense>
       </div>
       <ScheduleGrid
         isAuthenticated={session.isAuth}
@@ -201,8 +205,10 @@ function getScheduleDays(talks: Talk[], dayNumberById: Map<string, number>): Sch
   return Array.from(grouped.entries())
     .sort(([, a], [, b]) => (a[0]?.startTime ?? 0) - (b[0]?.startTime ?? 0))
     .map(([id, dayTalks]) => {
-      const sorted = [...dayTalks].sort((a, b) => a.startTime - b.startTime);
-      const firstTalk = sorted[0];
+      const firstTalk = dayTalks.reduce<Talk | undefined>(
+        (earliest, talk) => (!earliest || talk.startTime < earliest.startTime ? talk : earliest),
+        undefined,
+      );
       return {
         id,
         label: `Day ${dayNumberById.get(id) ?? 1}`,

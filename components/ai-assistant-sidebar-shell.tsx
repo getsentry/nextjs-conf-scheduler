@@ -1,69 +1,96 @@
 "use client";
 
 import { PanelRightCloseIcon, PanelRightOpenIcon, SparklesIcon } from "lucide-react";
-import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import dynamic from "next/dynamic";
 import { useCallback, useEffect, useState } from "react";
-import { AIChat } from "@/components/ai-assistant-chat";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { cn } from "@/lib/utils";
 
 const DESKTOP_ASSISTANT_QUERY = "(min-width: 1280px)";
+const OPEN_ASSISTANT_EVENT = "ai-assistant:open";
+
+type AssistantState = {
+  collapsed: boolean;
+  desktopChatMounted: boolean;
+  isDesktop: boolean;
+  mobileOpen: boolean;
+};
+
+const AIChat = dynamic(
+  () => import("@/components/ai-assistant-chat").then((module) => module.AIChat),
+  {
+    loading: () => <AiAssistantChatLoading />,
+    ssr: false,
+  },
+);
+
+function clearAssistantDeepLink() {
+  const url = new URL(window.location.href);
+  if (url.searchParams.get("assistant") !== "open") {
+    return;
+  }
+
+  url.searchParams.delete("assistant");
+  window.history.replaceState(window.history.state, "", `${url.pathname}${url.search}${url.hash}`);
+}
 
 export function AiAssistantSidebarShell({ isAuthenticated }: { isAuthenticated: boolean }) {
-  const pathname = usePathname();
-  const router = useRouter();
-  const searchParams = useSearchParams();
-  const [collapsed, setCollapsed] = useState(true);
-  const [desktopChatMounted, setDesktopChatMounted] = useState(false);
-  const [isDesktop, setIsDesktop] = useState(false);
-  const [mobileOpen, setMobileOpen] = useState(false);
+  const [{ collapsed, desktopChatMounted, isDesktop, mobileOpen }, setAssistantState] =
+    useState<AssistantState>({
+      collapsed: true,
+      desktopChatMounted: false,
+      isDesktop: false,
+      mobileOpen: false,
+    });
 
   useEffect(() => {
     const mediaQuery = window.matchMedia(DESKTOP_ASSISTANT_QUERY);
     const syncViewport = () => {
-      setIsDesktop(mediaQuery.matches);
-      if (!mediaQuery.matches) {
-        setCollapsed(true);
-      }
+      setAssistantState((state) => ({
+        ...state,
+        collapsed: mediaQuery.matches ? state.collapsed : true,
+        isDesktop: mediaQuery.matches,
+      }));
     };
 
-    syncViewport();
     mediaQuery.addEventListener("change", syncViewport);
 
     return () => mediaQuery.removeEventListener("change", syncViewport);
   }, []);
 
   useEffect(() => {
-    if (searchParams.get("assistant") !== "open") {
-      return;
+    const openAssistant = () => {
+      const isDesktopViewport = window.matchMedia(DESKTOP_ASSISTANT_QUERY).matches;
+
+      setAssistantState((state) => ({
+        ...state,
+        collapsed: !isDesktopViewport,
+        desktopChatMounted: isDesktopViewport ? true : state.desktopChatMounted,
+        isDesktop: isDesktopViewport,
+        mobileOpen: !isDesktopViewport,
+      }));
+      clearAssistantDeepLink();
+    };
+
+    window.addEventListener(OPEN_ASSISTANT_EVENT, openAssistant);
+
+    if (new URL(window.location.href).searchParams.get("assistant") === "open") {
+      openAssistant();
     }
 
-    const isDesktopViewport = window.matchMedia(DESKTOP_ASSISTANT_QUERY).matches;
-    if (isDesktopViewport) {
-      setDesktopChatMounted(true);
-      setCollapsed(false);
-      setMobileOpen(false);
-    } else {
-      setCollapsed(true);
-      setMobileOpen(true);
-    }
-
-    const params = new URLSearchParams(searchParams.toString());
-    params.delete("assistant");
-    const query = params.toString();
-    router.replace(query ? `${pathname}?${query}` : pathname, { scroll: false });
-  }, [pathname, router, searchParams]);
+    return () => window.removeEventListener(OPEN_ASSISTANT_EVENT, openAssistant);
+  }, []);
 
   const collapseAssistant = useCallback(() => {
-    setCollapsed(true);
+    setAssistantState((state) => ({ ...state, collapsed: true }));
+    clearAssistantDeepLink();
+  }, []);
 
-    const params = new URLSearchParams(searchParams.toString());
-    params.delete("assistant");
-    const query = params.toString();
-    router.replace(query ? `${pathname}?${query}` : pathname, { scroll: false });
-  }, [pathname, router, searchParams]);
+  const setMobileOpen = useCallback((open: boolean) => {
+    setAssistantState((state) => ({ ...state, mobileOpen: open }));
+  }, []);
 
   return (
     <>
@@ -101,6 +128,14 @@ export function AiAssistantSidebarShell({ isAuthenticated }: { isAuthenticated: 
         </DialogContent>
       </Dialog>
     </>
+  );
+}
+
+function AiAssistantChatLoading() {
+  return (
+    <div className="flex min-h-0 flex-1 items-center justify-center bg-background p-4 text-sm text-muted-foreground">
+      Loading chat…
+    </div>
   );
 }
 

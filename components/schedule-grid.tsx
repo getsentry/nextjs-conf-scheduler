@@ -38,7 +38,7 @@ function groupTalksByDay(talks: Talk[]): DayGroup[] {
     .map(([id, dayTalks]) => ({
       id,
       label: dayTalks[0] ? formatDate(dayTalks[0].startTime).replace(", 2026", "") : id,
-      talks: [...dayTalks].sort((a, b) => a.startTime - b.startTime),
+      talks: dayTalks.toSorted((a, b) => a.startTime - b.startTime),
     }));
 }
 
@@ -187,9 +187,13 @@ function SessionBlock({
 }) {
   const talkSpeakers = talk.speakers?.length ? talk.speakers : [talk.speaker];
   const speakerNames = talkSpeakers.map((speaker) => speaker.name).join(", ");
-  const speakerCompanies = Array.from(
-    new Set(talkSpeakers.map((speaker) => speaker.company).filter(Boolean)),
-  ).join(", ");
+  const speakerCompanySet = new Set<string>();
+  for (const speaker of talkSpeakers) {
+    if (speaker.company) {
+      speakerCompanySet.add(speaker.company);
+    }
+  }
+  const speakerCompanies = Array.from(speakerCompanySet).join(", ");
 
   return (
     <article
@@ -201,7 +205,7 @@ function SessionBlock({
       <div className="absolute right-1.5 top-1.5 z-10">
         <ScheduleSaveButton isAuthenticated={isAuthenticated} saved={saved} talkId={talk.id} />
       </div>
-      <Link className="block p-2.5 pr-9" href={`/talks/${talk.id}`}>
+      <Link className="block p-2.5 pr-9" href={`/talks/${talk.id}`} prefetch={false}>
         <div className="flex items-start justify-between gap-2">
           <h3 className="line-clamp-3 font-semibold leading-snug">{talk.title}</h3>
           <span className="shrink-0 text-[0.65rem] text-muted-foreground">

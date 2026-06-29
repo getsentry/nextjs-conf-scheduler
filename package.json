@@ -13,9 +13,11 @@
     "db:push": "pnpm db:extensions && drizzle-kit push",
     "db:studio": "drizzle-kit studio",
     "db:seed": "tsx lib/db/seed.ts",
+    "db:seed:conference": "tsx scripts/seed-conference.ts",
     "db:embed": "tsx scripts/embed-talks.ts",
     "traffic": "tsx scripts/generate-traffic.ts",
     "traffic:ai": "tsx scripts/generate-traffic.ts --ai",
+    "vercel-build": "tsx scripts/vercel-build.ts",
     "sentry:backfill": "tsx scripts/backfill-sentry-dashboard-data.ts"
   },
   "dependencies": {

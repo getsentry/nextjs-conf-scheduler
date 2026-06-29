@@ -4,6 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { Suspense } from "react";
 import { Card, CardContent } from "@/components/ui/card";
+import { conferenceConfig } from "@/lib/conference-config";
 import { getAllSpeakers } from "@/lib/db/queries";
 
 async function getCachedSpeakers() {
@@ -33,7 +34,7 @@ export default function SpeakersPage() {
     <>
       <div className="mb-8">
         <h1 className="text-3xl font-bold tracking-tight mb-2">Speakers</h1>
-        <p className="text-muted-foreground">Meet the AI Engineer World's Fair 2026 speakers</p>
+        <p className="text-muted-foreground">Meet the {conferenceConfig.name} speakers</p>
       </div>
 
       <Suspense>

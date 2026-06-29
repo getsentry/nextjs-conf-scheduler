@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import localFont from "next/font/local";
 import { Toaster } from "sonner";
 import { ThemeProvider } from "@/components/theme-provider";
+import { conferenceConfig } from "@/lib/conference-config";
 import "./globals.css";
 
 const rubik = localFont({
@@ -21,8 +22,8 @@ const dammitSans = localFont({
 });
 
 export const metadata: Metadata = {
-  title: "AI Engineer World's Fair 2026",
-  description: "Build your personalized AI Engineer World's Fair schedule",
+  title: conferenceConfig.name,
+  description: `Build your personalized ${conferenceConfig.name} schedule`,
 };
 
 export default function RootLayout({

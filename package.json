@@ -15,7 +15,8 @@
     "db:seed": "tsx lib/db/seed.ts",
     "db:embed": "tsx scripts/embed-talks.ts",
     "traffic": "tsx scripts/generate-traffic.ts",
-    "traffic:ai": "tsx scripts/generate-traffic.ts --ai"
+    "traffic:ai": "tsx scripts/generate-traffic.ts --ai",
+    "sentry:backfill": "tsx scripts/backfill-sentry-dashboard-data.ts"
   },
   "dependencies": {
     "@ai-sdk/react": "^3.0.210",

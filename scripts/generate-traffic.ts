@@ -63,27 +63,20 @@ const AI_ROUNDS = intFlag(
   Number.parseInt(process.env.TRAFFIC_AI_ROUNDS ?? "18", 10),
 );
 const RUN_RATE_LIMIT_DEMO = !flag("--no-rate-limit");
-const TRAFFIC_RUN_ID = process.env.TRAFFIC_RUN_ID || Date.now().toString(36);
-const USE_STABLE_USERS = process.env.TRAFFIC_STABLE_USERS === "1";
-
-function trafficEmail(local: string, domain: string) {
-  return USE_STABLE_USERS ? `${local}@${domain}` : `${local}+traffic-${TRAFFIC_RUN_ID}@${domain}`;
-}
-
 const EXTERNAL_USERS = [
-  { name: "Alice Chen", email: trafficEmail("alice", "demo.test"), password: "demo2026" },
-  { name: "Bob Martinez", email: trafficEmail("bob", "demo.test"), password: "demo2026" },
-  { name: "Carol Williams", email: trafficEmail("carol", "demo.test"), password: "demo2026" },
-  { name: "Dave Kim", email: trafficEmail("dave", "demo.test"), password: "demo2026" },
-  { name: "Eve Johnson", email: trafficEmail("eve", "demo.test"), password: "demo2026" },
-  { name: "Frank Liu", email: trafficEmail("frank", "demo.test"), password: "demo2026" },
-  { name: "Grace Park", email: trafficEmail("grace", "demo.test"), password: "demo2026" },
-  { name: "Henry Brown", email: trafficEmail("henry", "demo.test"), password: "demo2026" },
+  { name: "Priya Raman", email: "priya.raman@arize.com", password: "demo2026" },
+  { name: "Ethan Lee", email: "ethan.lee@vercel.com", password: "demo2026" },
+  { name: "Maya Chen", email: "maya.chen@anthropic.com", password: "demo2026" },
+  { name: "Jordan Smith", email: "jordan.smith@modal.com", password: "demo2026" },
+  { name: "Samir Patel", email: "samir.patel@langchain.com", password: "demo2026" },
+  { name: "Olivia Hart", email: "olivia.hart@cohere.com", password: "demo2026" },
+  { name: "Lucas Meyer", email: "lucas.meyer@huggingface.co", password: "demo2026" },
+  { name: "Ava Brooks", email: "ava.brooks@replicate.com", password: "demo2026" },
 ];
 
 const INTERNAL_USERS = [
-  { name: "Ivy Sentry", email: trafficEmail("ivy", "sentry.io"), password: "demo2026" },
-  { name: "Sergiy Demo", email: trafficEmail("sergiy.demo", "sentry.io"), password: "demo2026" },
+  { name: "Nadia Roman", email: "nadia.roman@sentry.io", password: "demo2026" },
+  { name: "Noemi Costa", email: "noemi.costa@sentry.io", password: "demo2026" },
 ];
 
 const USERS = [...EXTERNAL_USERS, ...INTERNAL_USERS];

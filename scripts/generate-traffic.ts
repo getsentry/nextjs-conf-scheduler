@@ -1,27 +1,94 @@
 /**
  * Generates realistic traffic using headless browsers.
- * Real form submissions, real server actions, real Sentry telemetry.
+ * Real form submissions, real server actions, real AI requests, real Sentry telemetry.
  *
  * Usage:
- *   pnpm build && pnpm start                              # terminal 1
- *   pnpm traffic                                           # terminal 2
- *   pnpm traffic https://nextjs-conf-scheduler.sentry.dev  # or deployed
+ *   pnpm build && pnpm start                                   # terminal 1
+ *   pnpm traffic                                                # baseline browsing/account/schedule telemetry
+ *   pnpm traffic:ai                                             # baseline + AI dashboard telemetry
+ *   pnpm traffic:ai https://aie-wf.sentry.dev --ai-rounds=24    # deployed target
+ *   pnpm traffic https://aie-wf.sentry.dev --ai-only            # only AI/dashboard telemetry
  */
 
-import { chromium, type Page } from "playwright";
+import { randomUUID } from "node:crypto";
+import { type Browser, type BrowserContext, chromium, type Page } from "playwright";
+import { type AiAccessTier, MODEL_OPTIONS } from "../lib/ai/models";
+import { STOP_PROMPTING_TALK_ID } from "../lib/sentry-demo";
 
-const BASE_URL = process.argv[2] || "http://localhost:3000";
+const args = process.argv.slice(2);
 
-const USERS = [
-  { name: "Alice Chen", email: "alice@demo.test", password: "demo2026" },
-  { name: "Bob Martinez", email: "bob@demo.test", password: "demo2026" },
-  { name: "Carol Williams", email: "carol@demo.test", password: "demo2026" },
-  { name: "Dave Kim", email: "dave@demo.test", password: "demo2026" },
-  { name: "Eve Johnson", email: "eve@demo.test", password: "demo2026" },
-  { name: "Frank Liu", email: "frank@demo.test", password: "demo2026" },
-  { name: "Grace Park", email: "grace@demo.test", password: "demo2026" },
-  { name: "Henry Brown", email: "henry@demo.test", password: "demo2026" },
+function flag(name: string) {
+  return args.includes(name);
+}
+
+function flagValue(name: string, fallback?: string) {
+  const prefix = `${name}=`;
+  const inline = args.find((arg) => arg.startsWith(prefix));
+  if (inline) return inline.slice(prefix.length);
+
+  const index = args.indexOf(name);
+  if (index >= 0 && args[index + 1] && !args[index + 1].startsWith("--")) {
+    return args[index + 1];
+  }
+
+  return fallback;
+}
+
+function intFlag(name: string, fallback: number) {
+  const value = flagValue(name);
+  if (!value) return fallback;
+
+  const parsed = Number.parseInt(value, 10);
+  return Number.isFinite(parsed) && parsed > 0 ? parsed : fallback;
+}
+
+const VALUE_FLAGS = new Set(["--ai-rounds"]);
+const positionalArgs: string[] = [];
+for (let i = 0; i < args.length; i++) {
+  const arg = args[i];
+  if (arg.startsWith("--")) {
+    if (!arg.includes("=") && VALUE_FLAGS.has(arg)) {
+      i += 1;
+    }
+    continue;
+  }
+  positionalArgs.push(arg);
+}
+
+const BASE_URL = positionalArgs[0] || process.env.TRAFFIC_BASE_URL || "http://localhost:3000";
+const RUN_AI_TRAFFIC = flag("--ai") || flag("--ai-only") || process.env.TRAFFIC_AI === "1";
+const AI_ONLY = flag("--ai-only");
+const AI_ROUNDS = intFlag(
+  "--ai-rounds",
+  Number.parseInt(process.env.TRAFFIC_AI_ROUNDS ?? "18", 10),
+);
+const RUN_RATE_LIMIT_DEMO = !flag("--no-rate-limit");
+const TRAFFIC_RUN_ID = process.env.TRAFFIC_RUN_ID || Date.now().toString(36);
+const USE_STABLE_USERS = process.env.TRAFFIC_STABLE_USERS === "1";
+
+function trafficEmail(local: string, domain: string) {
+  return USE_STABLE_USERS ? `${local}@${domain}` : `${local}+traffic-${TRAFFIC_RUN_ID}@${domain}`;
+}
+
+const EXTERNAL_USERS = [
+  { name: "Alice Chen", email: trafficEmail("alice", "demo.test"), password: "demo2026" },
+  { name: "Bob Martinez", email: trafficEmail("bob", "demo.test"), password: "demo2026" },
+  { name: "Carol Williams", email: trafficEmail("carol", "demo.test"), password: "demo2026" },
+  { name: "Dave Kim", email: trafficEmail("dave", "demo.test"), password: "demo2026" },
+  { name: "Eve Johnson", email: trafficEmail("eve", "demo.test"), password: "demo2026" },
+  { name: "Frank Liu", email: trafficEmail("frank", "demo.test"), password: "demo2026" },
+  { name: "Grace Park", email: trafficEmail("grace", "demo.test"), password: "demo2026" },
+  { name: "Henry Brown", email: trafficEmail("henry", "demo.test"), password: "demo2026" },
 ];
+
+const INTERNAL_USERS = [
+  { name: "Ivy Sentry", email: trafficEmail("ivy", "sentry.io"), password: "demo2026" },
+  { name: "Sergiy Demo", email: trafficEmail("sergiy.demo", "sentry.io"), password: "demo2026" },
+];
+
+const USERS = [...EXTERNAL_USERS, ...INTERNAL_USERS];
+
+type TrafficUser = (typeof USERS)[number];
 
 const TALK_IDS = [
   "aiewf-543-from-vibes-to-production-evaluating-and-shipping",
@@ -38,8 +105,75 @@ const TALK_IDS = [
   "aiewf-546-the-cheat-sheet-get-evals-up-and-running-in-minu",
 ];
 
+const EXAMPLE_PROMPTS = [
+  "Are there any talks from Sentry",
+  "Find sessions about agents in production",
+  "Build me an evals + observability day",
+  "Which beginner workshops are worth it?",
+];
+
+type AiScenario = {
+  id: string;
+  prompt: string;
+  context?: {
+    path: string;
+    query?: string;
+    title?: string;
+  };
+  authOnly?: boolean;
+  internalOnly?: boolean;
+};
+
+const AI_SCENARIOS: AiScenario[] = [
+  {
+    id: "tracks-overview",
+    prompt: "Use getTracks and give me a quick overview of the conference tracks.",
+    context: { path: "/", title: "AI Engineer World's Fair Schedule" },
+  },
+  {
+    id: "agent-production-search",
+    prompt:
+      "Find sessions about agents in production. Use searchTalks with about 8 results, then check conflicts for the strongest 3 recommendations.",
+    context: { path: "/", query: "q=agents", title: "AI Engineer World's Fair Schedule" },
+  },
+  {
+    id: "evals-observability",
+    prompt:
+      "Build an evals and observability day for me. Search broadly, recommend a few sessions, and check conflicts between them.",
+    context: { path: "/", query: "q=evals", title: "AI Engineer World's Fair Schedule" },
+  },
+  {
+    id: "specific-talk-details",
+    prompt: `Use getTalkDetails for ${TALK_IDS[0]} and summarize who should attend it in one sentence.`,
+    context: { path: `/talks/${TALK_IDS[0]}`, title: "Talk details" },
+  },
+  {
+    id: "saved-schedule-audit",
+    prompt:
+      "What am I missing from my saved schedule? Use my schedule first, then search for complementary sessions.",
+    context: { path: "/", query: "view=my-events", title: "My Events" },
+    authOnly: true,
+  },
+  {
+    id: "internal-sentry-demo-error",
+    prompt: "Find Sentry talks and explain why they matter for observability demos.",
+    context: { path: "/", query: "q=sentry", title: "AI Engineer World's Fair Schedule" },
+    internalOnly: true,
+  },
+];
+
 function pick<T>(arr: T[], n: number): T[] {
   return [...arr].sort(() => Math.random() - 0.5).slice(0, n);
+}
+
+function pickOne<T>(arr: T[], index: number): T {
+  return arr[index % arr.length];
+}
+
+function modelIds(tier: AiAccessTier, ids: string[]) {
+  const available = new Set(MODEL_OPTIONS[tier].map((model) => model.id));
+  const selected = ids.filter((id) => available.has(id));
+  return selected.length > 0 ? selected : MODEL_OPTIONS[tier].map((model) => model.id);
 }
 
 function log(prefix: string, msg: string) {
@@ -55,189 +189,340 @@ async function logout(page: Page) {
   await page.context().clearCookies();
 }
 
-// ─── Phase 1: Anonymous browsing ─────────────────────────────────────────────
+async function signup(page: Page, user: TrafficUser) {
+  await page.goto(`${BASE_URL}/signup`, { waitUntil: "networkidle" });
 
-async function phase1(page: Page) {
-  console.log("\n── Phase 1: Anonymous browsing ──\n");
+  if (
+    !(await page
+      .locator('input[name="name"]')
+      .isVisible({ timeout: 5000 })
+      .catch(() => false))
+  ) {
+    await logout(page);
+    await page.goto(`${BASE_URL}/signup`, { waitUntil: "networkidle" });
+  }
 
-  for (const path of ["/", "/speakers"]) {
-    const start = Date.now();
+  await page.fill('input[name="name"]', user.name);
+  await page.fill('input[name="email"]', user.email);
+  await page.fill('input[name="password"]', user.password);
+  await page.click('button[type="submit"]');
+  await page.waitForTimeout(2000);
+
+  const onSignup = page.url().includes("/signup");
+  log("[signup]", `${user.name} — ${onSignup ? "already exists" : "success"}`);
+  await logout(page);
+}
+
+async function login(page: Page, user: TrafficUser) {
+  await page.goto(`${BASE_URL}/login`, { waitUntil: "networkidle" });
+
+  const emailField = page.locator('input[name="email"]');
+  if (!(await emailField.isVisible({ timeout: 5000 }).catch(() => false))) {
+    log("[login]", `${user.name} — already signed in`);
+    return true;
+  }
+
+  await emailField.fill(user.email);
+  await page.fill('input[name="password"]', user.password);
+  await page.click('button[type="submit"]');
+  await page.waitForTimeout(2000);
+
+  const success = !page.url().includes("/login");
+  log("[login]", `${user.name} — ${success ? "success" : "failed"}`);
+  return success;
+}
+
+async function ensureLoggedIn(page: Page, user: TrafficUser) {
+  const success = await login(page, user);
+  if (success) return true;
+
+  await signup(page, user);
+  return login(page, user);
+}
+
+async function mutateTalks(
+  page: Page,
+  user: TrafficUser,
+  talkIds: string[],
+  mutation: "add" | "remove",
+) {
+  if (!(await ensureLoggedIn(page, user))) {
+    log("[skip]", `${user.name} — login failed, cannot mutate talks`);
+    return;
+  }
+
+  const buttonNames =
+    mutation === "add"
+      ? ["Add to my events", "Add to my schedule"]
+      : ["Remove from my events", "Remove from schedule"];
+  for (const talkId of talkIds) {
+    await page.goto(`${BASE_URL}/talks/${talkId}`, { waitUntil: "networkidle" });
+    const button = page
+      .getByRole("button")
+      .filter({ hasText: new RegExp(buttonNames.join("|"), "i") })
+      .first();
+    if (await button.isVisible({ timeout: 5000 }).catch(() => false)) {
+      await button.click();
+      await page.waitForTimeout(800);
+      log("[schedule]", `${user.name} ${mutation === "add" ? "saved" : "removed"} ${talkId}`);
+    } else {
+      log("[schedule]", `${user.name} cannot ${mutation} ${talkId}`);
+    }
+  }
+
+  await logout(page);
+}
+
+async function saveTalks(page: Page, user: TrafficUser, talkIds: string[]) {
+  await mutateTalks(page, user, talkIds, "add");
+}
+
+async function removeTalks(page: Page, user: TrafficUser, talkIds: string[]) {
+  await mutateTalks(page, user, talkIds, "remove");
+}
+
+async function clickAssistantPrompts(page: Page, userLabel: string) {
+  await page.goto(`${BASE_URL}/?assistant=open`, { waitUntil: "networkidle" });
+
+  for (const prompt of EXAMPLE_PROMPTS) {
+    const promptButton = page.getByRole("button", { name: prompt });
+    if (await promptButton.isVisible({ timeout: 4000 }).catch(() => false)) {
+      await promptButton.click();
+      log("[prompt]", `${userLabel} clicked “${prompt}”`);
+      await page.waitForTimeout(350);
+    }
+  }
+}
+
+async function phase1PageViews(page: Page) {
+  console.log("\n📊 Phase 1: Page views and navigation");
+
+  for (let i = 0; i < 30; i++) {
+    const path = i % 3 === 0 ? "/speakers" : i % 3 === 1 ? `/talks/${pickOne(TALK_IDS, i)}` : "/";
     await page.goto(`${BASE_URL}${path}`, { waitUntil: "domcontentloaded" });
-    log("[anon]", `${path} (${Date.now() - start}ms)`);
+    await page.waitForTimeout(500 + Math.random() * 1000);
+    log("[view]", path);
+  }
+}
+
+async function phase2Accounts(page: Page) {
+  console.log("\n👥 Phase 2: Account signups and logins");
+
+  for (const user of USERS) {
+    await signup(page, user);
   }
 
-  for (const id of pick(["spk_addy_osmani", "spk_aaron_francis", "spk_abdul_dakkak"], 2)) {
-    const start = Date.now();
-    await page.goto(`${BASE_URL}/speakers/${id}`, { waitUntil: "domcontentloaded" });
-    log("[anon]", `/speakers/${id} (${Date.now() - start}ms)`);
+  for (const user of pick(EXTERNAL_USERS, 5)) {
+    await login(page, user);
+    await logout(page);
+  }
+}
+
+async function phase3ScheduleSaves(page: Page) {
+  console.log("\n⭐ Phase 3: Schedule saves/removes");
+
+  await saveTalks(page, EXTERNAL_USERS[0], TALK_IDS.slice(0, 4));
+  await saveTalks(page, EXTERNAL_USERS[1], TALK_IDS.slice(3, 7));
+  await saveTalks(page, EXTERNAL_USERS[2], pick(TALK_IDS, 4));
+  await saveTalks(page, EXTERNAL_USERS[3], pick(TALK_IDS, 4));
+  await removeTalks(page, EXTERNAL_USERS[0], TALK_IDS.slice(0, 2));
+
+  // Intentional Sentry demo path: this talk throws for @sentry.io users.
+  await saveTalks(page, INTERNAL_USERS[0], [STOP_PROMPTING_TALK_ID]);
+}
+
+async function phase4CacheTraffic(page: Page) {
+  console.log("\n💾 Phase 4: Cache miss/refresh patterns");
+
+  for (const path of ["/", "/speakers", "/", "/speakers"]) {
+    await page.goto(`${BASE_URL}${path}`, { waitUntil: "networkidle" });
+    await page.waitForTimeout(1000);
+    log("[cache]", path);
+  }
+}
+
+type AiRuntimePersona = {
+  label: string;
+  page: Page;
+  context: BrowserContext;
+  tier: AiAccessTier;
+  kind: "guest" | "user" | "internal";
+  models: string[];
+};
+
+async function createAiPersona(
+  browser: Browser,
+  persona:
+    | { kind: "guest"; label: string }
+    | { kind: "user" | "internal"; label: string; user: TrafficUser },
+): Promise<AiRuntimePersona> {
+  const context = await browser.newContext({ viewport: { width: 1440, height: 1000 } });
+  const page = await context.newPage();
+
+  if (persona.kind === "guest") {
+    await page.goto(BASE_URL, { waitUntil: "domcontentloaded" });
+    return {
+      label: persona.label,
+      page,
+      context,
+      tier: "guest",
+      kind: "guest",
+      models: modelIds("guest", [
+        "openai/gpt-oss-20b",
+        "deepseek/deepseek-v3.2",
+        "alibaba/qwen-3-235b",
+        "meta/llama-4-maverick",
+      ]),
+    };
   }
 
-  for (const id of pick(TALK_IDS, 3)) {
-    const start = Date.now();
-    await page.goto(`${BASE_URL}/talks/${id}`, { waitUntil: "domcontentloaded" });
-    log("[anon]", `/talks/${id} (${Date.now() - start}ms)`);
-  }
+  await ensureLoggedIn(page, persona.user);
 
-  const aiStart = Date.now();
-  await page.goto(`${BASE_URL}/?assistant=open`, { waitUntil: "domcontentloaded" });
-  log("[anon][ai]", `/?assistant=open (${Date.now() - aiStart}ms)`);
+  const models = modelIds("authenticated", [
+    "anthropic/claude-haiku-4.5",
+    "anthropic/claude-sonnet-4.6",
+    "anthropic/claude-opus-4.8",
+    "openai/gpt-oss-120b",
+    "mistral/devstral-2",
+    "deepseek/deepseek-v3.2",
+  ]);
 
-  // Try saved-events view — should redirect to login.
-  console.log("");
-  const start = Date.now();
-  await page.goto(`${BASE_URL}/?view=my-events`, { waitUntil: "domcontentloaded" });
+  return {
+    label: persona.label,
+    page,
+    context,
+    tier: "authenticated",
+    kind: persona.kind,
+    models,
+  };
+}
+
+function eligibleScenarios(persona: AiRuntimePersona) {
+  return AI_SCENARIOS.filter((scenario) => {
+    if (scenario.internalOnly) return persona.kind === "internal";
+    if (scenario.authOnly) return persona.kind !== "guest";
+    return true;
+  });
+}
+
+async function postChat(
+  persona: AiRuntimePersona,
+  scenario: AiScenario,
+  modelId: string,
+  index: number,
+) {
+  const conversationId = `traffic-${persona.label.replace(/[^a-z0-9]/gi, "-").toLowerCase()}-${index}-${randomUUID()}`;
+  const started = Date.now();
+  const response = await persona.page.request.post(`${BASE_URL}/api/ai/chat`, {
+    headers: { "x-conversation-id": conversationId },
+    data: {
+      model: modelId,
+      context: scenario.context ?? { path: "/", title: "AI Engineer World's Fair Schedule" },
+      messages: [
+        {
+          id: randomUUID(),
+          role: "user",
+          parts: [{ type: "text", text: scenario.prompt }],
+        },
+      ],
+    },
+    timeout: 120_000,
+  });
+
+  const body = await response.text().catch(() => "");
+  const duration = Date.now() - started;
+  const shortBody = body.replace(/\s+/g, " ").slice(0, 100);
   log(
-    "[anon][redirect]",
-    `/?view=my-events → ${new URL(page.url()).pathname} (${Date.now() - start}ms)`,
+    "[ai]",
+    `${persona.label} · ${scenario.id} · ${modelId} → ${response.status()} in ${duration}ms${
+      response.ok() ? "" : ` · ${shortBody}`
+    }`,
   );
 }
 
-// ─── Phase 2: Signup + Login ─────────────────────────────────────────────────
+async function phase5AiDashboardTraffic(browser: Browser) {
+  console.log("\n🤖 Phase 5: AI dashboard traffic");
 
-async function phase2(page: Page) {
-  console.log("\n── Phase 2: Signup & Login (account telemetry) ──\n");
-
-  for (const user of USERS) {
-    // Try signup
-    await page.goto(`${BASE_URL}/signup`, { waitUntil: "networkidle" });
-    await page.fill('input[name="name"]', user.name);
-    await page.fill('input[name="email"]', user.email);
-    await page.fill('input[name="password"]', user.password);
-    await page.click('button[type="submit"]');
-    await page.waitForTimeout(2000);
-
-    const onSignup = page.url().includes("/signup");
-    log(`[signup]`, `${user.name} — ${onSignup ? "already exists" : "success"}`);
-    await logout(page);
-
-    // Log in
-    await page.goto(`${BASE_URL}/login`, { waitUntil: "networkidle" });
-    await page.fill('input[name="email"]', user.email);
-    await page.fill('input[name="password"]', user.password);
-    await page.click('button[type="submit"]');
-    await page.waitForTimeout(2000);
-    log(`[login]`, `${user.name} — ${page.url().includes("/login") ? "failed" : "success"}`);
-    await logout(page);
+  const setupContext = await browser.newContext({ viewport: { width: 1440, height: 1000 } });
+  const setupPage = await setupContext.newPage();
+  for (const user of [...EXTERNAL_USERS.slice(0, 3), ...INTERNAL_USERS]) {
+    await signup(setupPage, user);
   }
+  await saveTalks(setupPage, EXTERNAL_USERS[0], TALK_IDS.slice(0, 3));
+  await saveTalks(setupPage, EXTERNAL_USERS[1], TALK_IDS.slice(3, 6));
+  await saveTalks(setupPage, INTERNAL_USERS[1], TALK_IDS.slice(6, 9));
+  await setupContext.close();
 
-  // Generate some failed logins
-  console.log("");
-  await page.goto(`${BASE_URL}/login`, { waitUntil: "domcontentloaded" });
-  await page.fill('input[name="email"]', "nobody@demo.test");
-  await page.fill('input[name="password"]', "wrongpassword");
-  await page.click('button[type="submit"]');
-  await page.waitForTimeout(1000);
-  log("[login][fail]", "nobody@demo.test — user not found");
+  const personas = await Promise.all([
+    createAiPersona(browser, { kind: "guest", label: "guest-west-hall" }),
+    createAiPersona(browser, { kind: "guest", label: "guest-workshop" }),
+    createAiPersona(browser, { kind: "user", label: "alice", user: EXTERNAL_USERS[0] }),
+    createAiPersona(browser, { kind: "user", label: "bob", user: EXTERNAL_USERS[1] }),
+    createAiPersona(browser, { kind: "internal", label: "sentry-ivy", user: INTERNAL_USERS[0] }),
+    createAiPersona(browser, { kind: "internal", label: "sentry-sergiy", user: INTERNAL_USERS[1] }),
+  ]);
 
-  await page.fill('input[name="email"]', USERS[0].email);
-  await page.fill('input[name="password"]', "wrongpassword");
-  await page.click('button[type="submit"]');
-  await page.waitForTimeout(1000);
-  log("[login][fail]", `${USERS[0].email} — invalid password`);
-}
+  try {
+    await clickAssistantPrompts(personas[0].page, personas[0].label);
+    await clickAssistantPrompts(personas[2].page, personas[2].label);
 
-// ─── Phase 3: Authenticated browsing + bookmarks ─────────────────────────────
-
-async function phase3(page: Page) {
-  console.log("\n── Phase 3: Authenticated browsing + bookmarks ──\n");
-
-  for (const user of USERS.slice(0, 4)) {
-    await page.goto(`${BASE_URL}/login`, { waitUntil: "networkidle" });
-    await page.fill('input[name="email"]', user.email);
-    await page.fill('input[name="password"]', user.password);
-    await page.click('button[type="submit"]');
-    await page.waitForTimeout(2000);
-
-    if (page.url().includes("/login")) {
-      log("[skip]", `${user.name} — login failed, skipping`);
-      continue;
+    for (let i = 0; i < AI_ROUNDS; i++) {
+      const persona = pickOne(personas, i);
+      const scenarios = eligibleScenarios(persona);
+      const scenario = pickOne(scenarios, i + Math.floor(i / personas.length));
+      const modelId = pickOne(persona.models, i);
+      await postChat(persona, scenario, modelId, i);
+      await persona.page.waitForTimeout(500 + Math.random() * 800);
     }
 
-    console.log(`\n  ${user.name}:`);
-
-    for (const path of pick(
-      ["/", "/speakers", "/speakers/spk_addy_osmani", "/speakers/spk_aaron_francis"],
-      2,
-    )) {
-      const start = Date.now();
-      await page.goto(`${BASE_URL}${path}`, { waitUntil: "domcontentloaded" });
-      log("[browse]", `${path} (${Date.now() - start}ms)`);
-    }
-
-    for (const talkId of pick(TALK_IDS, 3)) {
-      const start = Date.now();
-      await page.goto(`${BASE_URL}/talks/${talkId}`, { waitUntil: "domcontentloaded" });
-      log("[talk]", `/talks/${talkId} (${Date.now() - start}ms)`);
-
-      const addBtn = page.locator('button:has-text("Add")').first();
-      if (await addBtn.isVisible({ timeout: 1500 }).catch(() => false)) {
-        await addBtn.click();
-        await page.waitForTimeout(1500);
-        log("[bookmark]", `+ ${talkId}`);
+    if (RUN_RATE_LIMIT_DEMO) {
+      const guest = personas.find((persona) => persona.kind === "guest");
+      if (guest) {
+        const quotaScenario: AiScenario = {
+          id: "guest-quota-pressure",
+          prompt: "Give me one short beginner-friendly recommendation.",
+          context: { path: "/", title: "AI Engineer World's Fair Schedule" },
+        };
+        const cheapModel = guest.models[0];
+        for (let i = 0; i < 12; i++) {
+          await postChat(guest, quotaScenario, cheapModel, AI_ROUNDS + i);
+          await guest.page.waitForTimeout(250);
+        }
       }
     }
-
-    const start = Date.now();
-    await page.goto(`${BASE_URL}/?view=my-events`, { waitUntil: "domcontentloaded" });
-    log("[schedule]", `/?view=my-events (${Date.now() - start}ms)`);
-
-    await logout(page);
+  } finally {
+    await Promise.all(personas.map((persona) => persona.context.close()));
   }
 }
-
-// ─── Phase 4: Route type comparison ─────────────────────────────────────────
-
-async function phase4(page: Page) {
-  console.log("\n── Phase 4: Cached vs Dynamic comparison ──\n");
-
-  console.log("  Cached (remote cache hit/miss):");
-  for (const path of ["/", "/speakers"]) {
-    for (let i = 0; i < 3; i++) {
-      const start = Date.now();
-      await page.goto(`${BASE_URL}${path}`, { waitUntil: "domcontentloaded" });
-      log("[cached]", `${path} (${Date.now() - start}ms)`);
-    }
-  }
-
-  console.log("\n  Dynamic (DB every request):");
-  for (const id of pick(TALK_IDS, 3)) {
-    const start = Date.now();
-    await page.goto(`${BASE_URL}/talks/${id}`, { waitUntil: "domcontentloaded" });
-    log("[dynamic]", `/talks/${id} (${Date.now() - start}ms)`);
-  }
-}
-
-// ─── Main ────────────────────────────────────────────────────────────────────
 
 async function main() {
-  console.log(`Generating traffic against ${BASE_URL}\n`);
+  console.log(`🚀 Generating traffic for ${BASE_URL}`);
+  console.log(`   AI traffic: ${RUN_AI_TRAFFIC ? `enabled (${AI_ROUNDS} rounds)` : "disabled"}`);
 
   const browser = await chromium.launch({ headless: true });
-  const context = await browser.newContext();
+  const context = await browser.newContext({ viewport: { width: 1440, height: 1000 } });
   const page = await context.newPage();
 
   try {
-    await page.goto(BASE_URL, { timeout: 10000 });
-  } catch {
-    console.error(`Cannot reach ${BASE_URL}. Is the server running?`);
+    if (!AI_ONLY) {
+      await phase1PageViews(page);
+      await phase2Accounts(page);
+      await phase3ScheduleSaves(page);
+      await phase4CacheTraffic(page);
+    }
+
+    if (RUN_AI_TRAFFIC) {
+      await phase5AiDashboardTraffic(browser);
+    }
+
+    console.log("\n✅ Traffic generation complete!");
+  } catch (error) {
+    console.error("\n❌ Traffic generation failed:", error);
+    process.exitCode = 1;
+  } finally {
+    await context.close();
     await browser.close();
-    process.exit(1);
   }
-
-  await phase1(page);
-  await phase2(page);
-  await phase3(page);
-  await phase4(page);
-
-  await browser.close();
-
-  console.log("\n✓ Done! Check Sentry for:");
-  console.log("  - Logs: account.signup, account.login, schedule.add, proxy.redirect, cache.miss");
-  console.log("  - Metrics: page.view (by path/browser/signed_in), cache.miss (by cache_key)");
-  console.log("  - Traces: compare cached vs dynamic page waterfalls");
 }
 
-main().catch((err) => {
-  console.error(err);
-  process.exit(1);
-});
+main();

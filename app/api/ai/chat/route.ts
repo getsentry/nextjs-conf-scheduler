@@ -120,6 +120,9 @@ export async function POST(req: Request) {
       Sentry.metrics.count("ai.chat.requests", 1, {
         attributes: { ...requestAttributes, outcome: "rate_limited" },
       });
+      Sentry.metrics.count("ai.rate_limited", 1, {
+        attributes: requestAttributes,
+      });
 
       Sentry.logger.info("AI chat request rate limited", {
         action: "ai.chat",
@@ -131,6 +134,7 @@ export async function POST(req: Request) {
         retry_after_seconds: quotaResult.retryAfterSeconds,
         duration_ms: Date.now() - startTime,
       });
+      await Sentry.flush(2000);
 
       return Response.json(
         {

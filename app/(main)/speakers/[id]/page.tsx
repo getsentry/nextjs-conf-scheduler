@@ -8,7 +8,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { getUser } from "@/lib/auth/dal";
 import { getClient } from "@/lib/db";
 import { getSpeakerById } from "@/lib/db/queries";
-import { GREG_PSTRUCHA_SPEAKER_ID, isSentryEmail } from "@/lib/sentry-demo";
+import { isDemoSlowSpeaker, isSentryEmail } from "@/lib/sentry-demo";
 import { formatTime, levelColors } from "@/lib/types";
 
 type Params = Promise<{ id: string }>;
@@ -24,7 +24,7 @@ export default function SpeakerDetailPage({ params }: { params: Params }) {
 async function SpeakerDetailContent({ params }: { params: Params }) {
   const [{ id }, user] = await Promise.all([params, getUser()]);
 
-  if (id === GREG_PSTRUCHA_SPEAKER_ID && isSentryEmail(user?.email)) {
+  if (isDemoSlowSpeaker(id) && isSentryEmail(user?.email)) {
     Sentry.logger.warn("Running demo slow speaker query", {
       action: "speaker.load",
       result: "demo_slow_query",

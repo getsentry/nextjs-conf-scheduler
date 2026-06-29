@@ -5,6 +5,7 @@ import { Suspense } from "react";
 import { ScheduleFilters } from "@/components/schedule-filters";
 import { ScheduleGrid } from "@/components/schedule-grid";
 import { verifySession } from "@/lib/auth/dal";
+import { conferenceConfig, conferenceDateLocationLabel } from "@/lib/conference-config";
 import { getAllTalks, getAllTracks, getUserScheduleTalkIds } from "@/lib/db/queries";
 import { formatDate, formatDayKey, type Talk } from "@/lib/types";
 
@@ -51,10 +52,8 @@ export default function SchedulePage({ searchParams }: { searchParams: SearchPar
   return (
     <>
       <div className="mb-8">
-        <h1 className="text-3xl font-bold tracking-tight mb-2">
-          AI Engineer World's Fair Schedule
-        </h1>
-        <p className="text-muted-foreground">June 29 – July 2, 2026 · San Francisco, CA</p>
+        <h1 className="text-3xl font-bold tracking-tight mb-2">{conferenceConfig.name} Schedule</h1>
+        <p className="text-muted-foreground">{conferenceDateLocationLabel()}</p>
       </div>
 
       <Suspense>

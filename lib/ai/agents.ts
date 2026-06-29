@@ -6,6 +6,7 @@ import {
   ToolLoopAgent,
   type ToolSet,
 } from "ai";
+import { conferenceConfig, conferenceVenueLabel } from "@/lib/conference-config";
 import { getModelConfig } from "./models";
 import { getGatewayProviderOptions, getLanguageModel } from "./providers";
 import {
@@ -41,8 +42,8 @@ type AgentContext = {
   selectedModelId?: string;
 };
 
-const scheduleAgentInstructions = `You are the AI Engineer World's Fair 2026 schedule assistant.
-The conference runs June 29 – July 2, 2026 at Moscone West in San Francisco.
+const defaultScheduleAgentInstructions = `You are the ${conferenceConfig.name} schedule assistant.
+The conference runs ${conferenceConfig.dates} at ${conferenceVenueLabel()}.
 
 Help users find sessions, understand tracks, compare options, and build a practical schedule.
 
@@ -61,6 +62,9 @@ Guidelines:
 - If recommending specific sessions, call checkConflicts with those session IDs.
 - If the user is not signed in and asks about saved sessions, tell them to sign in to save sessions.
 - Do not mention internal routes unless useful.`;
+
+const scheduleAgentInstructions =
+  process.env.CONFERENCE_ASSISTANT_CONTEXT ?? defaultScheduleAgentInstructions;
 
 function withPageContext(instructions: string, context: AgentContext) {
   if (!context.pageContext) {

@@ -1,0 +1,1864 @@
+{
+  "metadata": {
+    "id": "ai-devex-2026",
+    "name": "AI DevEx Conference 2026",
+    "timezone": "Asia/Tokyo",
+    "dates": "2026-07-22/2026-07-23",
+    "location": "Tokyo, Japan"
+  },
+  "source": "https://dev-productivity-con.findy-code.io/aidevex2026 (timetable + speakers)",
+  "tracks": [
+    {
+      "id": "aidevex-track-keynote",
+      "name": "Keynote",
+      "color": "#6C5FC7",
+      "description": "Keynote sessions at AI DevEx Conference 2026."
+    },
+    {
+      "id": "aidevex-track-special",
+      "name": "Special Session",
+      "color": "#F5A623",
+      "description": "Special sessions at AI DevEx Conference 2026."
+    },
+    {
+      "id": "aidevex-track-sponsor",
+      "name": "Sponsor Session",
+      "color": "#2D9CDB",
+      "description": "Sponsor sessions at AI DevEx Conference 2026."
+    },
+    {
+      "id": "aidevex-track-opening-closing",
+      "name": "Opening & Closing",
+      "color": "#2BAE66",
+      "description": "Opening and closing sessions at AI DevEx Conference 2026."
+    }
+  ],
+  "rooms": [
+    {
+      "id": "aidevex-room-a",
+      "name": "Room A",
+      "capacity": 0
+    },
+    {
+      "id": "aidevex-room-b",
+      "name": "Room B",
+      "capacity": 0
+    },
+    {
+      "id": "aidevex-room-c",
+      "name": "Room C",
+      "capacity": 0
+    },
+    {
+      "id": "aidevex-room-d",
+      "name": "Room D",
+      "capacity": 0
+    }
+  ],
+  "speakers": [
+    {
+      "id": "aidevex-spk-001",
+      "name": "山田 裕一朗",
+      "bio": "",
+      "avatar": "",
+      "company": "ファインディ株式会社",
+      "role": "代表取締役",
+      "twitter": null
+    },
+    {
+      "id": "aidevex-spk-002",
+      "name": "Dave Farley",
+      "bio": "",
+      "avatar": "",
+      "company": "Continuous Delivery Ltd",
+      "role": "Consulting Software Engineer",
+      "twitter": null
+    },
+    {
+      "id": "aidevex-spk-003",
+      "name": "松浦 隼人",
+      "bio": "",
+      "avatar": "",
+      "company": "オーティファイ株式会社",
+      "role": "シニアソリューションアーキテクト",
+      "twitter": null
+    },
+    {
+      "id": "aidevex-spk-004",
+      "name": "山川 大貴",
+      "bio": "",
+      "avatar": "",
+      "company": "GMO Flatt Security株式会社",
+      "role": "プロダクトセキュリティ事業部 イネーブルメントプラットフォーム部",
+      "twitter": null
+    },
+    {
+      "id": "aidevex-spk-005",
+      "name": "Matas Rastenis",
+      "bio": "",
+      "avatar": "",
+      "company": "Uber Technologies Inc.",
+      "role": "Developer Platform, Staff Software Engineer",
+      "twitter": null
+    },
+    {
+      "id": "aidevex-spk-006",
+      "name": "Sehr Moosabhoy",
+      "bio": "",
+      "avatar": "",
+      "company": "Sentry",
+      "role": "AI / Machine Learning - Software Engineer",
+      "twitter": null
+    },
+    {
+      "id": "aidevex-spk-007",
+      "name": "伊藤 由貴",
+      "bio": "",
+      "avatar": "",
+      "company": "株式会社MagicPod",
+      "role": "エバンジェリスト",
+      "twitter": null
+    },
+    {
+      "id": "aidevex-spk-008",
+      "name": "三井 力",
+      "bio": "",
+      "avatar": "",
+      "company": "株式会社NTTドコモ",
+      "role": "第一・第二プロダクトデザイン部 シニアプリンシパルアーキテクト",
+      "twitter": null
+    },
+    {
+      "id": "aidevex-spk-009",
+      "name": "Kiran Khatri",
+      "bio": "",
+      "avatar": "",
+      "company": "Citibank",
+      "role": "SVP, Global Engineering & AI Transformation",
+      "twitter": null
+    },
+    {
+      "id": "aidevex-spk-010",
+      "name": "石垣 雅人",
+      "bio": "",
+      "avatar": "",
+      "company": "合同会社DMM.com",
+      "role": "プラットフォーム開発本部 副本部長 / 第4開発部 部長 / VPoE室 アルファ室",
+      "twitter": null
+    },
+    {
+      "id": "aidevex-spk-011",
+      "name": "Eirini Kalliamvakou",
+      "bio": "",
+      "avatar": "",
+      "company": "GitHub, Inc",
+      "role": "Business Insights, Research Advisor",
+      "twitter": null
+    },
+    {
+      "id": "aidevex-spk-012",
+      "name": "Michael Galloway",
+      "bio": "",
+      "avatar": "",
+      "company": "Mercari",
+      "role": "Platform Engineering, VP",
+      "twitter": null
+    },
+    {
+      "id": "aidevex-spk-013",
+      "name": "稲葉 将一",
+      "bio": "",
+      "avatar": "",
+      "company": "ファインディ株式会社",
+      "role": "執行役員 CPO",
+      "twitter": null
+    },
+    {
+      "id": "aidevex-spk-014",
+      "name": "川崎 庸市",
+      "bio": "",
+      "avatar": "",
+      "company": "Postman株式会社",
+      "role": "テクノロジーエバンジェリスト",
+      "twitter": null
+    },
+    {
+      "id": "aidevex-spk-015",
+      "name": "波多野 謙介",
+      "bio": "",
+      "avatar": "",
+      "company": "株式会社コラボスタイル",
+      "role": "CIO",
+      "twitter": null
+    },
+    {
+      "id": "aidevex-spk-016",
+      "name": "鬼頭 昌孝",
+      "bio": "",
+      "avatar": "",
+      "company": "株式会社コラボスタイル",
+      "role": "開発部 Product Delivery Group グループマネージャー",
+      "twitter": null
+    },
+    {
+      "id": "aidevex-spk-017",
+      "name": "後藤 佳汰",
+      "bio": "",
+      "avatar": "",
+      "company": "株式会社コラボスタイル",
+      "role": "開発部 Product Delivery グループ インフラエンジニア",
+      "twitter": null
+    },
+    {
+      "id": "aidevex-spk-018",
+      "name": "Fuzzy Khosrowshahi",
+      "bio": "",
+      "avatar": "",
+      "company": "Notion Labs Inc.",
+      "role": "CTO",
+      "twitter": null
+    },
+    {
+      "id": "aidevex-spk-019",
+      "name": "片山 靖",
+      "bio": "",
+      "avatar": "",
+      "company": "株式会社SHIFT",
+      "role": "AIコンパイラインフラストラクチャアーキテクト",
+      "twitter": null
+    },
+    {
+      "id": "aidevex-spk-020",
+      "name": "石橋 佑輔",
+      "bio": "",
+      "avatar": "",
+      "company": "matsuri technologies株式会社",
+      "role": "執行役員CTO",
+      "twitter": null
+    },
+    {
+      "id": "aidevex-spk-021",
+      "name": "前島 治樹",
+      "bio": "",
+      "avatar": "",
+      "company": "matsuri technologies株式会社",
+      "role": "VPoE",
+      "twitter": null
+    },
+    {
+      "id": "aidevex-spk-022",
+      "name": "青木 聡",
+      "bio": "",
+      "avatar": "",
+      "company": "日本電気株式会社",
+      "role": "サイバーセキュリティ技術統括部 統括部長",
+      "twitter": null
+    },
+    {
+      "id": "aidevex-spk-023",
+      "name": "森本 勝哉",
+      "bio": "",
+      "avatar": "",
+      "company": "株式会社kickflow",
+      "role": "プロダクト開発本部 開発チーム エンジニアリングマネージャー",
+      "twitter": null
+    },
+    {
+      "id": "aidevex-spk-024",
+      "name": "河村 勇樹",
+      "bio": "",
+      "avatar": "",
+      "company": "Dress Code株式会社",
+      "role": "Product & Technology テックリード",
+      "twitter": null
+    },
+    {
+      "id": "aidevex-spk-025",
+      "name": "京和 崇行",
+      "bio": "",
+      "avatar": "",
+      "company": "株式会社カカクコム",
+      "role": "上級執行役員CTO AI・テクノロジー管掌",
+      "twitter": null
+    },
+    {
+      "id": "aidevex-spk-026",
+      "name": "伊藤 瑛",
+      "bio": "",
+      "avatar": "",
+      "company": "株式会社ディー・エヌ・エー",
+      "role": "IT本部エンジニアリング室開発デザイングループ グループマネージャー",
+      "twitter": null
+    },
+    {
+      "id": "aidevex-spk-027",
+      "name": "田中 清",
+      "bio": "",
+      "avatar": "",
+      "company": "Nstock株式会社",
+      "role": "CTO",
+      "twitter": null
+    },
+    {
+      "id": "aidevex-spk-028",
+      "name": "柿木 太志",
+      "bio": "",
+      "avatar": "",
+      "company": "Nstock株式会社",
+      "role": "セカンダリー事業 エンジニア",
+      "twitter": null
+    },
+    {
+      "id": "aidevex-spk-029",
+      "name": "藤田 貴幸",
+      "bio": "",
+      "avatar": "",
+      "company": "東京ガス株式会社",
+      "role": "DX推進部デジタル開発グループマネージャー",
+      "twitter": null
+    },
+    {
+      "id": "aidevex-spk-030",
+      "name": "徳 隆宏",
+      "bio": "",
+      "avatar": "",
+      "company": "三菱電機株式会社",
+      "role": "デジタルイノベーション本部 AXイノベーションセンター 改革推進部長",
+      "twitter": null
+    },
+    {
+      "id": "aidevex-spk-031",
+      "name": "塚田 真規",
+      "bio": "",
+      "avatar": "",
+      "company": "三菱電機株式会社",
+      "role": "デジタルイノベーション本部 AXイノベーションセンター テックリードエンジニア",
+      "twitter": null
+    },
+    {
+      "id": "aidevex-spk-032",
+      "name": "城戸 晶史",
+      "bio": "",
+      "avatar": "",
+      "company": "三菱電機株式会社",
+      "role": "ものづくり技術本部 設計技術開発センター アジャイルコーチ",
+      "twitter": null
+    },
+    {
+      "id": "aidevex-spk-033",
+      "name": "和田 颯馬",
+      "bio": "",
+      "avatar": "",
+      "company": "KINTOテクノロジーズ株式会社",
+      "role": "AIファーストG アシスタントマネージャー・生成AIエバンジェリスト",
+      "twitter": null
+    },
+    {
+      "id": "aidevex-spk-034",
+      "name": "西名 順平",
+      "bio": "",
+      "avatar": "",
+      "company": "キャディ株式会社",
+      "role": "執行役員 VP of Growth Enablement",
+      "twitter": null
+    },
+    {
+      "id": "aidevex-spk-035",
+      "name": "髙田 康宏",
+      "bio": "",
+      "avatar": "",
+      "company": "株式会社GxP",
+      "role": "シニアマネージャー DevEx革新チーム リーダー",
+      "twitter": null
+    },
+    {
+      "id": "aidevex-spk-036",
+      "name": "石黒 裕基",
+      "bio": "",
+      "avatar": "",
+      "company": "株式会社GxP",
+      "role": "執行役員 Growth Marketing & Sales室 室長",
+      "twitter": null
+    },
+    {
+      "id": "aidevex-spk-037",
+      "name": "西平 基志",
+      "bio": "",
+      "avatar": "",
+      "company": "株式会社TOKIUM",
+      "role": "取締役 CTO",
+      "twitter": null
+    },
+    {
+      "id": "aidevex-spk-038",
+      "name": "折島 晋司",
+      "bio": "",
+      "avatar": "",
+      "company": "三井住友カード株式会社",
+      "role": "マーケティング本部 データ・AIチャプター シニアマネージャー",
+      "twitter": null
+    },
+    {
+      "id": "aidevex-spk-039",
+      "name": "片岡 俊行",
+      "bio": "",
+      "avatar": "",
+      "company": "アクセンチュア株式会社",
+      "role": "ソング本部 マネジング・ディレクター／ゆめみ創業者",
+      "twitter": null
+    },
+    {
+      "id": "aidevex-spk-040",
+      "name": "Leon Xu",
+      "bio": "",
+      "avatar": "",
+      "company": "JAPAN AI株式会社",
+      "role": "Head of Product Engineering",
+      "twitter": null
+    },
+    {
+      "id": "aidevex-spk-041",
+      "name": "Hao Yan",
+      "bio": "",
+      "avatar": "",
+      "company": "JAPAN AI株式会社",
+      "role": "App Experience, Tech Lead",
+      "twitter": null
+    },
+    {
+      "id": "aidevex-spk-042",
+      "name": "志賀 遼太",
+      "bio": "",
+      "avatar": "",
+      "company": "GMO Flatt Security株式会社",
+      "role": "執行役員 Co-CTO",
+      "twitter": null
+    },
+    {
+      "id": "aidevex-spk-043",
+      "name": "岩瀬 義昌",
+      "bio": "",
+      "avatar": "",
+      "company": "fukabori.fm",
+      "role": "ホスト",
+      "twitter": null
+    },
+    {
+      "id": "aidevex-spk-044",
+      "name": "森川 知雄",
+      "bio": "",
+      "avatar": "",
+      "company": "株式会社SHIFT",
+      "role": "プロダクトマネージャー / エンジニアリングマネージャー",
+      "twitter": null
+    },
+    {
+      "id": "aidevex-spk-045",
+      "name": "Moritz Beller",
+      "bio": "",
+      "avatar": "",
+      "company": "Meta Platforms, Inc.",
+      "role": "Developer Infrastructure",
+      "twitter": null
+    },
+    {
+      "id": "aidevex-spk-046",
+      "name": "清水 隆之",
+      "bio": "",
+      "avatar": "",
+      "company": "オーティファイ株式会社",
+      "role": "Chief Strategy Officer",
+      "twitter": null
+    },
+    {
+      "id": "aidevex-spk-047",
+      "name": "千葉 知也",
+      "bio": "",
+      "avatar": "",
+      "company": "Qiita株式会社",
+      "role": "プロダクト開発部Qiita開発グループ リードエンジニア",
+      "twitter": null
+    },
+    {
+      "id": "aidevex-spk-048",
+      "name": "Prince Valluri",
+      "bio": "",
+      "avatar": "",
+      "company": "LinkedIn, Inc",
+      "role": "Principal Staff Software Engineer, Developer Productivity",
+      "twitter": null
+    },
+    {
+      "id": "aidevex-spk-049",
+      "name": "舟木 将彦",
+      "bio": "",
+      "avatar": "",
+      "company": "mabl株式会社",
+      "role": "セールスエンジニア",
+      "twitter": null
+    },
+    {
+      "id": "aidevex-spk-050",
+      "name": "和田 卓人",
+      "bio": "",
+      "avatar": "",
+      "company": "タワーズ・クエスト株式会社",
+      "role": "取締役社長",
+      "twitter": null
+    },
+    {
+      "id": "aidevex-spk-051",
+      "name": "半田 豊和",
+      "bio": "",
+      "avatar": "",
+      "company": "株式会社 ALGO ARTIS",
+      "role": "CPO/VPoE",
+      "twitter": null
+    },
+    {
+      "id": "aidevex-spk-052",
+      "name": "青木 歩",
+      "bio": "",
+      "avatar": "",
+      "company": "株式会社エーアイセキュリティラボ",
+      "role": "代表取締役社長",
+      "twitter": null
+    },
+    {
+      "id": "aidevex-spk-053",
+      "name": "塚 穣",
+      "bio": "",
+      "avatar": "",
+      "company": "さくらインターネット株式会社",
+      "role": "サービス統括本部 本部長",
+      "twitter": null
+    },
+    {
+      "id": "aidevex-spk-054",
+      "name": "市島 慎吾",
+      "bio": "",
+      "avatar": "",
+      "company": "株式会社カウシェ",
+      "role": "エンジニアリングマネージャー",
+      "twitter": null
+    },
+    {
+      "id": "aidevex-spk-055",
+      "name": "高丘 知央",
+      "bio": "",
+      "avatar": "",
+      "company": "株式会社ジェイテックジャパン",
+      "role": "CTO",
+      "twitter": null
+    },
+    {
+      "id": "aidevex-spk-056",
+      "name": "山本 教仁",
+      "bio": "",
+      "avatar": "",
+      "company": "デジタル庁",
+      "role": "Chief Cloud Officer",
+      "twitter": null
+    },
+    {
+      "id": "aidevex-spk-057",
+      "name": "西薗 美衣",
+      "bio": "",
+      "avatar": "",
+      "company": "デジタル庁",
+      "role": "クラウドアーキテクト（ガバメントクラウドファシリテーター）",
+      "twitter": null
+    },
+    {
+      "id": "aidevex-spk-058",
+      "name": "古賀 みゆき",
+      "bio": "",
+      "avatar": "",
+      "company": "株式会社デジタルガレージ",
+      "role": "DG Technology本部 アプリペイ開発部",
+      "twitter": null
+    },
+    {
+      "id": "aidevex-spk-059",
+      "name": "宇谷 有史",
+      "bio": "",
+      "avatar": "",
+      "company": "株式会社カオナビ",
+      "role": "プロダクトデベロップメント本部 TalentHRグロース部 テックリード",
+      "twitter": null
+    },
+    {
+      "id": "aidevex-spk-060",
+      "name": "前田 貴史",
+      "bio": "",
+      "avatar": "",
+      "company": "シンプレクス株式会社",
+      "role": "クロス・フロンティアディビジョン プリンシパル",
+      "twitter": null
+    },
+    {
+      "id": "aidevex-spk-061",
+      "name": "広木 大地",
+      "bio": "",
+      "avatar": "",
+      "company": "株式会社レクター",
+      "role": "代表取締役",
+      "twitter": null
+    },
+    {
+      "id": "aidevex-spk-062",
+      "name": "髙橋 三徳",
+      "bio": "",
+      "avatar": "",
+      "company": "テイラー株式会社",
+      "role": "取締役 / CTO",
+      "twitter": null
+    },
+    {
+      "id": "aidevex-spk-063",
+      "name": "戸井田 裕貴",
+      "bio": "",
+      "avatar": "",
+      "company": "株式会社Hacobu",
+      "role": "執行役員CTO",
+      "twitter": null
+    },
+    {
+      "id": "aidevex-spk-064",
+      "name": "戸田 千隼",
+      "bio": "",
+      "avatar": "",
+      "company": "ファインディ株式会社",
+      "role": "CTO室 AI推進 プリンシパルエンジニア",
+      "twitter": null
+    },
+    {
+      "id": "aidevex-spk-065",
+      "name": "伊藤 博志",
+      "bio": "",
+      "avatar": "",
+      "company": "株式会社ログラス",
+      "role": "執行役員CTO",
+      "twitter": null
+    },
+    {
+      "id": "aidevex-spk-066",
+      "name": "鈴木 翔大",
+      "bio": "",
+      "avatar": "",
+      "company": "MOSH株式会社",
+      "role": "VPoT",
+      "twitter": null
+    },
+    {
+      "id": "aidevex-spk-067",
+      "name": "西島 寛",
+      "bio": "",
+      "avatar": "",
+      "company": "株式会社朝日新聞社",
+      "role": "デジタル事業本部商品開発部 部長代理",
+      "twitter": null
+    },
+    {
+      "id": "aidevex-spk-068",
+      "name": "石田 隼基",
+      "bio": "",
+      "avatar": "",
+      "company": "株式会社朝日新聞社",
+      "role": "デジタル事業本部商品開発部 次長",
+      "twitter": null
+    },
+    {
+      "id": "aidevex-spk-069",
+      "name": "izumin",
+      "bio": "",
+      "avatar": "",
+      "company": "株式会社LayerX",
+      "role": "バクラク事業部 スタッフソフトウェアエンジニア",
+      "twitter": null
+    },
+    {
+      "id": "aidevex-spk-070",
+      "name": "itkq",
+      "bio": "",
+      "avatar": "",
+      "company": "株式会社LayerX",
+      "role": "バクラク事業部 PlatformEngineering部 SREグループ TechLead",
+      "twitter": null
+    },
+    {
+      "id": "aidevex-spk-071",
+      "name": "石渡 弘将",
+      "bio": "",
+      "avatar": "",
+      "company": "株式会社スマレジ",
+      "role": "開発本部 プロダクト推進チーム 主任",
+      "twitter": null
+    },
+    {
+      "id": "aidevex-spk-072",
+      "name": "宮地 大成",
+      "bio": "",
+      "avatar": "",
+      "company": "株式会社スマレジ",
+      "role": "開発本部 AI開発基盤チーム 主任",
+      "twitter": null
+    },
+    {
+      "id": "aidevex-spk-073",
+      "name": "三谷 辰秋",
+      "bio": "",
+      "avatar": "",
+      "company": "AI inside 株式会社",
+      "role": "Vice President of Engineering",
+      "twitter": null
+    },
+    {
+      "id": "aidevex-spk-074",
+      "name": "清川 拓己",
+      "bio": "",
+      "avatar": "",
+      "company": "AI inside 株式会社",
+      "role": "Product Strategy & Development本部 プリンシパルクラウドアーキテクト",
+      "twitter": null
+    }
+  ],
+  "talks": [
+    {
+      "id": "aidevex-d1-a-0930",
+      "title": "Opening Session",
+      "description": "",
+      "speakerId": "aidevex-spk-001",
+      "trackId": "aidevex-track-opening-closing",
+      "roomId": "aidevex-room-a",
+      "startTime": 1784680200,
+      "endTime": 1784681100,
+      "level": "intermediate",
+      "format": "plenary",
+      "status": "confirmed"
+    },
+    {
+      "id": "aidevex-d1-a-0945",
+      "title": "AIと共存する世界のソフトウェアエンジニアリング─不変の本質とプログラミングの未来",
+      "description": "AIをどう捉えるにせよ、ソフトウェア開発が大きな変革の只中にあることは間違いありません。推論し自律的に行動するエージェント型AIの台頭は、コードを書けるLLMが登場した時以上の衝撃を業界にもたらしています。では、人間とAIアシスタントが共により良いソフトウェアをより速く作るために必要なスキルや実践とは何でしょうか。私たちの仕事への向き合い方はどう変わるのでしょうか。まだ誰にも確かな答えはわかりません。ただ、成功への道筋を示す兆しは、すでに見え始めています。",
+      "speakerId": "aidevex-spk-002",
+      "trackId": "aidevex-track-keynote",
+      "roomId": "aidevex-room-a",
+      "startTime": 1784681100,
+      "endTime": 1784683800,
+      "level": "intermediate",
+      "format": "keynote",
+      "status": "confirmed"
+    },
+    {
+      "id": "aidevex-d1-a-1050",
+      "title": "AIが作ったものを、AIが検証できるか。フルAI駆動開発サイクルの現在地",
+      "description": "",
+      "speakerId": "aidevex-spk-003",
+      "trackId": "aidevex-track-sponsor",
+      "roomId": "aidevex-room-a",
+      "startTime": 1784685000,
+      "endTime": 1784687400,
+      "level": "intermediate",
+      "format": "sponsor",
+      "status": "confirmed"
+    },
+    {
+      "id": "aidevex-d1-a-1150",
+      "title": "インシデント事例とパッケージの全量解析に学ぶソフトウェアサプライチェーンの守り方",
+      "description": "",
+      "speakerId": "aidevex-spk-004",
+      "trackId": "aidevex-track-sponsor",
+      "roomId": "aidevex-room-a",
+      "startTime": 1784688600,
+      "endTime": 1784691000,
+      "level": "intermediate",
+      "format": "sponsor",
+      "status": "confirmed"
+    },
+    {
+      "id": "aidevex-d1-a-1315",
+      "title": "UberのAI時代の開発生産性：エージェントによる効率最大化とワークフローの進化",
+      "description": "",
+      "speakerId": "aidevex-spk-005",
+      "trackId": "aidevex-track-special",
+      "roomId": "aidevex-room-a",
+      "startTime": 1784693700,
+      "endTime": 1784696100,
+      "level": "intermediate",
+      "format": "talk",
+      "status": "confirmed"
+    },
+    {
+      "id": "aidevex-d1-a-1415",
+      "title": "AI時代のオブザーバビリティ — レジリエンス戦略はなぜ逆効果になり得るのか",
+      "description": "",
+      "speakerId": "aidevex-spk-006",
+      "trackId": "aidevex-track-sponsor",
+      "roomId": "aidevex-room-a",
+      "startTime": 1784697300,
+      "endTime": 1784699700,
+      "level": "intermediate",
+      "format": "sponsor",
+      "status": "confirmed"
+    },
+    {
+      "id": "aidevex-d1-a-1515",
+      "title": "品質と開発生産性の相互作用-NTTドコモBizDevOpsの現場から",
+      "description": "",
+      "speakerId": "aidevex-spk-007",
+      "trackId": "aidevex-track-sponsor",
+      "roomId": "aidevex-room-a",
+      "startTime": 1784700900,
+      "endTime": 1784702700,
+      "level": "intermediate",
+      "format": "sponsor",
+      "status": "confirmed"
+    },
+    {
+      "id": "aidevex-d1-a-1605",
+      "title": "人間×AIの力を最大化させる — グローバルなエンジニアリングの卓越性を実現する設計",
+      "description": "",
+      "speakerId": "aidevex-spk-009",
+      "trackId": "aidevex-track-special",
+      "roomId": "aidevex-room-a",
+      "startTime": 1784703900,
+      "endTime": 1784706300,
+      "level": "intermediate",
+      "format": "talk",
+      "status": "confirmed"
+    },
+    {
+      "id": "aidevex-d1-a-1705",
+      "title": "AI x 開発生産性を取り巻く予算戦略と投資対効果",
+      "description": "",
+      "speakerId": "aidevex-spk-010",
+      "trackId": "aidevex-track-sponsor",
+      "roomId": "aidevex-room-a",
+      "startTime": 1784707500,
+      "endTime": 1784709300,
+      "level": "intermediate",
+      "format": "sponsor",
+      "status": "confirmed"
+    },
+    {
+      "id": "aidevex-d1-a-1755",
+      "title": "ビジネス成果を出すためのDevEx戦略：サーベイの外側にある摩擦の正体",
+      "description": "",
+      "speakerId": "aidevex-spk-011",
+      "trackId": "aidevex-track-keynote",
+      "roomId": "aidevex-room-a",
+      "startTime": 1784710500,
+      "endTime": 1784713200,
+      "level": "intermediate",
+      "format": "keynote",
+      "status": "confirmed"
+    },
+    {
+      "id": "aidevex-d1-b-1050",
+      "title": "なぜ、あなたのAPIは使われないのか？〜AX時代のAPI設計原則、ガードレール、運用体制〜",
+      "description": "",
+      "speakerId": "aidevex-spk-014",
+      "trackId": "aidevex-track-sponsor",
+      "roomId": "aidevex-room-b",
+      "startTime": 1784685000,
+      "endTime": 1784687400,
+      "level": "intermediate",
+      "format": "sponsor",
+      "status": "confirmed"
+    },
+    {
+      "id": "aidevex-d1-b-1150",
+      "title": "PostgreSQLからTiDBへ。分散型DB移行の意思決定と実践",
+      "description": "",
+      "speakerId": "aidevex-spk-015",
+      "trackId": "aidevex-track-sponsor",
+      "roomId": "aidevex-room-b",
+      "startTime": 1784688600,
+      "endTime": 1784691000,
+      "level": "intermediate",
+      "format": "sponsor",
+      "status": "confirmed"
+    },
+    {
+      "id": "aidevex-d1-b-1315",
+      "title": "AI時代のプロダクト開発を導く、Notionの哲学とリーダーシップ（仮）",
+      "description": "",
+      "speakerId": "aidevex-spk-018",
+      "trackId": "aidevex-track-special",
+      "roomId": "aidevex-room-b",
+      "startTime": 1784693700,
+      "endTime": 1784696100,
+      "level": "intermediate",
+      "format": "talk",
+      "status": "confirmed"
+    },
+    {
+      "id": "aidevex-d1-b-1415",
+      "title": "AIとハーネスで育てるトランスコンパイラ",
+      "description": "",
+      "speakerId": "aidevex-spk-019",
+      "trackId": "aidevex-track-sponsor",
+      "roomId": "aidevex-room-b",
+      "startTime": 1784697300,
+      "endTime": 1784699700,
+      "level": "intermediate",
+      "format": "sponsor",
+      "status": "confirmed"
+    },
+    {
+      "id": "aidevex-d1-b-1515",
+      "title": "AI前提における組織の進化：生産性を最大化する設計指針",
+      "description": "",
+      "speakerId": "aidevex-spk-020",
+      "trackId": "aidevex-track-sponsor",
+      "roomId": "aidevex-room-b",
+      "startTime": 1784700900,
+      "endTime": 1784702700,
+      "level": "intermediate",
+      "format": "sponsor",
+      "status": "confirmed"
+    },
+    {
+      "id": "aidevex-d1-b-1605",
+      "title": "企画設計から考えるセキュリティ・バイ・デザインの対応 ― AI時代の新たな脅威とは",
+      "description": "",
+      "speakerId": "aidevex-spk-022",
+      "trackId": "aidevex-track-special",
+      "roomId": "aidevex-room-b",
+      "startTime": 1784703900,
+      "endTime": 1784706300,
+      "level": "intermediate",
+      "format": "talk",
+      "status": "confirmed"
+    },
+    {
+      "id": "aidevex-d1-b-1705",
+      "title": "開発チームから「作業」を減らす仕組みのつくり方",
+      "description": "",
+      "speakerId": "aidevex-spk-023",
+      "trackId": "aidevex-track-sponsor",
+      "roomId": "aidevex-room-b",
+      "startTime": 1784707500,
+      "endTime": 1784709300,
+      "level": "intermediate",
+      "format": "sponsor",
+      "status": "confirmed"
+    },
+    {
+      "id": "aidevex-d1-c-1050",
+      "title": "変更し続けられるシステムをどう保つか — AI時代のSSoTという設計原則",
+      "description": "",
+      "speakerId": "aidevex-spk-024",
+      "trackId": "aidevex-track-sponsor",
+      "roomId": "aidevex-room-c",
+      "startTime": 1784685000,
+      "endTime": 1784687400,
+      "level": "intermediate",
+      "format": "sponsor",
+      "status": "confirmed"
+    },
+    {
+      "id": "aidevex-d1-c-1150",
+      "title": "開発生産性を「価値創出サイクル」で捉える — AI時代の経営と開発の接続(仮)",
+      "description": "",
+      "speakerId": "aidevex-spk-025",
+      "trackId": "aidevex-track-sponsor",
+      "roomId": "aidevex-room-c",
+      "startTime": 1784688600,
+      "endTime": 1784691000,
+      "level": "intermediate",
+      "format": "sponsor",
+      "status": "confirmed"
+    },
+    {
+      "id": "aidevex-d1-c-1315",
+      "title": "ソフトウェア品質と生産性で見るDeNAのAI導入とその効果",
+      "description": "",
+      "speakerId": "aidevex-spk-026",
+      "trackId": "aidevex-track-special",
+      "roomId": "aidevex-room-c",
+      "startTime": 1784693700,
+      "endTime": 1784696100,
+      "level": "intermediate",
+      "format": "talk",
+      "status": "confirmed"
+    },
+    {
+      "id": "aidevex-d1-c-1415",
+      "title": "設計レビューとAIハーネスで向き合う、AIが生み出した新しいボトルネックの対処法",
+      "description": "",
+      "speakerId": "aidevex-spk-027",
+      "trackId": "aidevex-track-sponsor",
+      "roomId": "aidevex-room-c",
+      "startTime": 1784697300,
+      "endTime": 1784699700,
+      "level": "intermediate",
+      "format": "sponsor",
+      "status": "confirmed"
+    },
+    {
+      "id": "aidevex-d1-c-1515",
+      "title": "AIで「速く作れる」も「よく見える」も当たり前になった。次に変わるのは、管理職だ",
+      "description": "",
+      "speakerId": "aidevex-spk-029",
+      "trackId": "aidevex-track-sponsor",
+      "roomId": "aidevex-room-c",
+      "startTime": 1784700900,
+      "endTime": 1784702700,
+      "level": "intermediate",
+      "format": "sponsor",
+      "status": "confirmed"
+    },
+    {
+      "id": "aidevex-d1-c-1605",
+      "title": "AI Agent Platform：マルチエージェントの展開・開発・品質",
+      "description": "",
+      "speakerId": "aidevex-spk-030",
+      "trackId": "aidevex-track-special",
+      "roomId": "aidevex-room-c",
+      "startTime": 1784703900,
+      "endTime": 1784706300,
+      "level": "intermediate",
+      "format": "talk",
+      "status": "confirmed"
+    },
+    {
+      "id": "aidevex-d1-c-1705",
+      "title": "人とエージェントが高め合う協業設計 ─ AI-Native Dev時代の現場から",
+      "description": "",
+      "speakerId": "aidevex-spk-033",
+      "trackId": "aidevex-track-sponsor",
+      "roomId": "aidevex-room-c",
+      "startTime": 1784707500,
+      "endTime": 1784709300,
+      "level": "intermediate",
+      "format": "sponsor",
+      "status": "confirmed"
+    },
+    {
+      "id": "aidevex-d1-d-1050",
+      "title": "AI Nativeなプロダクト組織の立ち上げ方：生産性100倍への挑戦",
+      "description": "",
+      "speakerId": "aidevex-spk-034",
+      "trackId": "aidevex-track-sponsor",
+      "roomId": "aidevex-room-d",
+      "startTime": 1784685000,
+      "endTime": 1784687400,
+      "level": "intermediate",
+      "format": "sponsor",
+      "status": "confirmed"
+    },
+    {
+      "id": "aidevex-d1-d-1150",
+      "title": "レガシーシステムにおけるAI活用と開発生産性向上 — モダンな業務アプリ開発を支えるRetool",
+      "description": "",
+      "speakerId": "aidevex-spk-035",
+      "trackId": "aidevex-track-sponsor",
+      "roomId": "aidevex-room-d",
+      "startTime": 1784688600,
+      "endTime": 1784691000,
+      "level": "intermediate",
+      "format": "sponsor",
+      "status": "confirmed"
+    },
+    {
+      "id": "aidevex-d1-d-1415",
+      "title": "AIが当たり前の組織でエンジニアはどう育つか〜越境人材を育てる挑戦とジレンマ〜",
+      "description": "",
+      "speakerId": "aidevex-spk-037",
+      "trackId": "aidevex-track-sponsor",
+      "roomId": "aidevex-room-d",
+      "startTime": 1784697300,
+      "endTime": 1784699700,
+      "level": "intermediate",
+      "format": "sponsor",
+      "status": "confirmed"
+    },
+    {
+      "id": "aidevex-d1-d-1515",
+      "title": "ゼロから始めるボトムアップ内製化実践ガイド 強い開発組織を作る環境と文化の醸成",
+      "description": "",
+      "speakerId": "aidevex-spk-038",
+      "trackId": "aidevex-track-sponsor",
+      "roomId": "aidevex-room-d",
+      "startTime": 1784700900,
+      "endTime": 1784702700,
+      "level": "intermediate",
+      "format": "sponsor",
+      "status": "confirmed"
+    },
+    {
+      "id": "aidevex-d1-d-1605",
+      "title": "AIに仕事を奪われる前に奪え ― FDEという最前線エンジニア職能の台頭",
+      "description": "",
+      "speakerId": "aidevex-spk-039",
+      "trackId": "aidevex-track-special",
+      "roomId": "aidevex-room-d",
+      "startTime": 1784703900,
+      "endTime": 1784706300,
+      "level": "intermediate",
+      "format": "talk",
+      "status": "confirmed"
+    },
+    {
+      "id": "aidevex-d1-d-1705",
+      "title": "若手中心の開発組織は、AI時代にどう挑むか",
+      "description": "",
+      "speakerId": "aidevex-spk-040",
+      "trackId": "aidevex-track-sponsor",
+      "roomId": "aidevex-room-d",
+      "startTime": 1784707500,
+      "endTime": 1784709300,
+      "level": "intermediate",
+      "format": "sponsor",
+      "status": "confirmed"
+    },
+    {
+      "id": "aidevex-d2-a-0930",
+      "title": "なぜ、AIが進化しても期待される生産性を上げることができないのか",
+      "description": "ソフトウェア開発におけるAIは、過度な期待と慎重な見解が交錯しています。一部では劇的な成果を上げている一方で、組織全体では変化が見えづらく、この熱狂に懐疑的な見方もあります。問題は、AIの能力向上がそのまま組織パフォーマンスに転換されると捉えてしまう点です。本講演ではGitHubの調査・業界のエビデンスをもとに、誤解を招く構造的な複雑さを明らかにし、個人の成果が組織に直結しない理由、従来指標の限界、組織拡大による新たなボトルネックなど、変化に備えるための正しいアプローチを解説します。",
+      "speakerId": "aidevex-spk-011",
+      "trackId": "aidevex-track-keynote",
+      "roomId": "aidevex-room-a",
+      "startTime": 1784766600,
+      "endTime": 1784769300,
+      "level": "intermediate",
+      "format": "keynote",
+      "status": "confirmed"
+    },
+    {
+      "id": "aidevex-d2-a-1035",
+      "title": "コードを読まない時代の死角: 検出から検証へ、脆弱性診断AIエージェントの現在地",
+      "description": "",
+      "speakerId": "aidevex-spk-042",
+      "trackId": "aidevex-track-sponsor",
+      "roomId": "aidevex-room-a",
+      "startTime": 1784770500,
+      "endTime": 1784772900,
+      "level": "intermediate",
+      "format": "sponsor",
+      "status": "confirmed"
+    },
+    {
+      "id": "aidevex-d2-a-1135",
+      "title": "fukabori.fm出張版：AI駆動開発でテストエンジニアは不要になるのか",
+      "description": "",
+      "speakerId": "aidevex-spk-043",
+      "trackId": "aidevex-track-sponsor",
+      "roomId": "aidevex-room-a",
+      "startTime": 1784774100,
+      "endTime": 1784776500,
+      "level": "intermediate",
+      "format": "sponsor",
+      "status": "confirmed"
+    },
+    {
+      "id": "aidevex-d2-a-1300",
+      "title": "MetaにおけるAI時代の開発生産性",
+      "description": "",
+      "speakerId": "aidevex-spk-045",
+      "trackId": "aidevex-track-special",
+      "roomId": "aidevex-room-a",
+      "startTime": 1784779200,
+      "endTime": 1784781600,
+      "level": "intermediate",
+      "format": "talk",
+      "status": "confirmed"
+    },
+    {
+      "id": "aidevex-d2-a-1400",
+      "title": "ソフトウェアテストは頼むだけで完了にする。自律型 AI Coworkerという挑戦",
+      "description": "",
+      "speakerId": "aidevex-spk-046",
+      "trackId": "aidevex-track-sponsor",
+      "roomId": "aidevex-room-a",
+      "startTime": 1784782800,
+      "endTime": 1784785200,
+      "level": "intermediate",
+      "format": "sponsor",
+      "status": "confirmed"
+    },
+    {
+      "id": "aidevex-d2-a-1500",
+      "title": "個の加速をチームの力へ。AI時代へのやさしいイネーブルメント",
+      "description": "",
+      "speakerId": "aidevex-spk-047",
+      "trackId": "aidevex-track-sponsor",
+      "roomId": "aidevex-room-a",
+      "startTime": 1784786400,
+      "endTime": 1784788200,
+      "level": "intermediate",
+      "format": "sponsor",
+      "status": "confirmed"
+    },
+    {
+      "id": "aidevex-d2-a-1550",
+      "title": "AIエージェントが変える開発組織 — LinkedInの実践と挑戦",
+      "description": "",
+      "speakerId": "aidevex-spk-048",
+      "trackId": "aidevex-track-special",
+      "roomId": "aidevex-room-a",
+      "startTime": 1784789400,
+      "endTime": 1784791800,
+      "level": "intermediate",
+      "format": "talk",
+      "status": "confirmed"
+    },
+    {
+      "id": "aidevex-d2-a-1650",
+      "title": "自動化したのに回らないテスト運用の壁―AI時代の品質責任と生産性",
+      "description": "",
+      "speakerId": "aidevex-spk-049",
+      "trackId": "aidevex-track-sponsor",
+      "roomId": "aidevex-room-a",
+      "startTime": 1784793000,
+      "endTime": 1784794800,
+      "level": "intermediate",
+      "format": "sponsor",
+      "status": "confirmed"
+    },
+    {
+      "id": "aidevex-d2-a-1740",
+      "title": "2026年のソフトウェアエンジニアリングを考える",
+      "description": "",
+      "speakerId": "aidevex-spk-050",
+      "trackId": "aidevex-track-keynote",
+      "roomId": "aidevex-room-a",
+      "startTime": 1784796000,
+      "endTime": 1784799000,
+      "level": "intermediate",
+      "format": "keynote",
+      "status": "confirmed"
+    },
+    {
+      "id": "aidevex-d2-b-1035",
+      "title": "Decision Productivity — 開発生産性の上流を構造化する",
+      "description": "",
+      "speakerId": "aidevex-spk-051",
+      "trackId": "aidevex-track-sponsor",
+      "roomId": "aidevex-room-b",
+      "startTime": 1784770500,
+      "endTime": 1784772900,
+      "level": "intermediate",
+      "format": "sponsor",
+      "status": "confirmed"
+    },
+    {
+      "id": "aidevex-d2-b-1135",
+      "title": "開発生産性の壁を打破する仕組み化の正体 -組織戦略で紐解くAI時代のシフトレフト",
+      "description": "",
+      "speakerId": "aidevex-spk-052",
+      "trackId": "aidevex-track-sponsor",
+      "roomId": "aidevex-room-b",
+      "startTime": 1784774100,
+      "endTime": 1784776500,
+      "level": "intermediate",
+      "format": "sponsor",
+      "status": "confirmed"
+    },
+    {
+      "id": "aidevex-d2-b-1300",
+      "title": "なぜ優秀なチームであっても意思決定で詰まるのか ― スケールする組織が再現性を失わないための3つの構造",
+      "description": "",
+      "speakerId": "aidevex-spk-053",
+      "trackId": "aidevex-track-special",
+      "roomId": "aidevex-room-b",
+      "startTime": 1784779200,
+      "endTime": 1784781600,
+      "level": "intermediate",
+      "format": "talk",
+      "status": "confirmed"
+    },
+    {
+      "id": "aidevex-d2-b-1400",
+      "title": "全PRの83%がAIレビューでマージするようになった開発組織は、その後どうなったか",
+      "description": "",
+      "speakerId": "aidevex-spk-054",
+      "trackId": "aidevex-track-sponsor",
+      "roomId": "aidevex-room-b",
+      "startTime": 1784782800,
+      "endTime": 1784785200,
+      "level": "intermediate",
+      "format": "sponsor",
+      "status": "confirmed"
+    },
+    {
+      "id": "aidevex-d2-b-1500",
+      "title": "AI時代に設計が最大の生産性レバーになる-意図駆動開発とデータを消さない設計",
+      "description": "",
+      "speakerId": "aidevex-spk-055",
+      "trackId": "aidevex-track-sponsor",
+      "roomId": "aidevex-room-b",
+      "startTime": 1784786400,
+      "endTime": 1784788200,
+      "level": "intermediate",
+      "format": "sponsor",
+      "status": "confirmed"
+    },
+    {
+      "id": "aidevex-d2-b-1550",
+      "title": "デジタル庁ガバメントクラウドにおけるAI時代の開発組織デザインとアジャイル実践",
+      "description": "",
+      "speakerId": "aidevex-spk-056",
+      "trackId": "aidevex-track-special",
+      "roomId": "aidevex-room-b",
+      "startTime": 1784789400,
+      "endTime": 1784791800,
+      "level": "intermediate",
+      "format": "talk",
+      "status": "confirmed"
+    },
+    {
+      "id": "aidevex-d2-b-1650",
+      "title": "AI-DLC実践録 ─ 役割の境界を越えるフルサイクル開発への挑戦",
+      "description": "",
+      "speakerId": "aidevex-spk-058",
+      "trackId": "aidevex-track-sponsor",
+      "roomId": "aidevex-room-b",
+      "startTime": 1784793000,
+      "endTime": 1784794800,
+      "level": "intermediate",
+      "format": "sponsor",
+      "status": "confirmed"
+    },
+    {
+      "id": "aidevex-d2-c-1035",
+      "title": "AIツール導入しても生産性はあがらない？ カオナビが直面した3つの壁と乗り越え方",
+      "description": "",
+      "speakerId": "aidevex-spk-059",
+      "trackId": "aidevex-track-sponsor",
+      "roomId": "aidevex-room-c",
+      "startTime": 1784770500,
+      "endTime": 1784772900,
+      "level": "intermediate",
+      "format": "sponsor",
+      "status": "confirmed"
+    },
+    {
+      "id": "aidevex-d2-c-1135",
+      "title": "自律的なチームづくりの探究：複数ドメインへのスケール、挑戦と失敗の軌跡",
+      "description": "",
+      "speakerId": "aidevex-spk-060",
+      "trackId": "aidevex-track-sponsor",
+      "roomId": "aidevex-room-c",
+      "startTime": 1784774100,
+      "endTime": 1784776500,
+      "level": "intermediate",
+      "format": "sponsor",
+      "status": "confirmed"
+    },
+    {
+      "id": "aidevex-d2-c-1300",
+      "title": "AIエージェントと協働する知識創造の一年間",
+      "description": "",
+      "speakerId": "aidevex-spk-061",
+      "trackId": "aidevex-track-special",
+      "roomId": "aidevex-room-c",
+      "startTime": 1784779200,
+      "endTime": 1784781600,
+      "level": "intermediate",
+      "format": "talk",
+      "status": "confirmed"
+    },
+    {
+      "id": "aidevex-d2-c-1400",
+      "title": "Platform Engineer×FDEで変える、AIネイティブ時代の開発組織設計",
+      "description": "",
+      "speakerId": "aidevex-spk-062",
+      "trackId": "aidevex-track-sponsor",
+      "roomId": "aidevex-room-c",
+      "startTime": 1784782800,
+      "endTime": 1784785200,
+      "level": "intermediate",
+      "format": "sponsor",
+      "status": "confirmed"
+    },
+    {
+      "id": "aidevex-d2-c-1500",
+      "title": "AI時代におけるエンジニアの新たな役割──FDEとクオリアの探求",
+      "description": "",
+      "speakerId": "aidevex-spk-063",
+      "trackId": "aidevex-track-sponsor",
+      "roomId": "aidevex-room-c",
+      "startTime": 1784786400,
+      "endTime": 1784788200,
+      "level": "intermediate",
+      "format": "sponsor",
+      "status": "confirmed"
+    },
+    {
+      "id": "aidevex-d2-c-1550",
+      "title": "生成AI導入の「期待外れ」を乗り越える ー 開発フロー改革が目指す、真の組織変革",
+      "description": "",
+      "speakerId": "aidevex-spk-064",
+      "trackId": "aidevex-track-special",
+      "roomId": "aidevex-room-c",
+      "startTime": 1784789400,
+      "endTime": 1784791800,
+      "level": "intermediate",
+      "format": "talk",
+      "status": "confirmed"
+    },
+    {
+      "id": "aidevex-d2-c-1650",
+      "title": "『動くだけ』のその先へ — AI駆動開発で品質と速度を両取りする温故知新な新手法",
+      "description": "",
+      "speakerId": "aidevex-spk-065",
+      "trackId": "aidevex-track-sponsor",
+      "roomId": "aidevex-room-c",
+      "startTime": 1784793000,
+      "endTime": 1784795400,
+      "level": "intermediate",
+      "format": "sponsor",
+      "status": "confirmed"
+    },
+    {
+      "id": "aidevex-d2-d-1035",
+      "title": "AI時代における開発生産性と進化可能性を高める技術戦略",
+      "description": "",
+      "speakerId": "aidevex-spk-066",
+      "trackId": "aidevex-track-sponsor",
+      "roomId": "aidevex-room-d",
+      "startTime": 1784770500,
+      "endTime": 1784772900,
+      "level": "intermediate",
+      "format": "sponsor",
+      "status": "confirmed"
+    },
+    {
+      "id": "aidevex-d2-d-1135",
+      "title": "伝統的新聞社はAIエージェントで再定義できるのか。",
+      "description": "",
+      "speakerId": "aidevex-spk-061",
+      "trackId": "aidevex-track-sponsor",
+      "roomId": "aidevex-room-d",
+      "startTime": 1784774100,
+      "endTime": 1784776500,
+      "level": "intermediate",
+      "format": "sponsor",
+      "status": "confirmed"
+    },
+    {
+      "id": "aidevex-d2-d-1400",
+      "title": "Built Our Own Background Agent at LayerX",
+      "description": "",
+      "speakerId": "aidevex-spk-069",
+      "trackId": "aidevex-track-sponsor",
+      "roomId": "aidevex-room-d",
+      "startTime": 1784782800,
+      "endTime": 1784785200,
+      "level": "intermediate",
+      "format": "sponsor",
+      "status": "confirmed"
+    },
+    {
+      "id": "aidevex-d2-d-1500",
+      "title": "AI活用を個人技で終わらせないために〜スマレジが取り組む、組織への浸透と現場への適用〜",
+      "description": "",
+      "speakerId": "aidevex-spk-071",
+      "trackId": "aidevex-track-sponsor",
+      "roomId": "aidevex-room-d",
+      "startTime": 1784786400,
+      "endTime": 1784788200,
+      "level": "intermediate",
+      "format": "sponsor",
+      "status": "confirmed"
+    },
+    {
+      "id": "aidevex-d2-d-1650",
+      "title": "AIエージェントとオブザーバビリティで実現するDevEx変革とビジネス成果",
+      "description": "",
+      "speakerId": "aidevex-spk-073",
+      "trackId": "aidevex-track-sponsor",
+      "roomId": "aidevex-room-d",
+      "startTime": 1784793000,
+      "endTime": 1784795400,
+      "level": "intermediate",
+      "format": "sponsor",
+      "status": "confirmed"
+    }
+  ],
+  "talkSpeakers": [
+    {
+      "talkId": "aidevex-d1-a-0930",
+      "speakerId": "aidevex-spk-001",
+      "position": 0
+    },
+    {
+      "talkId": "aidevex-d1-a-0945",
+      "speakerId": "aidevex-spk-002",
+      "position": 0
+    },
+    {
+      "talkId": "aidevex-d1-a-1050",
+      "speakerId": "aidevex-spk-003",
+      "position": 0
+    },
+    {
+      "talkId": "aidevex-d1-a-1150",
+      "speakerId": "aidevex-spk-004",
+      "position": 0
+    },
+    {
+      "talkId": "aidevex-d1-a-1315",
+      "speakerId": "aidevex-spk-005",
+      "position": 0
+    },
+    {
+      "talkId": "aidevex-d1-a-1415",
+      "speakerId": "aidevex-spk-006",
+      "position": 0
+    },
+    {
+      "talkId": "aidevex-d1-a-1515",
+      "speakerId": "aidevex-spk-007",
+      "position": 0
+    },
+    {
+      "talkId": "aidevex-d1-a-1515",
+      "speakerId": "aidevex-spk-008",
+      "position": 1
+    },
+    {
+      "talkId": "aidevex-d1-a-1605",
+      "speakerId": "aidevex-spk-009",
+      "position": 0
+    },
+    {
+      "talkId": "aidevex-d1-a-1705",
+      "speakerId": "aidevex-spk-010",
+      "position": 0
+    },
+    {
+      "talkId": "aidevex-d1-a-1755",
+      "speakerId": "aidevex-spk-011",
+      "position": 0
+    },
+    {
+      "talkId": "aidevex-d1-a-1755",
+      "speakerId": "aidevex-spk-012",
+      "position": 1
+    },
+    {
+      "talkId": "aidevex-d1-a-1755",
+      "speakerId": "aidevex-spk-013",
+      "position": 2
+    },
+    {
+      "talkId": "aidevex-d1-b-1050",
+      "speakerId": "aidevex-spk-014",
+      "position": 0
+    },
+    {
+      "talkId": "aidevex-d1-b-1150",
+      "speakerId": "aidevex-spk-015",
+      "position": 0
+    },
+    {
+      "talkId": "aidevex-d1-b-1150",
+      "speakerId": "aidevex-spk-016",
+      "position": 1
+    },
+    {
+      "talkId": "aidevex-d1-b-1150",
+      "speakerId": "aidevex-spk-017",
+      "position": 2
+    },
+    {
+      "talkId": "aidevex-d1-b-1315",
+      "speakerId": "aidevex-spk-018",
+      "position": 0
+    },
+    {
+      "talkId": "aidevex-d1-b-1415",
+      "speakerId": "aidevex-spk-019",
+      "position": 0
+    },
+    {
+      "talkId": "aidevex-d1-b-1515",
+      "speakerId": "aidevex-spk-020",
+      "position": 0
+    },
+    {
+      "talkId": "aidevex-d1-b-1515",
+      "speakerId": "aidevex-spk-021",
+      "position": 1
+    },
+    {
+      "talkId": "aidevex-d1-b-1605",
+      "speakerId": "aidevex-spk-022",
+      "position": 0
+    },
+    {
+      "talkId": "aidevex-d1-b-1705",
+      "speakerId": "aidevex-spk-023",
+      "position": 0
+    },
+    {
+      "talkId": "aidevex-d1-c-1050",
+      "speakerId": "aidevex-spk-024",
+      "position": 0
+    },
+    {
+      "talkId": "aidevex-d1-c-1150",
+      "speakerId": "aidevex-spk-025",
+      "position": 0
+    },
+    {
+      "talkId": "aidevex-d1-c-1315",
+      "speakerId": "aidevex-spk-026",
+      "position": 0
+    },
+    {
+      "talkId": "aidevex-d1-c-1415",
+      "speakerId": "aidevex-spk-027",
+      "position": 0
+    },
+    {
+      "talkId": "aidevex-d1-c-1415",
+      "speakerId": "aidevex-spk-028",
+      "position": 1
+    },
+    {
+      "talkId": "aidevex-d1-c-1515",
+      "speakerId": "aidevex-spk-029",
+      "position": 0
+    },
+    {
+      "talkId": "aidevex-d1-c-1605",
+      "speakerId": "aidevex-spk-030",
+      "position": 0
+    },
+    {
+      "talkId": "aidevex-d1-c-1605",
+      "speakerId": "aidevex-spk-031",
+      "position": 1
+    },
+    {
+      "talkId": "aidevex-d1-c-1605",
+      "speakerId": "aidevex-spk-032",
+      "position": 2
+    },
+    {
+      "talkId": "aidevex-d1-c-1705",
+      "speakerId": "aidevex-spk-033",
+      "position": 0
+    },
+    {
+      "talkId": "aidevex-d1-d-1050",
+      "speakerId": "aidevex-spk-034",
+      "position": 0
+    },
+    {
+      "talkId": "aidevex-d1-d-1150",
+      "speakerId": "aidevex-spk-035",
+      "position": 0
+    },
+    {
+      "talkId": "aidevex-d1-d-1150",
+      "speakerId": "aidevex-spk-036",
+      "position": 1
+    },
+    {
+      "talkId": "aidevex-d1-d-1415",
+      "speakerId": "aidevex-spk-037",
+      "position": 0
+    },
+    {
+      "talkId": "aidevex-d1-d-1515",
+      "speakerId": "aidevex-spk-038",
+      "position": 0
+    },
+    {
+      "talkId": "aidevex-d1-d-1605",
+      "speakerId": "aidevex-spk-039",
+      "position": 0
+    },
+    {
+      "talkId": "aidevex-d1-d-1705",
+      "speakerId": "aidevex-spk-040",
+      "position": 0
+    },
+    {
+      "talkId": "aidevex-d1-d-1705",
+      "speakerId": "aidevex-spk-041",
+      "position": 1
+    },
+    {
+      "talkId": "aidevex-d2-a-0930",
+      "speakerId": "aidevex-spk-011",
+      "position": 0
+    },
+    {
+      "talkId": "aidevex-d2-a-1035",
+      "speakerId": "aidevex-spk-042",
+      "position": 0
+    },
+    {
+      "talkId": "aidevex-d2-a-1135",
+      "speakerId": "aidevex-spk-043",
+      "position": 0
+    },
+    {
+      "talkId": "aidevex-d2-a-1135",
+      "speakerId": "aidevex-spk-044",
+      "position": 1
+    },
+    {
+      "talkId": "aidevex-d2-a-1300",
+      "speakerId": "aidevex-spk-045",
+      "position": 0
+    },
+    {
+      "talkId": "aidevex-d2-a-1400",
+      "speakerId": "aidevex-spk-046",
+      "position": 0
+    },
+    {
+      "talkId": "aidevex-d2-a-1500",
+      "speakerId": "aidevex-spk-047",
+      "position": 0
+    },
+    {
+      "talkId": "aidevex-d2-a-1550",
+      "speakerId": "aidevex-spk-048",
+      "position": 0
+    },
+    {
+      "talkId": "aidevex-d2-a-1650",
+      "speakerId": "aidevex-spk-049",
+      "position": 0
+    },
+    {
+      "talkId": "aidevex-d2-a-1740",
+      "speakerId": "aidevex-spk-050",
+      "position": 0
+    },
+    {
+      "talkId": "aidevex-d2-b-1035",
+      "speakerId": "aidevex-spk-051",
+      "position": 0
+    },
+    {
+      "talkId": "aidevex-d2-b-1135",
+      "speakerId": "aidevex-spk-052",
+      "position": 0
+    },
+    {
+      "talkId": "aidevex-d2-b-1300",
+      "speakerId": "aidevex-spk-053",
+      "position": 0
+    },
+    {
+      "talkId": "aidevex-d2-b-1400",
+      "speakerId": "aidevex-spk-054",
+      "position": 0
+    },
+    {
+      "talkId": "aidevex-d2-b-1500",
+      "speakerId": "aidevex-spk-055",
+      "position": 0
+    },
+    {
+      "talkId": "aidevex-d2-b-1550",
+      "speakerId": "aidevex-spk-056",
+      "position": 0
+    },
+    {
+      "talkId": "aidevex-d2-b-1550",
+      "speakerId": "aidevex-spk-057",
+      "position": 1
+    },
+    {
+      "talkId": "aidevex-d2-b-1650",
+      "speakerId": "aidevex-spk-058",
+      "position": 0
+    },
+    {
+      "talkId": "aidevex-d2-c-1035",
+      "speakerId": "aidevex-spk-059",
+      "position": 0
+    },
+    {
+      "talkId": "aidevex-d2-c-1135",
+      "speakerId": "aidevex-spk-060",
+      "position": 0
+    },
+    {
+      "talkId": "aidevex-d2-c-1300",
+      "speakerId": "aidevex-spk-061",
+      "position": 0
+    },
+    {
+      "talkId": "aidevex-d2-c-1400",
+      "speakerId": "aidevex-spk-062",
+      "position": 0
+    },
+    {
+      "talkId": "aidevex-d2-c-1500",
+      "speakerId": "aidevex-spk-063",
+      "position": 0
+    },
+    {
+      "talkId": "aidevex-d2-c-1550",
+      "speakerId": "aidevex-spk-064",
+      "position": 0
+    },
+    {
+      "talkId": "aidevex-d2-c-1650",
+      "speakerId": "aidevex-spk-065",
+      "position": 0
+    },
+    {
+      "talkId": "aidevex-d2-d-1035",
+      "speakerId": "aidevex-spk-066",
+      "position": 0
+    },
+    {
+      "talkId": "aidevex-d2-d-1135",
+      "speakerId": "aidevex-spk-061",
+      "position": 0
+    },
+    {
+      "talkId": "aidevex-d2-d-1135",
+      "speakerId": "aidevex-spk-067",
+      "position": 1
+    },
+    {
+      "talkId": "aidevex-d2-d-1135",
+      "speakerId": "aidevex-spk-068",
+      "position": 2
+    },
+    {
+      "talkId": "aidevex-d2-d-1400",
+      "speakerId": "aidevex-spk-069",
+      "position": 0
+    },
+    {
+      "talkId": "aidevex-d2-d-1400",
+      "speakerId": "aidevex-spk-070",
+      "position": 1
+    },
+    {
+      "talkId": "aidevex-d2-d-1500",
+      "speakerId": "aidevex-spk-071",
+      "position": 0
+    },
+    {
+      "talkId": "aidevex-d2-d-1500",
+      "speakerId": "aidevex-spk-072",
+      "position": 1
+    },
+    {
+      "talkId": "aidevex-d2-d-1650",
+      "speakerId": "aidevex-spk-073",
+      "position": 0
+    },
+    {
+      "talkId": "aidevex-d2-d-1650",
+      "speakerId": "aidevex-spk-074",
+      "position": 1
+    }
+  ]
+}

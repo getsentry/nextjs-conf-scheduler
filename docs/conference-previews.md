@@ -59,6 +59,25 @@ DEMO_SLOW_SPEAKER_ID=wad-spk-milin-desai
 DEMO_SCHEDULE_ERROR_MESSAGE=You should be at the booth instead of watching the Sentry talk
 ```
 
+## AI DevEx preview env
+
+```bash
+CONFERENCE_SEED_FILE=data/conference-seeds/ai-devex-2026.json
+NEXT_PUBLIC_CONFERENCE_NAME=AI DevEx Conference 2026
+NEXT_PUBLIC_CONFERENCE_SHORT_NAME=AI DevEx 2026
+NEXT_PUBLIC_CONFERENCE_DATES=July 22–23, 2026
+NEXT_PUBLIC_CONFERENCE_LOCATION=Tokyo, Japan
+NEXT_PUBLIC_CONFERENCE_VENUE=JP Tower Hall & Conference
+NEXT_PUBLIC_CONFERENCE_TIME_ZONE=Asia/Tokyo
+DEMO_BLOCKED_TALK_ID=aidevex-d1-a-1415
+DEMO_SLOW_SPEAKER_ID=aidevex-spk-006
+DEMO_SCHEDULE_ERROR_MESSAGE=You should be at the booth instead of watching the Sentry talk
+```
+
+Session content is in Japanese (faithful to the source event). `DEMO_BLOCKED_TALK_ID`
+points at Sentry's own sponsor session, "AI時代のオブザーバビリティ — レジリエンス戦略はなぜ逆効果になり得るのか"
+(Day 1, Room A, 14:15–14:55), and `DEMO_SLOW_SPEAKER_ID` is its speaker, Sehr Moosabhoy (Sentry).
+
 ## Local dry-run guard
 
 Do not run preview seeding against `.env.local` unless it points at a disposable branch. If you need to test locally:

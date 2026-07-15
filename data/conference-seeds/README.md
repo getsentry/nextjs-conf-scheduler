@@ -19,6 +19,7 @@ The row shapes match the current Drizzle seed tables in `lib/db/schema.ts`.
 | --- | ---: | ---: | ---: | ---: | ---: |
 | `raise-summit-2026.json` | 7 | 7 | 359 | 193 | 407 |
 | `wearedevelopers-world-congress-2026.json` | 22 | 30 | 605 | 488 | 636 |
+| `ai-devex-2026.json` | 4 | 4 | 74 | 58 | 76 |
 
 ## Sentry demo sessions
 
@@ -32,6 +33,11 @@ WeAreDevelopers World Congress 2026:
 - `wad-1265963-software-that-fixes-itself` — **Software That Fixes Itself**
 - `wad-1094865-trust-issues-because-zero-trust-isnt-optional-an` — **Trust Issues: Because Zero-Trust Isn’t Optional Anymore**
 - Slow-speaker candidates: `wad-spk-milin-desai`, `wad-spk-jan-peer-stocklmair`
+
+AI DevEx Conference 2026:
+
+- `aidevex-d1-a-1415` — **AI時代のオブザーバビリティ — レジリエンス戦略はなぜ逆効果になり得るのか** (Sentry sponsor session, Day 1 Room A)
+- Slow-speaker candidate: `aidevex-spk-006` — Sehr Moosabhoy, AI/ML Software Engineer, Sentry
 
 ## Safe preview seeding
 

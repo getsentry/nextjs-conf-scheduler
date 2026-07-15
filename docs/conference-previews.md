@@ -74,7 +74,10 @@ DEMO_SLOW_SPEAKER_ID=aidevex-spk-006
 DEMO_SCHEDULE_ERROR_MESSAGE=You should be at the booth instead of watching the Sentry talk
 ```
 
-Session content is in Japanese (faithful to the source event). `DEMO_BLOCKED_TALK_ID`
+Session content is bilingual: Japanese is kept as-is (faithful to the source event) with an
+English translation appended to each talk title (`日本語 / English`) and to the keynote
+abstracts, so attendees who can't read the Japanese site can still navigate the schedule.
+`DEMO_BLOCKED_TALK_ID`
 points at Sentry's own sponsor session, "AI時代のオブザーバビリティ — レジリエンス戦略はなぜ逆効果になり得るのか"
 (Day 1, Room A, 14:15–14:55), and `DEMO_SLOW_SPEAKER_ID` is its speaker, Sehr Moosabhoy (Sentry).
 

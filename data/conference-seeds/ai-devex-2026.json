@@ -739,8 +739,8 @@
     },
     {
       "id": "aidevex-d1-a-0945",
-      "title": "AIと共存する世界のソフトウェアエンジニアリング─不変の本質とプログラミングの未来",
-      "description": "AIをどう捉えるにせよ、ソフトウェア開発が大きな変革の只中にあることは間違いありません。推論し自律的に行動するエージェント型AIの台頭は、コードを書けるLLMが登場した時以上の衝撃を業界にもたらしています。では、人間とAIアシスタントが共により良いソフトウェアをより速く作るために必要なスキルや実践とは何でしょうか。私たちの仕事への向き合い方はどう変わるのでしょうか。まだ誰にも確かな答えはわかりません。ただ、成功への道筋を示す兆しは、すでに見え始めています。",
+      "title": "AIと共存する世界のソフトウェアエンジニアリング─不変の本質とプログラミングの未来 / Software Engineering in a World That Coexists with AI — Timeless Essentials and the Future of Programming",
+      "description": "AIをどう捉えるにせよ、ソフトウェア開発が大きな変革の只中にあることは間違いありません。推論し自律的に行動するエージェント型AIの台頭は、コードを書けるLLMが登場した時以上の衝撃を業界にもたらしています。では、人間とAIアシスタントが共により良いソフトウェアをより速く作るために必要なスキルや実践とは何でしょうか。私たちの仕事への向き合い方はどう変わるのでしょうか。まだ誰にも確かな答えはわかりません。ただ、成功への道筋を示す兆しは、すでに見え始めています。\n\nHowever you view AI, there is no doubt that software development is in the midst of a major transformation. The rise of agentic AI that reasons and acts autonomously is hitting the industry even harder than the arrival of LLMs that could write code. So what skills and practices do humans and AI assistants need to build better software together, faster? And how will the way we approach our work change? No one has a definitive answer yet — but the signs pointing the way to success are already beginning to appear.",
       "speakerId": "aidevex-spk-002",
       "trackId": "aidevex-track-keynote",
       "roomId": "aidevex-room-a",
@@ -752,7 +752,7 @@
     },
     {
       "id": "aidevex-d1-a-1050",
-      "title": "AIが作ったものを、AIが検証できるか。フルAI駆動開発サイクルの現在地",
+      "title": "AIが作ったものを、AIが検証できるか。フルAI駆動開発サイクルの現在地 / Can AI Verify What AI Built? The Current State of the Fully AI-Driven Development Cycle",
       "description": "",
       "speakerId": "aidevex-spk-003",
       "trackId": "aidevex-track-sponsor",
@@ -765,7 +765,7 @@
     },
     {
       "id": "aidevex-d1-a-1150",
-      "title": "インシデント事例とパッケージの全量解析に学ぶソフトウェアサプライチェーンの守り方",
+      "title": "インシデント事例とパッケージの全量解析に学ぶソフトウェアサプライチェーンの守り方 / Defending the Software Supply Chain: Lessons from Incident Cases and Full Package Analysis",
       "description": "",
       "speakerId": "aidevex-spk-004",
       "trackId": "aidevex-track-sponsor",
@@ -778,7 +778,7 @@
     },
     {
       "id": "aidevex-d1-a-1315",
-      "title": "UberのAI時代の開発生産性：エージェントによる効率最大化とワークフローの進化",
+      "title": "UberのAI時代の開発生産性：エージェントによる効率最大化とワークフローの進化 / Developer Productivity in the AI Era at Uber: Maximizing Efficiency with Agents and Evolving Workflows",
       "description": "",
       "speakerId": "aidevex-spk-005",
       "trackId": "aidevex-track-special",
@@ -791,7 +791,7 @@
     },
     {
       "id": "aidevex-d1-a-1415",
-      "title": "AI時代のオブザーバビリティ — レジリエンス戦略はなぜ逆効果になり得るのか",
+      "title": "AI時代のオブザーバビリティ — レジリエンス戦略はなぜ逆効果になり得るのか / Observability in the AI Era — Why Resilience Strategies Can Backfire",
       "description": "",
       "speakerId": "aidevex-spk-006",
       "trackId": "aidevex-track-sponsor",
@@ -804,7 +804,7 @@
     },
     {
       "id": "aidevex-d1-a-1515",
-      "title": "品質と開発生産性の相互作用-NTTドコモBizDevOpsの現場から",
+      "title": "品質と開発生産性の相互作用-NTTドコモBizDevOpsの現場から / The Interplay of Quality and Developer Productivity — From NTT DOCOMO's BizDevOps Front Lines",
       "description": "",
       "speakerId": "aidevex-spk-007",
       "trackId": "aidevex-track-sponsor",
@@ -817,7 +817,7 @@
     },
     {
       "id": "aidevex-d1-a-1605",
-      "title": "人間×AIの力を最大化させる — グローバルなエンジニアリングの卓越性を実現する設計",
+      "title": "人間×AIの力を最大化させる — グローバルなエンジニアリングの卓越性を実現する設計 / Maximizing the Power of Human × AI — Designing for Global Engineering Excellence",
       "description": "",
       "speakerId": "aidevex-spk-009",
       "trackId": "aidevex-track-special",
@@ -830,7 +830,7 @@
     },
     {
       "id": "aidevex-d1-a-1705",
-      "title": "AI x 開発生産性を取り巻く予算戦略と投資対効果",
+      "title": "AI x 開発生産性を取り巻く予算戦略と投資対効果 / Budget Strategy and ROI Around AI × Developer Productivity",
       "description": "",
       "speakerId": "aidevex-spk-010",
       "trackId": "aidevex-track-sponsor",
@@ -843,7 +843,7 @@
     },
     {
       "id": "aidevex-d1-a-1755",
-      "title": "ビジネス成果を出すためのDevEx戦略：サーベイの外側にある摩擦の正体",
+      "title": "ビジネス成果を出すためのDevEx戦略：サーベイの外側にある摩擦の正体 / A DevEx Strategy That Delivers Business Outcomes: The Real Friction Beyond Surveys",
       "description": "",
       "speakerId": "aidevex-spk-011",
       "trackId": "aidevex-track-keynote",
@@ -856,7 +856,7 @@
     },
     {
       "id": "aidevex-d1-b-1050",
-      "title": "なぜ、あなたのAPIは使われないのか？〜AX時代のAPI設計原則、ガードレール、運用体制〜",
+      "title": "なぜ、あなたのAPIは使われないのか？〜AX時代のAPI設計原則、ガードレール、運用体制〜 / Why Isn't Your API Being Used? API Design Principles, Guardrails, and Operations in the AX Era",
       "description": "",
       "speakerId": "aidevex-spk-014",
       "trackId": "aidevex-track-sponsor",
@@ -869,7 +869,7 @@
     },
     {
       "id": "aidevex-d1-b-1150",
-      "title": "PostgreSQLからTiDBへ。分散型DB移行の意思決定と実践",
+      "title": "PostgreSQLからTiDBへ。分散型DB移行の意思決定と実践 / From PostgreSQL to TiDB: Decisions and Practice in Distributed-Database Migration",
       "description": "",
       "speakerId": "aidevex-spk-015",
       "trackId": "aidevex-track-sponsor",
@@ -882,7 +882,7 @@
     },
     {
       "id": "aidevex-d1-b-1315",
-      "title": "AI時代のプロダクト開発を導く、Notionの哲学とリーダーシップ（仮）",
+      "title": "AI時代のプロダクト開発を導く、Notionの哲学とリーダーシップ（仮） / Notion's Philosophy and Leadership Guiding Product Development in the AI Era (tentative)",
       "description": "",
       "speakerId": "aidevex-spk-018",
       "trackId": "aidevex-track-special",
@@ -895,7 +895,7 @@
     },
     {
       "id": "aidevex-d1-b-1415",
-      "title": "AIとハーネスで育てるトランスコンパイラ",
+      "title": "AIとハーネスで育てるトランスコンパイラ / Growing a Transcompiler with AI and Harnesses",
       "description": "",
       "speakerId": "aidevex-spk-019",
       "trackId": "aidevex-track-sponsor",
@@ -908,7 +908,7 @@
     },
     {
       "id": "aidevex-d1-b-1515",
-      "title": "AI前提における組織の進化：生産性を最大化する設計指針",
+      "title": "AI前提における組織の進化：生産性を最大化する設計指針 / Organizational Evolution on an AI-First Premise: Design Principles to Maximize Productivity",
       "description": "",
       "speakerId": "aidevex-spk-020",
       "trackId": "aidevex-track-sponsor",
@@ -921,7 +921,7 @@
     },
     {
       "id": "aidevex-d1-b-1605",
-      "title": "企画設計から考えるセキュリティ・バイ・デザインの対応 ― AI時代の新たな脅威とは",
+      "title": "企画設計から考えるセキュリティ・バイ・デザインの対応 ― AI時代の新たな脅威とは / Security by Design from the Planning Stage — New Threats in the AI Era",
       "description": "",
       "speakerId": "aidevex-spk-022",
       "trackId": "aidevex-track-special",
@@ -934,7 +934,7 @@
     },
     {
       "id": "aidevex-d1-b-1705",
-      "title": "開発チームから「作業」を減らす仕組みのつくり方",
+      "title": "開発チームから「作業」を減らす仕組みのつくり方 / How to Build Systems That Reduce 'Busywork' for Development Teams",
       "description": "",
       "speakerId": "aidevex-spk-023",
       "trackId": "aidevex-track-sponsor",
@@ -947,7 +947,7 @@
     },
     {
       "id": "aidevex-d1-c-1050",
-      "title": "変更し続けられるシステムをどう保つか — AI時代のSSoTという設計原則",
+      "title": "変更し続けられるシステムをどう保つか — AI時代のSSoTという設計原則 / How to Keep Systems Continuously Changeable — SSoT as a Design Principle in the AI Era",
       "description": "",
       "speakerId": "aidevex-spk-024",
       "trackId": "aidevex-track-sponsor",
@@ -960,7 +960,7 @@
     },
     {
       "id": "aidevex-d1-c-1150",
-      "title": "開発生産性を「価値創出サイクル」で捉える — AI時代の経営と開発の接続(仮)",
+      "title": "開発生産性を「価値創出サイクル」で捉える — AI時代の経営と開発の接続(仮) / Viewing Developer Productivity Through the 'Value-Creation Cycle' — Connecting Management and Development in the AI Era (tentative)",
       "description": "",
       "speakerId": "aidevex-spk-025",
       "trackId": "aidevex-track-sponsor",
@@ -973,7 +973,7 @@
     },
     {
       "id": "aidevex-d1-c-1315",
-      "title": "ソフトウェア品質と生産性で見るDeNAのAI導入とその効果",
+      "title": "ソフトウェア品質と生産性で見るDeNAのAI導入とその効果 / DeNA's AI Adoption and Its Impact, Seen Through Software Quality and Productivity",
       "description": "",
       "speakerId": "aidevex-spk-026",
       "trackId": "aidevex-track-special",
@@ -986,7 +986,7 @@
     },
     {
       "id": "aidevex-d1-c-1415",
-      "title": "設計レビューとAIハーネスで向き合う、AIが生み出した新しいボトルネックの対処法",
+      "title": "設計レビューとAIハーネスで向き合う、AIが生み出した新しいボトルネックの対処法 / Tackling the New Bottlenecks AI Creates, with Design Review and AI Harnesses",
       "description": "",
       "speakerId": "aidevex-spk-027",
       "trackId": "aidevex-track-sponsor",
@@ -999,7 +999,7 @@
     },
     {
       "id": "aidevex-d1-c-1515",
-      "title": "AIで「速く作れる」も「よく見える」も当たり前になった。次に変わるのは、管理職だ",
+      "title": "AIで「速く作れる」も「よく見える」も当たり前になった。次に変わるのは、管理職だ / Now That 'Building Fast' and 'Looking Good' with AI Are the Norm, the Next to Change Is Management",
       "description": "",
       "speakerId": "aidevex-spk-029",
       "trackId": "aidevex-track-sponsor",
@@ -1012,7 +1012,7 @@
     },
     {
       "id": "aidevex-d1-c-1605",
-      "title": "AI Agent Platform：マルチエージェントの展開・開発・品質",
+      "title": "AI Agent Platform：マルチエージェントの展開・開発・品質 / AI Agent Platform: Deploying, Developing, and Ensuring Quality of Multi-Agents",
       "description": "",
       "speakerId": "aidevex-spk-030",
       "trackId": "aidevex-track-special",
@@ -1025,7 +1025,7 @@
     },
     {
       "id": "aidevex-d1-c-1705",
-      "title": "人とエージェントが高め合う協業設計 ─ AI-Native Dev時代の現場から",
+      "title": "人とエージェントが高め合う協業設計 ─ AI-Native Dev時代の現場から / Collaboration Design Where Humans and Agents Elevate Each Other — From the AI-Native Dev Front Lines",
       "description": "",
       "speakerId": "aidevex-spk-033",
       "trackId": "aidevex-track-sponsor",
@@ -1038,7 +1038,7 @@
     },
     {
       "id": "aidevex-d1-d-1050",
-      "title": "AI Nativeなプロダクト組織の立ち上げ方：生産性100倍への挑戦",
+      "title": "AI Nativeなプロダクト組織の立ち上げ方：生産性100倍への挑戦 / How to Launch an AI-Native Product Organization: A Bid for 100× Productivity",
       "description": "",
       "speakerId": "aidevex-spk-034",
       "trackId": "aidevex-track-sponsor",
@@ -1051,7 +1051,7 @@
     },
     {
       "id": "aidevex-d1-d-1150",
-      "title": "レガシーシステムにおけるAI活用と開発生産性向上 — モダンな業務アプリ開発を支えるRetool",
+      "title": "レガシーシステムにおけるAI活用と開発生産性向上 — モダンな業務アプリ開発を支えるRetool / AI Utilization and Productivity Gains in Legacy Systems — Retool Powering Modern Business-App Development",
       "description": "",
       "speakerId": "aidevex-spk-035",
       "trackId": "aidevex-track-sponsor",
@@ -1064,7 +1064,7 @@
     },
     {
       "id": "aidevex-d1-d-1415",
-      "title": "AIが当たり前の組織でエンジニアはどう育つか〜越境人材を育てる挑戦とジレンマ〜",
+      "title": "AIが当たり前の組織でエンジニアはどう育つか〜越境人材を育てる挑戦とジレンマ〜 / How Engineers Grow in an AI-as-Default Organization — Challenges and Dilemmas of Nurturing Boundary-Crossing Talent",
       "description": "",
       "speakerId": "aidevex-spk-037",
       "trackId": "aidevex-track-sponsor",
@@ -1077,7 +1077,7 @@
     },
     {
       "id": "aidevex-d1-d-1515",
-      "title": "ゼロから始めるボトムアップ内製化実践ガイド 強い開発組織を作る環境と文化の醸成",
+      "title": "ゼロから始めるボトムアップ内製化実践ガイド 強い開発組織を作る環境と文化の醸成 / A Practical Guide to Bottom-Up In-House Development from Scratch: Cultivating the Environment and Culture for a Strong Dev Organization",
       "description": "",
       "speakerId": "aidevex-spk-038",
       "trackId": "aidevex-track-sponsor",
@@ -1090,7 +1090,7 @@
     },
     {
       "id": "aidevex-d1-d-1605",
-      "title": "AIに仕事を奪われる前に奪え ― FDEという最前線エンジニア職能の台頭",
+      "title": "AIに仕事を奪われる前に奪え ― FDEという最前線エンジニア職能の台頭 / Take the Work Before AI Takes It From You — The Rise of the FDE, a Frontline Engineering Role",
       "description": "",
       "speakerId": "aidevex-spk-039",
       "trackId": "aidevex-track-special",
@@ -1103,7 +1103,7 @@
     },
     {
       "id": "aidevex-d1-d-1705",
-      "title": "若手中心の開発組織は、AI時代にどう挑むか",
+      "title": "若手中心の開発組織は、AI時代にどう挑むか / How a Junior-Centric Development Organization Takes On the AI Era",
       "description": "",
       "speakerId": "aidevex-spk-040",
       "trackId": "aidevex-track-sponsor",
@@ -1116,8 +1116,8 @@
     },
     {
       "id": "aidevex-d2-a-0930",
-      "title": "なぜ、AIが進化しても期待される生産性を上げることができないのか",
-      "description": "ソフトウェア開発におけるAIは、過度な期待と慎重な見解が交錯しています。一部では劇的な成果を上げている一方で、組織全体では変化が見えづらく、この熱狂に懐疑的な見方もあります。問題は、AIの能力向上がそのまま組織パフォーマンスに転換されると捉えてしまう点です。本講演ではGitHubの調査・業界のエビデンスをもとに、誤解を招く構造的な複雑さを明らかにし、個人の成果が組織に直結しない理由、従来指標の限界、組織拡大による新たなボトルネックなど、変化に備えるための正しいアプローチを解説します。",
+      "title": "なぜ、AIが進化しても期待される生産性を上げることができないのか / Why We Can't Reach the Expected Productivity Gains Even as AI Advances",
+      "description": "ソフトウェア開発におけるAIは、過度な期待と慎重な見解が交錯しています。一部では劇的な成果を上げている一方で、組織全体では変化が見えづらく、この熱狂に懐疑的な見方もあります。問題は、AIの能力向上がそのまま組織パフォーマンスに転換されると捉えてしまう点です。本講演ではGitHubの調査・業界のエビデンスをもとに、誤解を招く構造的な複雑さを明らかにし、個人の成果が組織に直結しない理由、従来指標の限界、組織拡大による新たなボトルネックなど、変化に備えるための正しいアプローチを解説します。\n\nAI in software development is caught between excessive hype and cautious skepticism. While some see dramatic results, change is hard to see across the whole organization, and there is doubt about the excitement. The problem is treating gains in AI capability as if they translate directly into organizational performance. Drawing on GitHub's research and industry evidence, this talk exposes the structural complexity that misleads us — why individual results don't map directly to the organization, the limits of traditional metrics, and the new bottlenecks that emerge as organizations scale — and lays out the right approach for preparing for change.",
       "speakerId": "aidevex-spk-011",
       "trackId": "aidevex-track-keynote",
       "roomId": "aidevex-room-a",
@@ -1129,7 +1129,7 @@
     },
     {
       "id": "aidevex-d2-a-1035",
-      "title": "コードを読まない時代の死角: 検出から検証へ、脆弱性診断AIエージェントの現在地",
+      "title": "コードを読まない時代の死角: 検出から検証へ、脆弱性診断AIエージェントの現在地 / Blind Spots in an Era of Not Reading Code: From Detection to Verification, the State of Vulnerability-Assessment AI Agents",
       "description": "",
       "speakerId": "aidevex-spk-042",
       "trackId": "aidevex-track-sponsor",
@@ -1142,7 +1142,7 @@
     },
     {
       "id": "aidevex-d2-a-1135",
-      "title": "fukabori.fm出張版：AI駆動開発でテストエンジニアは不要になるのか",
+      "title": "fukabori.fm出張版：AI駆動開発でテストエンジニアは不要になるのか / fukabori.fm Live: Will AI-Driven Development Make Test Engineers Obsolete?",
       "description": "",
       "speakerId": "aidevex-spk-043",
       "trackId": "aidevex-track-sponsor",
@@ -1155,7 +1155,7 @@
     },
     {
       "id": "aidevex-d2-a-1300",
-      "title": "MetaにおけるAI時代の開発生産性",
+      "title": "MetaにおけるAI時代の開発生産性 / Developer Productivity in the AI Era at Meta",
       "description": "",
       "speakerId": "aidevex-spk-045",
       "trackId": "aidevex-track-special",
@@ -1168,7 +1168,7 @@
     },
     {
       "id": "aidevex-d2-a-1400",
-      "title": "ソフトウェアテストは頼むだけで完了にする。自律型 AI Coworkerという挑戦",
+      "title": "ソフトウェアテストは頼むだけで完了にする。自律型 AI Coworkerという挑戦 / Getting Software Testing Done Just by Asking: The Challenge of an Autonomous AI Coworker",
       "description": "",
       "speakerId": "aidevex-spk-046",
       "trackId": "aidevex-track-sponsor",
@@ -1181,7 +1181,7 @@
     },
     {
       "id": "aidevex-d2-a-1500",
-      "title": "個の加速をチームの力へ。AI時代へのやさしいイネーブルメント",
+      "title": "個の加速をチームの力へ。AI時代へのやさしいイネーブルメント / Turning Individual Acceleration into Team Strength: Gentle Enablement for the AI Era",
       "description": "",
       "speakerId": "aidevex-spk-047",
       "trackId": "aidevex-track-sponsor",
@@ -1194,7 +1194,7 @@
     },
     {
       "id": "aidevex-d2-a-1550",
-      "title": "AIエージェントが変える開発組織 — LinkedInの実践と挑戦",
+      "title": "AIエージェントが変える開発組織 — LinkedInの実践と挑戦 / How AI Agents Are Changing the Development Organization — LinkedIn's Practice and Challenges",
       "description": "",
       "speakerId": "aidevex-spk-048",
       "trackId": "aidevex-track-special",
@@ -1207,7 +1207,7 @@
     },
     {
       "id": "aidevex-d2-a-1650",
-      "title": "自動化したのに回らないテスト運用の壁―AI時代の品質責任と生産性",
+      "title": "自動化したのに回らないテスト運用の壁―AI時代の品質責任と生産性 / The Wall of Test Operations That Won't Run Despite Automation — Quality Accountability and Productivity in the AI Era",
       "description": "",
       "speakerId": "aidevex-spk-049",
       "trackId": "aidevex-track-sponsor",
@@ -1220,7 +1220,7 @@
     },
     {
       "id": "aidevex-d2-a-1740",
-      "title": "2026年のソフトウェアエンジニアリングを考える",
+      "title": "2026年のソフトウェアエンジニアリングを考える / Thinking About Software Engineering in 2026",
       "description": "",
       "speakerId": "aidevex-spk-050",
       "trackId": "aidevex-track-keynote",
@@ -1233,7 +1233,7 @@
     },
     {
       "id": "aidevex-d2-b-1035",
-      "title": "Decision Productivity — 開発生産性の上流を構造化する",
+      "title": "Decision Productivity — 開発生産性の上流を構造化する / Decision Productivity — Structuring the Upstream of Developer Productivity",
       "description": "",
       "speakerId": "aidevex-spk-051",
       "trackId": "aidevex-track-sponsor",
@@ -1246,7 +1246,7 @@
     },
     {
       "id": "aidevex-d2-b-1135",
-      "title": "開発生産性の壁を打破する仕組み化の正体 -組織戦略で紐解くAI時代のシフトレフト",
+      "title": "開発生産性の壁を打破する仕組み化の正体 -組織戦略で紐解くAI時代のシフトレフト / The True Nature of Systematization That Breaks Through Productivity Walls — Shift-Left in the AI Era, Unpacked via Organizational Strategy",
       "description": "",
       "speakerId": "aidevex-spk-052",
       "trackId": "aidevex-track-sponsor",
@@ -1259,7 +1259,7 @@
     },
     {
       "id": "aidevex-d2-b-1300",
-      "title": "なぜ優秀なチームであっても意思決定で詰まるのか ― スケールする組織が再現性を失わないための3つの構造",
+      "title": "なぜ優秀なチームであっても意思決定で詰まるのか ― スケールする組織が再現性を失わないための3つの構造 / Why Even Great Teams Get Stuck on Decisions — Three Structures That Keep Scaling Organizations Reproducible",
       "description": "",
       "speakerId": "aidevex-spk-053",
       "trackId": "aidevex-track-special",
@@ -1272,7 +1272,7 @@
     },
     {
       "id": "aidevex-d2-b-1400",
-      "title": "全PRの83%がAIレビューでマージするようになった開発組織は、その後どうなったか",
+      "title": "全PRの83%がAIレビューでマージするようになった開発組織は、その後どうなったか / What Happened Next to a Dev Org Where 83% of All PRs Came to Merge via AI Review",
       "description": "",
       "speakerId": "aidevex-spk-054",
       "trackId": "aidevex-track-sponsor",
@@ -1285,7 +1285,7 @@
     },
     {
       "id": "aidevex-d2-b-1500",
-      "title": "AI時代に設計が最大の生産性レバーになる-意図駆動開発とデータを消さない設計",
+      "title": "AI時代に設計が最大の生産性レバーになる-意図駆動開発とデータを消さない設計 / In the AI Era, Design Becomes the Biggest Productivity Lever — Intent-Driven Development and Designs That Don't Delete Data",
       "description": "",
       "speakerId": "aidevex-spk-055",
       "trackId": "aidevex-track-sponsor",
@@ -1298,7 +1298,7 @@
     },
     {
       "id": "aidevex-d2-b-1550",
-      "title": "デジタル庁ガバメントクラウドにおけるAI時代の開発組織デザインとアジャイル実践",
+      "title": "デジタル庁ガバメントクラウドにおけるAI時代の開発組織デザインとアジャイル実践 / Development-Org Design and Agile Practice in the AI Era on the Digital Agency's Government Cloud",
       "description": "",
       "speakerId": "aidevex-spk-056",
       "trackId": "aidevex-track-special",
@@ -1311,7 +1311,7 @@
     },
     {
       "id": "aidevex-d2-b-1650",
-      "title": "AI-DLC実践録 ─ 役割の境界を越えるフルサイクル開発への挑戦",
+      "title": "AI-DLC実践録 ─ 役割の境界を越えるフルサイクル開発への挑戦 / AI-DLC in Practice — A Bid for Full-Cycle Development That Crosses Role Boundaries",
       "description": "",
       "speakerId": "aidevex-spk-058",
       "trackId": "aidevex-track-sponsor",
@@ -1324,7 +1324,7 @@
     },
     {
       "id": "aidevex-d2-c-1035",
-      "title": "AIツール導入しても生産性はあがらない？ カオナビが直面した3つの壁と乗り越え方",
+      "title": "AIツール導入しても生産性はあがらない？ カオナビが直面した3つの壁と乗り越え方 / Productivity Won't Rise Just by Adopting AI Tools? The Three Walls Kaonavi Faced and How It Overcame Them",
       "description": "",
       "speakerId": "aidevex-spk-059",
       "trackId": "aidevex-track-sponsor",
@@ -1337,7 +1337,7 @@
     },
     {
       "id": "aidevex-d2-c-1135",
-      "title": "自律的なチームづくりの探究：複数ドメインへのスケール、挑戦と失敗の軌跡",
+      "title": "自律的なチームづくりの探究：複数ドメインへのスケール、挑戦と失敗の軌跡 / Exploring Autonomous Team-Building: Scaling Across Multiple Domains, and a Trail of Challenges and Failures",
       "description": "",
       "speakerId": "aidevex-spk-060",
       "trackId": "aidevex-track-sponsor",
@@ -1350,7 +1350,7 @@
     },
     {
       "id": "aidevex-d2-c-1300",
-      "title": "AIエージェントと協働する知識創造の一年間",
+      "title": "AIエージェントと協働する知識創造の一年間 / A Year of Knowledge Creation in Collaboration with AI Agents",
       "description": "",
       "speakerId": "aidevex-spk-061",
       "trackId": "aidevex-track-special",
@@ -1363,7 +1363,7 @@
     },
     {
       "id": "aidevex-d2-c-1400",
-      "title": "Platform Engineer×FDEで変える、AIネイティブ時代の開発組織設計",
+      "title": "Platform Engineer×FDEで変える、AIネイティブ時代の開発組織設計 / Reshaping Development-Org Design in the AI-Native Era with Platform Engineer × FDE",
       "description": "",
       "speakerId": "aidevex-spk-062",
       "trackId": "aidevex-track-sponsor",
@@ -1376,7 +1376,7 @@
     },
     {
       "id": "aidevex-d2-c-1500",
-      "title": "AI時代におけるエンジニアの新たな役割──FDEとクオリアの探求",
+      "title": "AI時代におけるエンジニアの新たな役割──FDEとクオリアの探求 / The Engineer's New Role in the AI Era — Exploring the FDE and Qualia",
       "description": "",
       "speakerId": "aidevex-spk-063",
       "trackId": "aidevex-track-sponsor",
@@ -1389,7 +1389,7 @@
     },
     {
       "id": "aidevex-d2-c-1550",
-      "title": "生成AI導入の「期待外れ」を乗り越える ー 開発フロー改革が目指す、真の組織変革",
+      "title": "生成AI導入の「期待外れ」を乗り越える ー 開発フロー改革が目指す、真の組織変革 / Overcoming the 'Letdown' of Generative-AI Adoption — The True Organizational Change Dev-Flow Reform Aims For",
       "description": "",
       "speakerId": "aidevex-spk-064",
       "trackId": "aidevex-track-special",
@@ -1402,7 +1402,7 @@
     },
     {
       "id": "aidevex-d2-c-1650",
-      "title": "『動くだけ』のその先へ — AI駆動開発で品質と速度を両取りする温故知新な新手法",
+      "title": "『動くだけ』のその先へ — AI駆動開発で品質と速度を両取りする温故知新な新手法 / Beyond 'Just Working' — A New Yet Time-Honored Method for Getting Both Quality and Speed with AI-Driven Development",
       "description": "",
       "speakerId": "aidevex-spk-065",
       "trackId": "aidevex-track-sponsor",
@@ -1415,7 +1415,7 @@
     },
     {
       "id": "aidevex-d2-d-1035",
-      "title": "AI時代における開発生産性と進化可能性を高める技術戦略",
+      "title": "AI時代における開発生産性と進化可能性を高める技術戦略 / A Technical Strategy to Raise Developer Productivity and Evolvability in the AI Era",
       "description": "",
       "speakerId": "aidevex-spk-066",
       "trackId": "aidevex-track-sponsor",
@@ -1428,7 +1428,7 @@
     },
     {
       "id": "aidevex-d2-d-1135",
-      "title": "伝統的新聞社はAIエージェントで再定義できるのか。",
+      "title": "伝統的新聞社はAIエージェントで再定義できるのか。 / Can a Traditional Newspaper Company Be Redefined by AI Agents?",
       "description": "",
       "speakerId": "aidevex-spk-061",
       "trackId": "aidevex-track-sponsor",
@@ -1454,7 +1454,7 @@
     },
     {
       "id": "aidevex-d2-d-1500",
-      "title": "AI活用を個人技で終わらせないために〜スマレジが取り組む、組織への浸透と現場への適用〜",
+      "title": "AI活用を個人技で終わらせないために〜スマレジが取り組む、組織への浸透と現場への適用〜 / So AI Adoption Doesn't Stay a Personal Skill — Smaregi's Push to Spread It Across the Org and Apply It on the Ground",
       "description": "",
       "speakerId": "aidevex-spk-071",
       "trackId": "aidevex-track-sponsor",
@@ -1467,7 +1467,7 @@
     },
     {
       "id": "aidevex-d2-d-1650",
-      "title": "AIエージェントとオブザーバビリティで実現するDevEx変革とビジネス成果",
+      "title": "AIエージェントとオブザーバビリティで実現するDevEx変革とビジネス成果 / DevEx Transformation and Business Outcomes Realized with AI Agents and Observability",
       "description": "",
       "speakerId": "aidevex-spk-073",
       "trackId": "aidevex-track-sponsor",

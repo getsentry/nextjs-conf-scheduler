@@ -61,6 +61,8 @@ DEMO_SCHEDULE_ERROR_MESSAGE=You should be at the booth instead of watching the S
 
 ## AI DevEx preview env
 
+Live preview: https://ai-devex-2026.sentry.dev (branch `ai-devex-2026`, isolated Neon branch).
+
 ```bash
 CONFERENCE_SEED_FILE=data/conference-seeds/ai-devex-2026.json
 NEXT_PUBLIC_CONFERENCE_NAME=AI DevEx Conference 2026

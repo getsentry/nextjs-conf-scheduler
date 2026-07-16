@@ -237,9 +237,12 @@ function classify(conv: Conversation): string[] {
 }
 
 function assemble(conversationId: string, spans: SentrySpan[]): Conversation | null {
+  // invoke_agent spans still carry request/response payloads worth parsing,
+  // but metrics come from client-call spans only (see CLIENT_OPS).
   const chatSpans = spans.filter((s) =>
     ["gen_ai.generate_content", "gen_ai.chat", "gen_ai.invoke_agent"].includes(s["span.op"]),
   );
+  const clientSpans = spans.filter((s) => CLIENT_OPS.has(s["span.op"]));
   const toolSpans = spans.filter((s) => s["span.op"] === "gen_ai.execute_tool");
   if (chatSpans.length === 0) return null;
 
@@ -257,9 +260,9 @@ function assemble(conversationId: string, spans: SentrySpan[]): Conversation | n
     input: firstUserInput,
     output,
     model: lastChat?.["gen_ai.request.model"] ?? "unknown",
-    totalTokens: spans.reduce((sum, s) => sum + (s["gen_ai.usage.total_tokens"] ?? 0), 0),
-    totalCostUsd: spans.reduce((sum, s) => sum + (s["gen_ai.cost.total_tokens"] ?? 0), 0),
-    aiCallCount: chatSpans.length,
+    totalTokens: clientSpans.reduce((sum, s) => sum + (s["gen_ai.usage.total_tokens"] ?? 0), 0),
+    totalCostUsd: clientSpans.reduce((sum, s) => sum + (s["gen_ai.cost.total_tokens"] ?? 0), 0),
+    aiCallCount: clientSpans.length,
     toolCallCount: toolSpans.length,
     toolErrorCount: toolSpans.filter(
       (s) => s["span.status"] && s["span.status"] !== "ok" && s["span.status"] !== "unknown",
@@ -283,10 +286,14 @@ function sentryConversationUrl(conversationId: string): string {
   return `https://${SENTRY_ORG}.sentry.io/explore/conversations/${conversationId}/`;
 }
 
+/** Actual model-call spans. invoke_agent/ai.pipeline aggregate their children —
+ * counting them double-counts every token and dollar. */
+const CLIENT_OPS = new Set(["gen_ai.generate_content", "gen_ai.chat"]);
+
 /** Compact per-LLM-call telemetry, replayed as spans in Braintrust evals. */
 function llmSpanSummaries(conv: Conversation) {
   return conv.spans
-    .filter((s) => s["gen_ai.response.text"] || s["span.op"] === "gen_ai.execute_tool")
+    .filter((s) => CLIENT_OPS.has(s["span.op"]) || s["span.op"] === "gen_ai.execute_tool")
     .map((s) => ({
       type: s["span.op"] === "gen_ai.execute_tool" ? ("tool" as const) : ("llm" as const),
       name:

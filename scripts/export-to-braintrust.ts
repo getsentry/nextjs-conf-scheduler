@@ -298,6 +298,8 @@ function llmSpanSummaries(conv: Conversation) {
       input_tokens: s["gen_ai.usage.input_tokens"],
       output_tokens: s["gen_ai.usage.output_tokens"],
       total_tokens: s["gen_ai.usage.total_tokens"],
+      cost_usd: s["gen_ai.cost.total_tokens"],
+      status: s["span.status"],
     }));
 }
 
@@ -335,11 +337,15 @@ function logConversation(logger: ReturnType<typeof initLogger>, conv: Conversati
   for (const span of conv.spans) {
     const startTime = Date.parse(span.timestamp) / 1000;
     if (span["span.op"] === "gen_ai.execute_tool") {
+      const failed = span["span.status"] && !["ok", "unknown"].includes(span["span.status"]);
       const child = root.startSpan({
         name: span["gen_ai.tool.name"] ?? "tool",
         type: "tool",
         startTime,
-        event: { input: span["gen_ai.tool.call.arguments"] },
+        event: {
+          input: span["gen_ai.tool.call.arguments"],
+          error: failed ? `tool failed (span.status: ${span["span.status"]})` : undefined,
+        },
       });
       child.end({ endTime: startTime + (span["span.duration"] ?? 0) / 1000 });
     } else if (span["gen_ai.response.text"]) {
@@ -349,6 +355,7 @@ function logConversation(logger: ReturnType<typeof initLogger>, conv: Conversati
         startTime,
         event: {
           output: responseToText(span["gen_ai.response.text"]),
+          metadata: { model: span["gen_ai.request.model"] },
           metrics: {
             prompt_tokens: span["gen_ai.usage.input_tokens"],
             completion_tokens: span["gen_ai.usage.output_tokens"],

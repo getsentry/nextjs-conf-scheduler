@@ -34,6 +34,8 @@ interface LlmSpanSummary {
   input_tokens?: number;
   output_tokens?: number;
   total_tokens?: number;
+  cost_usd?: number;
+  status?: string;
 }
 
 interface ConversationMetadata {
@@ -108,6 +110,7 @@ Eval(BRAINTRUST_PROJECT, {
     // Replay the production trace (captured by Sentry) as child spans so the
     // experiment shows real LLM/tool counts, durations, and token metrics.
     for (const span of conv.llm_spans ?? []) {
+      const failed = span.status && !["ok", "unknown"].includes(span.status);
       const child = hooks.span.startSpan({
         name: span.name,
         type: span.type,
@@ -115,13 +118,14 @@ Eval(BRAINTRUST_PROJECT, {
         event:
           span.type === "llm"
             ? {
+                metadata: { model: span.name },
                 metrics: {
                   prompt_tokens: span.input_tokens,
                   completion_tokens: span.output_tokens,
                   tokens: span.total_tokens,
                 },
               }
-            : {},
+            : { error: failed ? `tool failed (span.status: ${span.status})` : undefined },
       });
       child.end({ endTime: span.start + span.duration_ms / 1000 });
     }

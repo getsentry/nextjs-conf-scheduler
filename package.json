@@ -16,6 +16,8 @@
     "db:embed": "tsx scripts/embed-talks.ts",
     "evals:export": "tsx scripts/export-to-braintrust.ts",
     "evals:run": "tsx evals/grounding.eval.ts",
+    "evals:selftest": "tsx evals/scorer-selftest.ts",
+    "evals:audit": "tsx evals/audit-citations.ts",
     "traffic": "tsx scripts/generate-traffic.ts",
     "traffic:ai": "tsx scripts/generate-traffic.ts --ai",
     "sentry:backfill": "tsx scripts/backfill-sentry-dashboard-data.ts"

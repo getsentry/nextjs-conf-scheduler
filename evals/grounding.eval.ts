@@ -3,10 +3,14 @@
  *
  * Task    — passthrough: returns the production output captured in metadata
  *           (reference-free scoring of what the agent actually said).
- * Scorers — grounded: deterministic. Extracts session titles the assistant
- *           cited (markdown bold/italic) and asserts each exists in Postgres —
- *           the schedule DB is ground truth, no LLM judge needed.
+ * Scorers — grounded: deterministic (evals/lib/grounding.ts). Cited session
+ *           titles are checked against Postgres AND the conversation's own
+ *           tool results; only citations found in neither count against the
+ *           model (hallucination), the rest are recorded as data drift.
  *           no_thrash: flags conversations that burned outsized tokens/tools.
+ *
+ * Scorer trustworthiness: pnpm evals:selftest (planted hallucinations must be
+ * caught) and pnpm evals:audit (per-citation sheet for human labeling).
  *
  * Usage: pnpm evals:run
  */
@@ -17,6 +21,7 @@ dotenv.config({ path: ".env.local" });
 import { Eval, initDataset } from "braintrust";
 import { db } from "../lib/db";
 import { talks } from "../lib/db/schema";
+import { canon, classifyCitations } from "./lib/grounding";
 
 const BRAINTRUST_PROJECT = process.env.BRAINTRUST_PROJECT ?? "conf-scheduler";
 const BRAINTRUST_DATASET = process.env.BRAINTRUST_DATASET ?? "prod-conversations";
@@ -30,75 +35,15 @@ interface ConversationMetadata {
   [key: string]: unknown;
 }
 
-let talkTitlesPromise: Promise<Set<string>> | undefined;
+let canonTitlesPromise: Promise<string[]> | undefined;
 
-/** All real session titles, lowercased — the ground truth. */
-function getTalkTitles(): Promise<Set<string>> {
-  talkTitlesPromise ??= db
+/** All real session titles in canonical form — today's ground truth. */
+function getCanonTitles(): Promise<string[]> {
+  canonTitlesPromise ??= db
     .select({ title: talks.title })
     .from(talks)
-    .then((rows) => new Set(rows.map((row) => row.title.toLowerCase())));
-  return talkTitlesPromise;
-}
-
-/**
- * Canonical comparison form: letters and digits separated by single spaces.
- * Survives real-world title mismatches: "Computer‑Use" (U+2011) vs
- * "Computer Use", and "Teams.The Rise" (missing space in the DB) vs "Teams. The Rise".
- */
-function canon(text: string): string {
-  return text
-    .normalize("NFKC")
-    .toLowerCase()
-    .replace(/[^a-z0-9]+/g, " ")
-    .trim();
-}
-
-function slugify(text: string): string {
-  return canon(text).replace(/ /g, "-");
-}
-
-/** UI labels the assistant echoes that read as titles but aren't session citations. */
-const UI_PHRASES = new Set(["add to my schedule"]);
-
-/** Mostly Title-Cased multi-word strings read as session titles, not prose headers. */
-function looksLikeTitle(candidate: string): boolean {
-  const words = candidate.split(/\s+/).filter((w) => /[a-zA-Z]/.test(w));
-  if (words.length < 3) return false;
-  const significant = words.filter((w) => w.replace(/[^a-zA-Z]/g, "").length > 3);
-  if (significant.length === 0) return false;
-  const capitalized = significant.filter((w) => /^[^a-z]/.test(w));
-  return capitalized.length / significant.length >= 0.6;
-}
-
-/** Session titles the assistant presented: **bold** and "quoted" segments. */
-function extractCitedTitles(output: string): string[] {
-  const cited = new Set<string>();
-  const segments = [
-    ...output.matchAll(/\*\*([^*\n]{12,120})\*\*/g),
-    ...output.matchAll(/[“"]([^”"\n]{12,120})[”"]/g),
-  ];
-  for (const match of segments) {
-    const candidate = (match[1] ?? "")
-      .trim()
-      .replace(/^[^\p{L}\p{N}"'“]+/u, "") // leading emoji/pictograph headers ("📅 Thursday…")
-      .replace(/[.:;!?]$/, "")
-      .replace(/^[“"']|[”"']$/g, "")
-      .trim();
-    // Speaker/time metadata lines, weekday headers, and prose don't count as citations.
-    if (candidate.includes("·") || candidate.includes(" — ")) continue;
-    if (
-      /^(mon|tue|wed|thu|fri|sat|sun|january|february|march|april|may|june|july|august|september|october|november|december|day \d|track \d|room )/i.test(
-        candidate,
-      )
-    ) {
-      continue;
-    }
-    if (!looksLikeTitle(candidate)) continue;
-    if (UI_PHRASES.has(canon(candidate))) continue;
-    cited.add(candidate);
-  }
-  return [...cited];
+    .then((rows) => rows.map((row) => canon(row.title)));
+  return canonTitlesPromise;
 }
 
 /** Structural scorer args: Eval()'s inferred case type may omit metadata, so it's optional. */
@@ -110,40 +55,22 @@ interface ScorerArgs {
 
 async function grounded({ input, output, metadata }: ScorerArgs) {
   const conv = (metadata ?? {}) as ConversationMetadata;
-  const titles = await getTalkTitles();
-  const canonTitles = [...titles].map(canon);
-  const retrievedIds = (conv.retrieved_talk_ids ?? []).map((id) => id.toLowerCase());
-  const retrievedTitles = (conv.retrieved_talk_titles ?? []).map(canon);
-  const canonInput = canon(input ?? "");
-  const cited = extractCitedTitles(output).filter((title) => {
-    // Headers that restate the user's ask ("Evals + Observability Day") aren't citations.
-    const c = canon(title);
-    return !(canonInput && (canonInput.includes(c) || c.includes(canonInput)));
+  const verdicts = classifyCitations(output, input, {
+    canonTitles: await getCanonTitles(),
+    retrievedIds: conv.retrieved_talk_ids ?? [],
+    retrievedTitles: conv.retrieved_talk_titles ?? [],
   });
-  if (cited.length === 0) {
+  if (verdicts.score === null) {
     return { name: "grounded", score: null, metadata: { reason: "no sessions cited" } };
   }
-  // Second universe: talks the agent's own tools returned at conversation time.
-  // A citation found here but not in today's DB is data drift, not hallucination.
-  const inToolResults = (title: string): boolean => {
-    const c = canon(title);
-    if (retrievedTitles.some((real) => real.includes(c) || c.includes(real))) return true;
-    const slug = slugify(title).slice(0, 40);
-    return retrievedIds.some((id) => slug.length >= 12 && id.includes(slug));
-  };
-  const drift: string[] = [];
-  const hallucinated: string[] = [];
-  for (const title of cited) {
-    const c = canon(title);
-    if (canonTitles.some((real) => real.includes(c) || c.includes(real))) continue;
-    if (inToolResults(title)) drift.push(title);
-    else hallucinated.push(title);
-  }
-  // Score model faithfulness: only true hallucinations count against the agent.
   return {
     name: "grounded",
-    score: (cited.length - hallucinated.length) / cited.length,
-    metadata: { cited_count: cited.length, hallucinated, data_drift: drift },
+    score: verdicts.score,
+    metadata: {
+      cited_count: verdicts.cited.length,
+      hallucinated: verdicts.hallucinated,
+      data_drift: verdicts.drift,
+    },
   };
 }
 

@@ -4,6 +4,7 @@ overrides:
   postcss: ^8.5.10
 allowBuilds:
   '@sentry/cli': true
+  braintrust: true
   esbuild: true
   msw: true
   sharp: true

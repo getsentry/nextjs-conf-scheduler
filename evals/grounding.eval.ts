@@ -20,7 +20,7 @@ dotenv.config({ path: ".env.local" });
 
 import { Eval, initDataset } from "braintrust";
 import { db } from "../lib/db";
-import { talks } from "../lib/db/schema";
+import { rooms, talks, tracks } from "../lib/db/schema";
 import { canon, classifyCitations } from "./lib/grounding";
 
 const BRAINTRUST_PROJECT = process.env.BRAINTRUST_PROJECT ?? "conf-scheduler";
@@ -46,15 +46,19 @@ interface ConversationMetadata {
   [key: string]: unknown;
 }
 
-let canonTitlesPromise: Promise<string[]> | undefined;
+let canonEntitiesPromise: Promise<string[]> | undefined;
 
-/** All real session titles in canonical form — today's ground truth. */
-function getCanonTitles(): Promise<string[]> {
-  canonTitlesPromise ??= db
-    .select({ title: talks.title })
-    .from(talks)
-    .then((rows) => rows.map((row) => canon(row.title)));
-  return canonTitlesPromise;
+/** Every real schedule entity (talks, tracks, rooms) in canonical form. */
+function getCanonEntities(): Promise<string[]> {
+  canonEntitiesPromise ??= Promise.all([
+    db.select({ name: talks.title }).from(talks),
+    db.select({ name: tracks.name }).from(tracks),
+    db.select({ name: rooms.name }).from(rooms),
+  ]).then((tables) => [
+    ...tables.flat().map((row) => canon(row.name)),
+    canon("AI Engineer World's Fair 2026"), // the conference itself
+  ]);
+  return canonEntitiesPromise;
 }
 
 /** Structural scorer args: Eval()'s inferred case type may omit metadata, so it's optional. */
@@ -67,7 +71,7 @@ interface ScorerArgs {
 async function grounded({ input, output, metadata }: ScorerArgs) {
   const conv = (metadata ?? {}) as ConversationMetadata;
   const verdicts = classifyCitations(output, input, {
-    canonTitles: await getCanonTitles(),
+    canonTitles: await getCanonEntities(),
     retrievedIds: conv.retrieved_talk_ids ?? [],
     retrievedTitles: conv.retrieved_talk_titles ?? [],
   });

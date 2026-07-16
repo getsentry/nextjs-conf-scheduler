@@ -21,7 +21,7 @@ import * as dotenv from "dotenv";
 dotenv.config({ path: ".env.local" });
 
 import { db } from "../lib/db";
-import { talks } from "../lib/db/schema";
+import { rooms, talks, tracks } from "../lib/db/schema";
 import { canon, classifyCitations, extractCitedTitles } from "./lib/grounding";
 
 interface Check {
@@ -38,7 +38,14 @@ function expect(name: string, pass: boolean, detail: string) {
 async function main() {
   const rows = await db.select({ title: talks.title }).from(talks).limit(1000);
   const realTitles = rows.map((r) => r.title);
-  const canonTitles = realTitles.map(canon);
+  const trackRows = await db.select({ name: tracks.name }).from(tracks);
+  const roomRows = await db.select({ name: rooms.name }).from(rooms);
+  // Truth universe = every schedule entity: talks, tracks, rooms.
+  const canonTitles = [
+    ...realTitles.map(canon),
+    ...trackRows.map((r) => canon(r.name)),
+    ...roomRows.map((r) => canon(r.name)),
+  ];
   const realA = realTitles[0];
   // Unicode fixture needs ≥5 words: hyphen-injection merges two words, and
   // extraction requires ≥3 words after merging.
@@ -198,6 +205,37 @@ async function main() {
     "Opus-style: shorthand of a real title is grounded, not flagged",
     shorthand.score === 1 && shorthand.hallucinated.length === 0,
     `shorthand="${shorthandTitle}" (from "${adjacentSource.slice(0, 40)}") score=${shorthand.score} hallucinated=${JSON.stringify(shorthand.hallucinated)}`,
+  );
+
+  // Models legitimately bold track names when asked about tracks. Those are
+  // real schedule entities, not hallucinated sessions.
+  const realTrack = trackRows
+    .map((r) => r.name)
+    .find((n) => extractCitedTitles(`- **${n}**: x`).length === 1);
+  if (realTrack) {
+    const trackList = classifyCitations(
+      `Here are the tracks:\n- **${realTrack}**: sessions on this theme.\n- **Quantum Cats Track**: feline prompting.`,
+      "give me an overview of the tracks",
+      noTools,
+    );
+    expect(
+      "real track name in a track listing is grounded; invented track is flagged",
+      trackList.grounded.length === 1 && trackList.hallucinated.length === 1,
+      `track="${realTrack}" grounded=${JSON.stringify(trackList.grounded)} hallucinated=${JSON.stringify(trackList.hallucinated)}`,
+    );
+  }
+
+  // Short entity names ("Evals" is a real track, 5 chars) must not vouch for
+  // any fake that merely contains the word.
+  const shortEntityFake = classifyCitations(
+    `Attend **Evals for Distributed Cats** at 3 PM.`,
+    "afternoon plan?",
+    noTools,
+  );
+  expect(
+    "fake containing a short real entity word ('Evals') is STILL flagged",
+    shortEntityFake.score === 0 && shortEntityFake.hallucinated.length === 1,
+    `score=${shortEntityFake.score} grounded=${JSON.stringify(shortEntityFake.grounded)}`,
   );
 
   const fakeStillCaught = classifyCitations(

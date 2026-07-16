@@ -77,7 +77,11 @@ export function extractCitedTitles(output: string): string[] {
 }
 
 export interface GroundTruth {
-  /** Canonical titles of every real session (today's DB). */
+  /**
+   * Canonical names of every real schedule entity in today's DB — talks,
+   * tracks, AND rooms. Models legitimately name all three ("AI in GTM" is a
+   * track); a truth universe of talk titles alone flags real tracks as fake.
+   */
   canonTitles: string[];
   /** Talk ids the agent's tools returned at conversation time. */
   retrievedIds: string[];
@@ -167,14 +171,22 @@ export function classifyCitations(
   for (const title of candidates) {
     const c = canon(title);
     if ([...matched].some((m) => m.includes(c) || c.includes(m))) continue; // counted in pass A
-    if (truth.canonTitles.some((real) => real.includes(c) || c.includes(real))) {
+    // Inclusion in either direction, but a short entity name ("Evals" is a
+    // 5-char track) must never vouch for a longer candidate containing it.
+    if (
+      truth.canonTitles.some(
+        (real) => real.includes(c) || (real.length >= SCAN_MIN_LENGTH && c.includes(real)),
+      )
+    ) {
       matched.add(c);
       grounded.push(title);
       continue;
     }
     const slug = slugify(title).slice(0, 40);
     if (
-      retrievedTitles.some((real) => real.includes(c) || c.includes(real)) ||
+      retrievedTitles.some(
+        (real) => real.includes(c) || (real.length >= SCAN_MIN_LENGTH && c.includes(real)),
+      ) ||
       retrievedIds.some((id) => slug.length >= 12 && id.includes(slug))
     ) {
       matched.add(c);

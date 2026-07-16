@@ -96,11 +96,37 @@ export interface CitationVerdicts {
   score: number | null;
 }
 
+/** Words that carry meaning in a title; drops "the", "for", "your", etc. */
+const RESCUE_STOP_WORDS = new Set(["your", "with", "from", "this", "that", "into", "what", "when"]);
+
+function significantWords(canonText: string): string[] {
+  return canonText.split(" ").filter((w) => w.length >= 4 && !RESCUE_STOP_WORDS.has(w));
+}
+
+/** Consecutive significant-word pairs: "aws agent speedrun mon" → ["agent speedrun"]. */
+function significantBigrams(canonText: string): string[] {
+  const words = significantWords(canonText);
+  const bigrams: string[] = [];
+  for (let i = 0; i < words.length - 1; i++) bigrams.push(`${words[i]} ${words[i + 1]}`);
+  return bigrams;
+}
+
+/** Minimum canonical length for the formatting-independent title scan. */
+const SCAN_MIN_LENGTH = 15;
+
 /**
- * Classify every citation against two universes:
+ * Classify every session-title mention against two universes:
  *  1. today's DB (source of truth for what exists now)
  *  2. the conversation's own tool results (source of truth for what the model saw)
- * Only citations found in neither count against the model.
+ * Only mentions found in neither count against the model.
+ *
+ * Two passes, because models format differently (Sonnet bolds verbatim titles,
+ * Haiku puts them in table cells, Opus italicizes or abbreviates):
+ *  A. Title scan — search the whole output for every known title. Formatting-
+ *     independent recall of real mentions; can never produce a hallucination.
+ *  B. Markdown extraction — bold/quoted candidates, for catching invented
+ *     titles. Shorthand of a real title ("AWS Agent Speedrun (Mon)") is
+ *     rescued when it shares a consecutive significant-word pair with one.
  */
 export function classifyCitations(
   output: string,
@@ -108,35 +134,72 @@ export function classifyCitations(
   truth: GroundTruth,
 ): CitationVerdicts {
   const canonInput = canon(input ?? "");
-  const cited = extractCitedTitles(output).filter((title) => {
-    // Headers that restate the user's ask ("Evals + Observability Day") aren't citations.
-    const c = canon(title);
-    return !(canonInput && (canonInput.includes(c) || c.includes(canonInput)));
-  });
-
+  const canonOut = ` ${canon(output)} `;
   const retrievedIds = truth.retrievedIds.map((id) => id.toLowerCase());
   const retrievedTitles = truth.retrievedTitles.map(canon);
-  const inToolResults = (title: string): boolean => {
-    const c = canon(title);
-    if (retrievedTitles.some((real) => real.includes(c) || c.includes(real))) return true;
-    const slug = slugify(title).slice(0, 40);
-    return retrievedIds.some((id) => slug.length >= 12 && id.includes(slug));
-  };
 
   const grounded: string[] = [];
   const drift: string[] = [];
   const hallucinated: string[] = [];
-  for (const title of cited) {
-    const c = canon(title);
-    if (truth.canonTitles.some((real) => real.includes(c) || c.includes(real))) {
+  const matched = new Set<string>(); // canonical titles already credited
+
+  // Pass A — formatting-independent scan for verbatim title mentions.
+  for (const title of truth.canonTitles) {
+    if (title.length >= SCAN_MIN_LENGTH && canonOut.includes(` ${title} `) && !matched.has(title)) {
+      matched.add(title);
       grounded.push(title);
-    } else if (inToolResults(title)) {
-      drift.push(title);
-    } else {
-      hallucinated.push(title);
     }
   }
+  for (const title of retrievedTitles) {
+    if (title.length < SCAN_MIN_LENGTH || matched.has(title)) continue;
+    if (!canonOut.includes(` ${title} `)) continue;
+    if (truth.canonTitles.some((db) => db.includes(title) || title.includes(db))) continue;
+    matched.add(title);
+    drift.push(title);
+  }
 
+  // Pass B — markdown candidates, for invented titles and shorthand.
+  const candidates = extractCitedTitles(output).filter((title) => {
+    // Headers that restate the user's ask ("Evals + Observability Day") aren't citations.
+    const c = canon(title);
+    return !(canonInput && (canonInput.includes(c) || c.includes(canonInput)));
+  });
+  for (const title of candidates) {
+    const c = canon(title);
+    if ([...matched].some((m) => m.includes(c) || c.includes(m))) continue; // counted in pass A
+    if (truth.canonTitles.some((real) => real.includes(c) || c.includes(real))) {
+      matched.add(c);
+      grounded.push(title);
+      continue;
+    }
+    const slug = slugify(title).slice(0, 40);
+    if (
+      retrievedTitles.some((real) => real.includes(c) || c.includes(real)) ||
+      retrievedIds.some((id) => slug.length >= 12 && id.includes(slug))
+    ) {
+      matched.add(c);
+      drift.push(title);
+      continue;
+    }
+    // Shorthand rescue: a significant-word pair from the candidate must appear
+    // ADJACENT in a real title ("agent speedrun" ⊆ "agent speedrun idea code…").
+    // Adjacency in the raw title is required — matching against stopword-
+    // collapsed titles would rescue fakes ("vibes production" ⊄ "vibes to production").
+    const bigrams = significantBigrams(c);
+    if (bigrams.some((b) => truth.canonTitles.some((real) => real.includes(b)))) {
+      matched.add(c);
+      grounded.push(title);
+      continue;
+    }
+    if (bigrams.some((b) => retrievedTitles.some((real) => real.includes(b)))) {
+      matched.add(c);
+      drift.push(title);
+      continue;
+    }
+    hallucinated.push(title);
+  }
+
+  const cited = [...grounded, ...drift, ...hallucinated];
   return {
     cited,
     grounded,

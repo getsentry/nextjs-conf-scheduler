@@ -42,7 +42,27 @@ async function main() {
   const realA = realTitles[0];
   // Unicode fixture needs ≥5 words: hyphen-injection merges two words, and
   // extraction requires ≥3 words after merging.
-  const realLong = realTitles.find((t) => t.split(" ").length >= 5) ?? realA;
+  const longTitles = realTitles.filter((t) => t.split(" ").length >= 5 && t.length >= 20);
+  const realLong = longTitles[0] ?? realA;
+  const realLong2 = longTitles[1] ?? realLong;
+  // Shorthand fixture needs two ADJACENT significant words from a real title
+  // (the rescue requires raw adjacency, so "Evals in Production" won't do).
+  const stop = new Set(["your", "with", "from", "this", "that", "into", "what", "when"]);
+  const isSig = (w: string) =>
+    w.replace(/[^a-zA-Z]/g, "").length >= 4 && !stop.has(w.toLowerCase());
+  let adjacentPair: string[] = [];
+  let adjacentSource = "";
+  for (const t of longTitles) {
+    const words = t.split(" ");
+    for (let i = 0; i < words.length - 1; i++) {
+      if (isSig(words[i]) && isSig(words[i + 1])) {
+        adjacentPair = [words[i], words[i + 1]].map((w) => w.replace(/[^a-zA-Z0-9]/g, ""));
+        adjacentSource = t;
+        break;
+      }
+    }
+    if (adjacentPair.length) break;
+  }
   const noTools = { canonTitles, retrievedIds: [], retrievedTitles: [] };
 
   // ── Sensitivity: planted hallucinations must be flagged ──────────────────
@@ -141,6 +161,54 @@ async function main() {
     "header restating the user's ask is not a citation",
     restated.cited.length === 1 && restated.score === 1,
     `cited=${JSON.stringify(restated.cited)}`,
+  );
+
+  // ── Format independence: every model has a house style ───────────────────
+  // Haiku puts titles in table cells, Opus italicizes or abbreviates. A
+  // grounding scorer must measure truthfulness, not markdown compliance.
+  const table = classifyCitations(
+    `| Time | Session |\n|---|---|\n| **10:45** | ${realLong} |\n| **11:10** | ${realLong2} |`,
+    "plan my day",
+    noTools,
+  );
+  expect(
+    "Haiku-style: real titles in table cells (unbolded) are grounded",
+    table.score === 1 && table.cited.length >= 2,
+    `score=${table.score}, cited=${table.cited.length}`,
+  );
+
+  const italic = classifyCitations(`Go check out *${realLong}* today.`, "recommend one", noTools);
+  expect(
+    "Opus-style: real title in single-asterisk italics is grounded",
+    italic.score === 1,
+    `score=${italic.score}`,
+  );
+
+  // Opus-style shorthand: a real title compressed to a couple of its
+  // distinctive words ("AWS Agent Speedrun (Mon)" for "Agent Speedrun: Idea →
+  // Code → Deploy → Observe"). An adjacent pair of significant words shared
+  // with a real title rescues it.
+  const shorthandTitle = `${adjacentPair.map((w) => w[0].toUpperCase() + w.slice(1)).join(" ")} Session (Mon)`;
+  const shorthand = classifyCitations(
+    `Don't miss **${shorthandTitle}** in the morning!`,
+    "what should I attend?",
+    noTools,
+  );
+  expect(
+    "Opus-style: shorthand of a real title is grounded, not flagged",
+    shorthand.score === 1 && shorthand.hallucinated.length === 0,
+    `shorthand="${shorthandTitle}" (from "${adjacentSource.slice(0, 40)}") score=${shorthand.score} hallucinated=${JSON.stringify(shorthand.hallucinated)}`,
+  );
+
+  const fakeStillCaught = classifyCitations(
+    `Check the table:\n| 9:00 | **${FAKE}** | Room 1 |`,
+    "morning plan?",
+    noTools,
+  );
+  expect(
+    "planted fake in a table is STILL flagged (rescue must not save fakes)",
+    fakeStillCaught.score === 0 && fakeStillCaught.hallucinated.length === 1,
+    `score=${fakeStillCaught.score}`,
   );
 
   // ── Documented blind spots: asserted as EXPECTED misses ──────────────────

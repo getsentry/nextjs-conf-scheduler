@@ -26,12 +26,23 @@ import { canon, classifyCitations } from "./lib/grounding";
 const BRAINTRUST_PROJECT = process.env.BRAINTRUST_PROJECT ?? "conf-scheduler";
 const BRAINTRUST_DATASET = process.env.BRAINTRUST_DATASET ?? "prod-conversations";
 
+interface LlmSpanSummary {
+  type: "llm" | "tool";
+  name: string;
+  start: number;
+  duration_ms: number;
+  input_tokens?: number;
+  output_tokens?: number;
+  total_tokens?: number;
+}
+
 interface ConversationMetadata {
   production_output?: string;
   retrieved_talk_ids?: string[];
   retrieved_talk_titles?: string[];
   total_tokens?: number;
   tool_calls?: number;
+  llm_spans?: LlmSpanSummary[];
   [key: string]: unknown;
 }
 
@@ -88,7 +99,30 @@ function noThrash({ metadata }: ScorerArgs) {
 Eval(BRAINTRUST_PROJECT, {
   experimentName: "prod-grounding",
   data: initDataset(BRAINTRUST_PROJECT, { dataset: BRAINTRUST_DATASET }),
-  task: (_input: string, hooks) => (hooks.metadata as ConversationMetadata).production_output ?? "",
+  task: (_input: string, hooks) => {
+    const conv = hooks.metadata as ConversationMetadata;
+    // Replay the production trace (captured by Sentry) as child spans so the
+    // experiment shows real LLM/tool counts, durations, and token metrics.
+    for (const span of conv.llm_spans ?? []) {
+      const child = hooks.span.startSpan({
+        name: span.name,
+        type: span.type,
+        startTime: span.start,
+        event:
+          span.type === "llm"
+            ? {
+                metrics: {
+                  prompt_tokens: span.input_tokens,
+                  completion_tokens: span.output_tokens,
+                  tokens: span.total_tokens,
+                },
+              }
+            : {},
+      });
+      child.end({ endTime: span.start + span.duration_ms / 1000 });
+    }
+    return conv.production_output ?? "";
+  },
   scores: [grounded, noThrash],
 }).then(() => {
   // The Postgres pool keeps the event loop alive; results are already flushed.

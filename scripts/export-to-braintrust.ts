@@ -15,6 +15,9 @@
 import { execFileSync } from "node:child_process";
 import { flush, initDataset, initLogger } from "braintrust";
 import * as dotenv from "dotenv";
+import { canon, classifyCitations } from "../evals/lib/grounding";
+import { db } from "../lib/db";
+import { talks } from "../lib/db/schema";
 
 dotenv.config({ path: ".env.local" });
 
@@ -33,6 +36,8 @@ const SPAN_FIELDS = [
   "gen_ai.conversation.id",
   "gen_ai.request.model",
   "gen_ai.usage.total_tokens",
+  "gen_ai.usage.input_tokens",
+  "gen_ai.usage.output_tokens",
   "gen_ai.cost.total_tokens",
   "gen_ai.tool.name",
   "gen_ai.tool.call.arguments",
@@ -50,6 +55,8 @@ interface SentrySpan {
   "gen_ai.conversation.id"?: string;
   "gen_ai.request.model"?: string;
   "gen_ai.usage.total_tokens"?: number;
+  "gen_ai.usage.input_tokens"?: number;
+  "gen_ai.usage.output_tokens"?: number;
   "gen_ai.cost.total_tokens"?: number;
   "gen_ai.tool.name"?: string;
   "gen_ai.tool.call.arguments"?: string;
@@ -120,13 +127,14 @@ function fetchConversationSpans(conversationId: string, period: string): SentryS
   return sentryApi<{ data: SentrySpan[] }>(path).data;
 }
 
-/** Smoke tests and seeded demo traffic — not real user conversations. */
+/**
+ * Smoke tests and seeded dashboard data are noise. Real app conversations use
+ * conv_* ids; simulated-user traffic (scripts/generate-traffic.ts) uses
+ * traffic-<persona>-* ids and is worth evaluating like real usage.
+ */
 function isNoise(conversationId: string): boolean {
-  return (
-    !conversationId.startsWith("conv_") ||
-    conversationId.startsWith("conv_seed_") ||
-    conversationId.includes("smoketest")
-  );
+  const real = conversationId.startsWith("conv_") || conversationId.startsWith("traffic-");
+  return !real || conversationId.startsWith("conv_seed_") || conversationId.includes("smoketest");
 }
 
 /** Extract plain text from gen_ai.response.text, which may be a UIMessage-style JSON array. */
@@ -275,6 +283,24 @@ function sentryConversationUrl(conversationId: string): string {
   return `https://${SENTRY_ORG}.sentry.io/explore/conversations/${conversationId}/`;
 }
 
+/** Compact per-LLM-call telemetry, replayed as spans in Braintrust evals. */
+function llmSpanSummaries(conv: Conversation) {
+  return conv.spans
+    .filter((s) => s["gen_ai.response.text"] || s["span.op"] === "gen_ai.execute_tool")
+    .map((s) => ({
+      type: s["span.op"] === "gen_ai.execute_tool" ? ("tool" as const) : ("llm" as const),
+      name:
+        s["span.op"] === "gen_ai.execute_tool"
+          ? (s["gen_ai.tool.name"] ?? "tool")
+          : (s["gen_ai.request.model"] ?? "llm"),
+      start: Date.parse(s.timestamp) / 1000,
+      duration_ms: s["span.duration"] ?? 0,
+      input_tokens: s["gen_ai.usage.input_tokens"],
+      output_tokens: s["gen_ai.usage.output_tokens"],
+      total_tokens: s["gen_ai.usage.total_tokens"],
+    }));
+}
+
 function conversationMetadata(conv: Conversation): Record<string, unknown> {
   return {
     conversation_id: conv.id,
@@ -323,13 +349,31 @@ function logConversation(logger: ReturnType<typeof initLogger>, conv: Conversati
         startTime,
         event: {
           output: responseToText(span["gen_ai.response.text"]),
-          metadata: { total_tokens: span["gen_ai.usage.total_tokens"] },
+          metrics: {
+            prompt_tokens: span["gen_ai.usage.input_tokens"],
+            completion_tokens: span["gen_ai.usage.output_tokens"],
+            tokens: span["gen_ai.usage.total_tokens"],
+          },
         },
       });
       child.end({ endTime: startTime + (span["span.duration"] ?? 0) / 1000 });
     }
   }
   root.end({ endTime: conv.endTime });
+}
+
+/** Resolve the Braintrust project id so dataset rows can reference their source logs. */
+async function fetchBraintrustProjectId(): Promise<string | undefined> {
+  try {
+    const res = await fetch(
+      `https://api.braintrust.dev/v1/project?project_name=${encodeURIComponent(BRAINTRUST_PROJECT)}`,
+      { headers: { Authorization: `Bearer ${process.env.BRAINTRUST_API_KEY}` } },
+    );
+    const body = (await res.json()) as { objects?: Array<{ id: string }> };
+    return body.objects?.[0]?.id;
+  } catch {
+    return undefined; // origin is a nice-to-have; never fail the export over it
+  }
 }
 
 async function main() {
@@ -368,15 +412,38 @@ async function main() {
 
   const logger = initLogger({ projectName: BRAINTRUST_PROJECT });
   const dataset = initDataset(BRAINTRUST_PROJECT, { dataset: BRAINTRUST_DATASET });
+  const projectId = await fetchBraintrustProjectId();
+  const canonTitles = (await db.select({ title: talks.title }).from(talks)).map((row) =>
+    canon(row.title),
+  );
+
   for (const conv of conversations) {
     logConversation(logger, conv);
+
+    // Verified-clean conversations become golden rows: the production answer
+    // is promoted to `expected` after passing the deterministic grounding check.
+    const verdicts = classifyCitations(conv.output, conv.input, {
+      canonTitles,
+      retrievedIds: conv.retrievedTalkIds,
+      retrievedTitles: conv.retrievedTalkTitles,
+    });
+    const golden = verdicts.score === 1 && verdicts.drift.length === 0 && verdicts.cited.length > 0;
+
     dataset.insert({
       id: conv.id, // upsert key — re-runs overwrite, never duplicate
       input: conv.input,
-      // No `expected`: production output is an observation, not ground truth.
-      // Scorers read it from metadata (reference-free evaluation).
-      metadata: { ...conversationMetadata(conv), production_output: conv.output },
-      tags: conv.tags,
+      expected: golden ? conv.output : undefined,
+      metadata: {
+        ...conversationMetadata(conv),
+        production_output: conv.output,
+        llm_spans: llmSpanSummaries(conv),
+        golden,
+      },
+      tags: golden ? [...conv.tags, "golden"] : conv.tags,
+      // Link each dataset row back to its source conversation in the logs.
+      origin: projectId
+        ? { id: conv.id, object_type: "project_logs" as const, object_id: projectId }
+        : undefined,
     });
   }
   await flush();
@@ -384,6 +451,8 @@ async function main() {
     `Exported ${conversations.length} conversations → Braintrust project "${BRAINTRUST_PROJECT}" ` +
       `(logs + dataset "${BRAINTRUST_DATASET}").`,
   );
+  // The Postgres pool (golden-verdict check) keeps the event loop alive.
+  process.exit(0);
 }
 
 main().catch((error) => {

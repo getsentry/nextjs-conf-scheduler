@@ -117,39 +117,50 @@ type AiScenario = {
   internalOnly?: boolean;
 };
 
+// Prompts are written the way real attendees type — no tool names, no ids.
+// Tool routing happens naturally via the agent's system prompt.
 const AI_SCENARIOS: AiScenario[] = [
   {
     id: "tracks-overview",
-    prompt: "Use getTracks and give me a quick overview of the conference tracks.",
+    prompt: "what are the different tracks at this conference?",
     context: { path: "/", title: "AI Engineer World's Fair Schedule" },
   },
   {
     id: "agent-production-search",
     prompt:
-      "Find sessions about agents in production. Use searchTalks with about 8 results, then check conflicts for the strongest 3 recommendations.",
+      "I'm mostly interested in running agents in production. what are the best talks for that? make sure they don't overlap",
     context: { path: "/", query: "q=agents", title: "AI Engineer World's Fair Schedule" },
   },
   {
     id: "evals-observability",
     prompt:
-      "Build an evals and observability day for me. Search broadly, recommend a few sessions, and check conflicts between them.",
+      "can you plan me a full day around evals and observability? I don't want sessions that clash",
     context: { path: "/", query: "q=evals", title: "AI Engineer World's Fair Schedule" },
   },
   {
     id: "specific-talk-details",
-    prompt: `Use getTalkDetails for ${TALK_IDS[0]} and summarize who should attend it in one sentence.`,
+    prompt: "is the vibes to production workshop worth going to? who's it for?",
     context: { path: `/talks/${TALK_IDS[0]}`, title: "Talk details" },
   },
   {
     id: "saved-schedule-audit",
-    prompt:
-      "What am I missing from my saved schedule? Use my schedule first, then search for complementary sessions.",
+    prompt: "look at what I've saved so far — any gaps? what else should I add?",
     context: { path: "/", query: "view=my-events", title: "My Events" },
     authOnly: true,
   },
   {
+    id: "beginner-recs",
+    prompt: "first time at this conference and pretty new to AI stuff, where should I start?",
+    context: { path: "/", title: "AI Engineer World's Fair Schedule" },
+  },
+  {
+    id: "speaker-hunt",
+    prompt: "who's speaking about voice agents? anything hands-on?",
+    context: { path: "/", query: "q=voice", title: "AI Engineer World's Fair Schedule" },
+  },
+  {
     id: "internal-sentry-demo-error",
-    prompt: "Find Sentry talks and explain why they matter for observability demos.",
+    prompt: "are there any sentry talks? we're sponsoring and I want to catch them",
     context: { path: "/", query: "q=sentry", title: "AI Engineer World's Fair Schedule" },
     internalOnly: true,
   },

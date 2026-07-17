@@ -23,7 +23,7 @@ import { db } from "../lib/db";
 import { rooms, talks, tracks } from "../lib/db/schema";
 import { canon, classifyCitations } from "./lib/grounding";
 
-const BRAINTRUST_PROJECT = process.env.BRAINTRUST_PROJECT ?? "conf-scheduler";
+const BRAINTRUST_PROJECT = process.env.BRAINTRUST_PROJECT ?? "nextjs-conf-scheduler";
 const BRAINTRUST_DATASET = process.env.BRAINTRUST_DATASET ?? "prod-conversations";
 
 interface LlmSpanSummary {
@@ -44,6 +44,7 @@ interface ConversationMetadata {
   retrieved_talk_titles?: string[];
   total_tokens?: number;
   tool_calls?: number;
+  tool_errors?: number;
   llm_spans?: LlmSpanSummary[];
   [key: string]: unknown;
 }
@@ -91,14 +92,31 @@ async function grounded({ input, output, metadata }: ScorerArgs) {
   };
 }
 
-function noThrash({ metadata }: ScorerArgs) {
+/**
+ * Graded token efficiency. A tight answer (<=15K tokens for this app's
+ * conversations) scores 1; the score decays linearly to 0 at 120K — the
+ * silent-loop regime where an agent re-searches the same query repeatedly.
+ */
+function efficiency({ metadata }: ScorerArgs) {
   const conv = (metadata ?? {}) as ConversationMetadata;
   const tokens = conv.total_tokens ?? 0;
-  const tools = conv.tool_calls ?? 0;
+  const score = Math.max(0, Math.min(1, (120_000 - tokens) / (120_000 - 15_000)));
   return {
-    name: "no_thrash",
-    score: tokens > 80_000 || tools > 10 ? 0 : 1,
-    metadata: { total_tokens: tokens, tool_calls: tools },
+    name: "efficiency",
+    score: Number(score.toFixed(2)),
+    metadata: { total_tokens: tokens, tool_calls: conv.tool_calls ?? 0 },
+  };
+}
+
+/** Fraction of tool calls that succeeded; null when the agent used no tools. */
+function toolSuccess({ metadata }: ScorerArgs) {
+  const conv = (metadata ?? {}) as ConversationMetadata;
+  const calls = conv.tool_calls ?? 0;
+  const errors = conv.tool_errors ?? 0;
+  return {
+    name: "tool_success",
+    score: calls === 0 ? null : Number(((calls - errors) / calls).toFixed(2)),
+    metadata: { tool_calls: calls, tool_errors: errors },
   };
 }
 
@@ -131,7 +149,7 @@ Eval(BRAINTRUST_PROJECT, {
     }
     return conv.production_output ?? "";
   },
-  scores: [grounded, noThrash],
+  scores: [grounded, efficiency, toolSuccess],
 }).then(() => {
   // The Postgres pool keeps the event loop alive; results are already flushed.
   process.exit(0);

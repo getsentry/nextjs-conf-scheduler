@@ -23,7 +23,7 @@ dotenv.config({ path: ".env.local" });
 
 const SENTRY_ORG = process.env.SENTRY_ORG ?? "sentry-developer-experience";
 const SENTRY_PROJECT_ID = process.env.SENTRY_PROJECT_ID ?? "4511423001919488";
-const BRAINTRUST_PROJECT = process.env.BRAINTRUST_PROJECT ?? "conf-scheduler";
+const BRAINTRUST_PROJECT = process.env.BRAINTRUST_PROJECT ?? "nextjs-conf-scheduler";
 const BRAINTRUST_DATASET = process.env.BRAINTRUST_DATASET ?? "prod-conversations";
 
 const SPAN_FIELDS = [

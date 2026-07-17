@@ -17,7 +17,7 @@ import { db } from "../lib/db";
 import { rooms, talks, tracks } from "../lib/db/schema";
 import { canon, classifyCitations } from "./lib/grounding";
 
-const BRAINTRUST_PROJECT = process.env.BRAINTRUST_PROJECT ?? "conf-scheduler";
+const BRAINTRUST_PROJECT = process.env.BRAINTRUST_PROJECT ?? "nextjs-conf-scheduler";
 const BRAINTRUST_DATASET = process.env.BRAINTRUST_DATASET ?? "prod-conversations";
 
 async function main() {

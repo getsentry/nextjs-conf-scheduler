@@ -383,12 +383,12 @@ async function createAiPersona(
   await ensureLoggedIn(page, persona.user);
 
   const models = modelIds("authenticated", [
+    "openai/gpt-oss-120b",
+    "deepseek/deepseek-v3.2",
+    "anthropic/claude-sonnet-5",
     "anthropic/claude-haiku-4.5",
     "anthropic/claude-sonnet-4.6",
     "anthropic/claude-opus-4.8",
-    "openai/gpt-oss-120b",
-    "mistral/devstral-2",
-    "deepseek/deepseek-v3.2",
   ]);
 
   return {

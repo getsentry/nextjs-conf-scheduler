@@ -18,7 +18,9 @@ import * as dotenv from "dotenv";
 
 dotenv.config({ path: ".env.local" });
 
+import { generateObject } from "ai";
 import { Eval, initDataset } from "braintrust";
+import { z } from "zod";
 import { db } from "../lib/db";
 import { rooms, talks, tracks } from "../lib/db/schema";
 import { canon, classifyCitations } from "./lib/grounding";
@@ -120,6 +122,44 @@ function toolSuccess({ metadata }: ScorerArgs) {
   };
 }
 
+/**
+ * LLM-as-judge, used ONLY for the dimension code can't reach (was the answer
+ * actually helpful for planning a conference day?). Grounding stays
+ * deterministic — a judge asked "is this grounded?" can hallucinate the
+ * verdict, but "is this helpful?" is genuinely a judgment call.
+ *
+ * Caveats that keep this honest: the judge is nondeterministic run-to-run,
+ * costs tokens, and needs periodic calibration against human labels (the
+ * audit sheet). Judge model is a cheap open-weights model via the gateway.
+ */
+const JUDGE_MODEL = process.env.EVALS_JUDGE_MODEL ?? "anthropic/claude-haiku-4.5";
+
+async function helpfulness({ input, output }: ScorerArgs) {
+  if (!output) return { name: "helpfulness_judge", score: null };
+  const { object } = await generateObject({
+    model: JUDGE_MODEL,
+    schema: z.object({
+      score: z.number().min(0).max(1).describe("0 = useless, 1 = fully answers the question"),
+      reason: z.string().describe("one sentence"),
+    }),
+    prompt: [
+      "You are grading an AI conference-schedule assistant.",
+      "Judge ONLY helpfulness: did the answer address what was asked, with enough",
+      "specifics (sessions, times, next steps) for the attendee to act on?",
+      "Do NOT judge factual accuracy — that is checked separately.",
+      "",
+      `Attendee asked: ${input}`,
+      "",
+      `Assistant answered: ${String(output).slice(0, 6000)}`,
+    ].join("\n"),
+  });
+  return {
+    name: "helpfulness_judge",
+    score: Number(object.score.toFixed(2)),
+    metadata: { reason: object.reason, judge_model: JUDGE_MODEL },
+  };
+}
+
 Eval(BRAINTRUST_PROJECT, {
   experimentName: "prod-grounding",
   data: initDataset(BRAINTRUST_PROJECT, { dataset: BRAINTRUST_DATASET }),
@@ -149,7 +189,7 @@ Eval(BRAINTRUST_PROJECT, {
     }
     return conv.production_output ?? "";
   },
-  scores: [grounded, efficiency, toolSuccess],
+  scores: [grounded, efficiency, toolSuccess, helpfulness],
 }).then(() => {
   // The Postgres pool keeps the event loop alive; results are already flushed.
   process.exit(0);

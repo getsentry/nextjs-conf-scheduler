@@ -13,23 +13,14 @@ import * as dotenv from "dotenv";
 dotenv.config({ path: ".env.local" });
 
 import { initDataset } from "braintrust";
-import { db } from "../lib/db";
-import { rooms, talks, tracks } from "../lib/db/schema";
-import { canon, classifyCitations } from "./lib/grounding";
+import { loadCanonEntities } from "./lib/entities";
+import { classifyCitations } from "./lib/grounding";
 
 const BRAINTRUST_PROJECT = process.env.BRAINTRUST_PROJECT ?? "nextjs-conf-scheduler";
 const BRAINTRUST_DATASET = process.env.BRAINTRUST_DATASET ?? "prod-conversations";
 
 async function main() {
-  const tables = await Promise.all([
-    db.select({ name: talks.title }).from(talks),
-    db.select({ name: tracks.name }).from(tracks),
-    db.select({ name: rooms.name }).from(rooms),
-  ]);
-  const canonTitles = [
-    ...tables.flat().map((r) => canon(r.name)),
-    canon("AI Engineer World's Fair 2026"),
-  ];
+  const canonTitles = await loadCanonEntities();
   const dataset = initDataset(BRAINTRUST_PROJECT, { dataset: BRAINTRUST_DATASET });
 
   console.log("# Grounding scorer — citation audit\n");

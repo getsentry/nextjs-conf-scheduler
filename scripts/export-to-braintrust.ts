@@ -15,9 +15,8 @@
 import { execFileSync } from "node:child_process";
 import { flush, initDataset, initLogger } from "braintrust";
 import * as dotenv from "dotenv";
-import { canon, classifyCitations } from "../evals/lib/grounding";
-import { db } from "../lib/db";
-import { talks } from "../lib/db/schema";
+import { loadCanonEntities } from "../evals/lib/entities";
+import { classifyCitations } from "../evals/lib/grounding";
 
 dotenv.config({ path: ".env.local" });
 
@@ -205,12 +204,15 @@ function parseMessages(spans: SentrySpan[]): ParsedMessages {
       if (message.role === "tool") {
         for (const part of content) {
           if (part.type !== "tool-result") continue;
-          const values = part.output?.value;
-          if (!Array.isArray(values)) continue;
+          const output = part.output?.value;
+          // getTalkDetails returns a single object; search/list tools return arrays.
+          const values = Array.isArray(output) ? output : output ? [output] : [];
           for (const value of values) {
             if (value && typeof value === "object" && typeof value.id === "string") {
               result.retrievedTalkIds.push(value.id);
-              if (typeof value.title === "string") result.retrievedTalkTitles.push(value.title);
+              // Talks carry `title`; tracks and rooms carry `name`.
+              const label = typeof value.title === "string" ? value.title : value.name;
+              if (typeof label === "string") result.retrievedTalkTitles.push(label);
             }
           }
         }
@@ -427,9 +429,7 @@ async function main() {
   const logger = initLogger({ projectName: BRAINTRUST_PROJECT });
   const dataset = initDataset(BRAINTRUST_PROJECT, { dataset: BRAINTRUST_DATASET });
   const projectId = await fetchBraintrustProjectId();
-  const canonTitles = (await db.select({ title: talks.title }).from(talks)).map((row) =>
-    canon(row.title),
-  );
+  const canonTitles = await loadCanonEntities();
 
   for (const conv of conversations) {
     logConversation(logger, conv);

@@ -21,9 +21,8 @@ dotenv.config({ path: ".env.local" });
 import { generateObject } from "ai";
 import { Eval, initDataset } from "braintrust";
 import { z } from "zod";
-import { db } from "../lib/db";
-import { rooms, talks, tracks } from "../lib/db/schema";
-import { canon, classifyCitations } from "./lib/grounding";
+import { loadCanonEntities } from "./lib/entities";
+import { classifyCitations } from "./lib/grounding";
 
 const BRAINTRUST_PROJECT = process.env.BRAINTRUST_PROJECT ?? "nextjs-conf-scheduler";
 const BRAINTRUST_DATASET = process.env.BRAINTRUST_DATASET ?? "prod-conversations";
@@ -53,16 +52,8 @@ interface ConversationMetadata {
 
 let canonEntitiesPromise: Promise<string[]> | undefined;
 
-/** Every real schedule entity (talks, tracks, rooms) in canonical form. */
 function getCanonEntities(): Promise<string[]> {
-  canonEntitiesPromise ??= Promise.all([
-    db.select({ name: talks.title }).from(talks),
-    db.select({ name: tracks.name }).from(tracks),
-    db.select({ name: rooms.name }).from(rooms),
-  ]).then((tables) => [
-    ...tables.flat().map((row) => canon(row.name)),
-    canon("AI Engineer World's Fair 2026"), // the conference itself
-  ]);
+  canonEntitiesPromise ??= loadCanonEntities();
   return canonEntitiesPromise;
 }
 

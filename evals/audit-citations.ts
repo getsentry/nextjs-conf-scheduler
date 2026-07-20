@@ -57,7 +57,8 @@ async function main() {
       ["HALLUCINATED", verdicts.hallucinated],
     ] as const) {
       for (const title of list) {
-        console.log(`| ${shortId} | ${title.replace(/\|/g, "\\|")} | ${verdict} | |`);
+        const cell = title.replace(/\\/g, "\\\\").replace(/\|/g, "\\|");
+        console.log(`| ${shortId} | ${cell} | ${verdict} | |`);
         cited++;
         totals[verdict === "HALLUCINATED" ? "hallucinated" : verdict]++;
       }

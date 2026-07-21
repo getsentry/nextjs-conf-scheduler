@@ -170,11 +170,13 @@ export function classifyCitations(
   // Pass B — markdown candidates, for invented titles and shorthand.
   const candidates = extractCitedTitles(output).filter((title) => {
     // Headers that restate the user's ask ("Evals + Observability Day") aren't
-    // citations. The containment direction needs a length guard: a short topic
-    // query ("agents") must not suppress every title that happens to contain it.
+    // citations. Both containment directions need guards: a short topic query
+    // ("agents") must not suppress every title that happens to contain it, and
+    // an entity merely NAMED inside a longer question is a citation — only a
+    // candidate covering most of the ask counts as a restatement.
     const c = canon(title);
     if (!canonInput) return true;
-    if (canonInput.includes(c)) return false;
+    if (canonInput.includes(c) && c.length >= canonInput.length / 2) return false;
     return !(canonInput.length >= SCAN_MIN_LENGTH && c.includes(canonInput));
   });
   for (const title of candidates) {

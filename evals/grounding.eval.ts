@@ -127,30 +127,43 @@ const JUDGE_MODEL = process.env.EVALS_JUDGE_MODEL ?? "anthropic/claude-haiku-4.5
 
 async function helpfulness({ input, output }: ScorerArgs) {
   if (!output) return { name: "helpfulness_judge", score: null };
-  const { output: object } = await generateText({
-    model: gateway(JUDGE_MODEL),
-    output: Output.object({
-      schema: z.object({
-        score: z.number().min(0).max(1).describe("0 = useless, 1 = fully answers the question"),
-        reason: z.string().describe("one sentence"),
+  try {
+    const { output: object } = await generateText({
+      model: gateway(JUDGE_MODEL),
+      output: Output.object({
+        schema: z.object({
+          score: z.number().min(0).max(1).describe("0 = useless, 1 = fully answers the question"),
+          reason: z.string().describe("one sentence"),
+        }),
       }),
-    }),
-    prompt: [
-      "You are grading an AI conference-schedule assistant.",
-      "Judge ONLY helpfulness: did the answer address what was asked, with enough",
-      "specifics (sessions, times, next steps) for the attendee to act on?",
-      "Do NOT judge factual accuracy — that is checked separately.",
-      "",
-      `Attendee asked: ${input}`,
-      "",
-      `Assistant answered: ${String(output).slice(0, 6000)}`,
-    ].join("\n"),
-  });
-  return {
-    name: "helpfulness_judge",
-    score: Number(object.score.toFixed(2)),
-    metadata: { reason: object.reason, judge_model: JUDGE_MODEL },
-  };
+      prompt: [
+        "You are grading an AI conference-schedule assistant.",
+        "Judge ONLY helpfulness: did the answer address what was asked, with enough",
+        "specifics (sessions, times, next steps) for the attendee to act on?",
+        "Do NOT judge factual accuracy — that is checked separately.",
+        "",
+        `Attendee asked: ${input}`,
+        "",
+        `Assistant answered: ${String(output).slice(0, 6000)}`,
+      ].join("\n"),
+    });
+    return {
+      name: "helpfulness_judge",
+      score: Number(object.score.toFixed(2)),
+      metadata: { reason: object.reason, judge_model: JUDGE_MODEL },
+    };
+  } catch (error) {
+    // A judge failure (schema mismatch, gateway hiccup) must not sink the row:
+    // record null and keep the deterministic scores for this conversation.
+    return {
+      name: "helpfulness_judge",
+      score: null,
+      metadata: {
+        error: error instanceof Error ? error.message : String(error),
+        judge_model: JUDGE_MODEL,
+      },
+    };
+  }
 }
 
 Eval(BRAINTRUST_PROJECT, {
@@ -183,7 +196,12 @@ Eval(BRAINTRUST_PROJECT, {
     return conv.production_output ?? "";
   },
   scores: [grounded, efficiency, toolSuccess, helpfulness],
-}).then(() => {
-  // The Postgres pool keeps the event loop alive; results are already flushed.
-  process.exit(0);
-});
+})
+  .then(() => {
+    // The Postgres pool keeps the event loop alive; results are already flushed.
+    process.exit(0);
+  })
+  .catch((error) => {
+    console.error(error);
+    process.exit(1);
+  });

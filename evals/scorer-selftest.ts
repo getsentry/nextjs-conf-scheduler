@@ -243,6 +243,20 @@ async function main() {
     `shorthand="${shorthandTitle}" (from "${adjacentSource.slice(0, 40)}") score=${shorthand.score} hallucinated=${JSON.stringify(shorthand.hallucinated)}`,
   );
 
+  // An entity NAMED inside a longer question is a citation, not a restated
+  // ask — the restatement filter only fires when the candidate covers most
+  // of the input.
+  const askedByName = classifyCitations(
+    `Yes — **${shorthandTitle}** is a great pick!`,
+    `should I attend ${shorthandTitle} or skip it this year?`,
+    noTools,
+  );
+  expect(
+    "entity named inside a longer ask is still credited, not suppressed",
+    askedByName.score === 1 && askedByName.grounded.length === 1,
+    `title="${shorthandTitle}" score=${askedByName.score} cited=${JSON.stringify(askedByName.cited)}`,
+  );
+
   // Models legitimately bold track names when asked about tracks. Those are
   // real schedule entities, not hallucinated sessions.
   const realTrack = trackRows

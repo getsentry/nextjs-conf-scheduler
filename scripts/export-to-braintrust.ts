@@ -122,7 +122,7 @@ function listConversationIds(period: string, limit: number): string[] {
     offset += page.length;
     if (page.length < perPage) break;
   }
-  return ids;
+  return ids.slice(0, limit);
 }
 
 function fetchConversationSpans(conversationId: string, period: string): SentrySpan[] {
@@ -207,6 +207,7 @@ function parseMessages(spans: SentrySpan[]): ParsedMessages {
     } catch {
       continue; // Clipped at ingest — try the next payload.
     }
+    if (!Array.isArray(messages)) continue; // Clipped to valid-but-wrong JSON.
     for (const message of messages) {
       // Anthropic-style messages use content parts; open models log plain strings.
       const content = Array.isArray(message.content) ? message.content : [];

@@ -313,16 +313,29 @@ async function main() {
     `score=${lowercase.score} — extraction requires bold/quoted title-case`,
   );
 
-  // Extending a real title with invented words IS caught (verified above by the
-  // planted-fake checks) — but citing a bare FRAGMENT of a real title passes,
-  // because fragment ⊆ real-title matches by inclusion. That's the true
-  // precision bound: partial citations are credited as grounded.
+  // Inclusion-based crediting is the precision bound, in BOTH directions: a
+  // bare FRAGMENT of a real title passes (fragment ⊆ real title), and a real
+  // long title vouches for a candidate that EXTENDS it (real title ⊆ fake).
+  // Deliberate: flagging extensions would misfire on legitimately decorated
+  // citations like "**Real Title (10:45 AM)**", which models emit constantly.
   const fragment = realLong.split(" ").slice(0, 4).join(" ");
   const partial = classifyCitations(`Go see **${fragment}**!`, "recommend one", noTools);
   expect(
     "KNOWN LIMIT: fragment of a real title passes via substring match (precision bound)",
     partial.score === 1,
     `fragment="${fragment}" score=${partial.score}`,
+  );
+
+  const realMid = longTitles.find((t) => t.length <= 80) ?? realLong;
+  const extended = classifyCitations(
+    `Go see **${realMid}: Extended Cats Edition** tonight!`,
+    "recommend one",
+    noTools,
+  );
+  expect(
+    "KNOWN LIMIT: fake EXTENDING a real long title rides on it (precision bound)",
+    extended.score === 1 && extended.hallucinated.length === 0,
+    `base="${realMid.slice(0, 40)}" score=${extended.score} hallucinated=${JSON.stringify(extended.hallucinated)}`,
   );
 
   // ── Report ────────────────────────────────────────────────────────────────

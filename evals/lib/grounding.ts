@@ -157,9 +157,14 @@ export function classifyCitations(
   for (const title of retrievedTitles) {
     if (title.length < SCAN_MIN_LENGTH || matched.has(title)) continue;
     if (!canonOut.includes(` ${title} `)) continue;
-    if (truth.canonTitles.some((db) => db.includes(title) || title.includes(db))) continue;
+    // A retrieved title overlapping a DB title (same length guard as pass B)
+    // is still a real entity today — grounded, not drift. Either way the
+    // mention is credited; dropping it would deflate the score.
+    const inDb = truth.canonTitles.some(
+      (db) => db.includes(title) || (db.length >= SCAN_MIN_LENGTH && title.includes(db)),
+    );
     matched.add(title);
-    drift.push(title);
+    (inDb ? grounded : drift).push(title);
   }
 
   // Pass B — markdown candidates, for invented titles and shorthand.

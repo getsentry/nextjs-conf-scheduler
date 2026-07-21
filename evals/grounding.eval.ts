@@ -18,7 +18,7 @@ import * as dotenv from "dotenv";
 
 dotenv.config({ path: ".env.local" });
 
-import { generateObject } from "ai";
+import { gateway, generateText, Output } from "ai";
 import { Eval, initDataset } from "braintrust";
 import { z } from "zod";
 import { loadCanonEntities } from "./lib/entities";
@@ -127,11 +127,13 @@ const JUDGE_MODEL = process.env.EVALS_JUDGE_MODEL ?? "anthropic/claude-haiku-4.5
 
 async function helpfulness({ input, output }: ScorerArgs) {
   if (!output) return { name: "helpfulness_judge", score: null };
-  const { object } = await generateObject({
-    model: JUDGE_MODEL,
-    schema: z.object({
-      score: z.number().min(0).max(1).describe("0 = useless, 1 = fully answers the question"),
-      reason: z.string().describe("one sentence"),
+  const { output: object } = await generateText({
+    model: gateway(JUDGE_MODEL),
+    output: Output.object({
+      schema: z.object({
+        score: z.number().min(0).max(1).describe("0 = useless, 1 = fully answers the question"),
+        reason: z.string().describe("one sentence"),
+      }),
     }),
     prompt: [
       "You are grading an AI conference-schedule assistant.",

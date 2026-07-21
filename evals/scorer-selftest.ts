@@ -141,6 +141,29 @@ async function main() {
     `score=${sameButNoTools.score}`,
   );
 
+  // A retrieved title that overlaps a DB title (e.g. the title was extended in
+  // a re-seed) must still be credited when cited verbatim in plain prose —
+  // not silently dropped, which would null the score.
+  const realLongWords = realLong.split(" ");
+  let overlapFragment = "";
+  for (let n = realLongWords.length - 1; n >= 3; n--) {
+    const frag = realLongWords.slice(0, n).join(" ");
+    if (canon(frag).length >= 15) {
+      overlapFragment = frag;
+      break;
+    }
+  }
+  const overlap = classifyCitations(
+    `Best pick: ${overlapFragment}, right after lunch.`,
+    "afternoon plan?",
+    { canonTitles, retrievedIds: [], retrievedTitles: [overlapFragment] },
+  );
+  expect(
+    "retrieved title overlapping a DB title is credited as grounded, not dropped",
+    overlap.score === 1 && overlap.grounded.length >= 1 && overlap.hallucinated.length === 0,
+    `fragment="${overlapFragment}" score=${overlap.score} cited=${JSON.stringify(overlap.cited)}`,
+  );
+
   // ── Extraction: noise must not count as citations ─────────────────────────
   const noise = extractCitedTitles(
     [

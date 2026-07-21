@@ -116,14 +116,22 @@ function listConversationIds(period: string, limit: number): string[] {
 }
 
 function fetchConversationSpans(conversationId: string, period: string): SentrySpan[] {
-  const path = eventsQuery({
-    statsPeriod: period,
-    query: `gen_ai.conversation.id:${conversationId}`,
-    field: SPAN_FIELDS,
-    sort: "timestamp",
-    per_page: "100",
-  });
-  return sentryApi<{ data: SentrySpan[] }>(path).data;
+  const spans: SentrySpan[] = [];
+  // Follow offset cursors: long conversations exceed one page, and dropping
+  // the tail loses tool results and the real final answer.
+  for (let offset = 0; ; offset += 100) {
+    const path = eventsQuery({
+      statsPeriod: period,
+      query: `gen_ai.conversation.id:${conversationId}`,
+      field: SPAN_FIELDS,
+      sort: "timestamp",
+      per_page: "100",
+      cursor: `0:${offset}:0`,
+    });
+    const page = sentryApi<{ data: SentrySpan[] }>(path).data;
+    spans.push(...page);
+    if (page.length < 100) return spans;
+  }
 }
 
 /**

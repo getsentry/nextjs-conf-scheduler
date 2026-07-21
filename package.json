@@ -14,6 +14,10 @@
     "db:studio": "drizzle-kit studio",
     "db:seed": "tsx lib/db/seed.ts",
     "db:embed": "tsx scripts/embed-talks.ts",
+    "evals:export": "tsx scripts/export-to-braintrust.ts",
+    "evals:run": "tsx evals/grounding.eval.ts",
+    "evals:selftest": "tsx evals/scorer-selftest.ts",
+    "evals:audit": "tsx evals/audit-citations.ts",
     "traffic": "tsx scripts/generate-traffic.ts",
     "traffic:ai": "tsx scripts/generate-traffic.ts --ai",
     "sentry:backfill": "tsx scripts/backfill-sentry-dashboard-data.ts"
@@ -30,6 +34,7 @@
     "@streamdown/mermaid": "^1.0.2",
     "ai": "^6.0.208",
     "bcryptjs": "^3.0.3",
+    "braintrust": "^3.22.0",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "cmdk": "^1.1.1",

@@ -68,6 +68,14 @@ const OPEN_MODEL_OPTIONS: AiModelOption[] = [
 
 const FRONTIER_MODEL_OPTIONS: AiModelOption[] = [
   {
+    id: "anthropic/claude-sonnet-5",
+    name: "Claude Sonnet 5",
+    provider: "anthropic",
+    contextWindow: 200_000,
+    description: "Latest frontier",
+    gatewayOrder: ["anthropic", "bedrock"],
+  },
+  {
     id: "anthropic/claude-sonnet-4.6",
     name: "Claude Sonnet 4.6",
     provider: "anthropic",

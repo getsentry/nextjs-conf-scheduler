@@ -169,9 +169,13 @@ export function classifyCitations(
 
   // Pass B — markdown candidates, for invented titles and shorthand.
   const candidates = extractCitedTitles(output).filter((title) => {
-    // Headers that restate the user's ask ("Evals + Observability Day") aren't citations.
+    // Headers that restate the user's ask ("Evals + Observability Day") aren't
+    // citations. The containment direction needs a length guard: a short topic
+    // query ("agents") must not suppress every title that happens to contain it.
     const c = canon(title);
-    return !(canonInput && (canonInput.includes(c) || c.includes(canonInput)));
+    if (!canonInput) return true;
+    if (canonInput.includes(c)) return false;
+    return !(canonInput.length >= SCAN_MIN_LENGTH && c.includes(canonInput));
   });
   for (const title of candidates) {
     const c = canon(title);

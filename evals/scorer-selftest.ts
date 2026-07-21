@@ -193,6 +193,19 @@ async function main() {
     `cited=${JSON.stringify(restated.cited)}`,
   );
 
+  // The restated-ask filter must not fire on short topic queries: asking
+  // "agents" cannot excuse a fake title that merely contains the word.
+  const shortQuery = classifyCitations(
+    "Try **Quantum Agents for Distributed Cats** at noon.",
+    "agents",
+    noTools,
+  );
+  expect(
+    "short topic query does not suppress a fake title containing it",
+    shortQuery.score === 0 && shortQuery.hallucinated.length === 1,
+    `score=${shortQuery.score} hallucinated=${JSON.stringify(shortQuery.hallucinated)}`,
+  );
+
   // ── Format independence: every model has a house style ───────────────────
   // Haiku puts titles in table cells, Opus italicizes or abbreviates. A
   // grounding scorer must measure truthfulness, not markdown compliance.

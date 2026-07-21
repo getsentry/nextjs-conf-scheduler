@@ -104,15 +104,25 @@ function eventsQuery(params: Record<string, string | string[]>): string {
 }
 
 function listConversationIds(period: string, limit: number): string[] {
-  const path = eventsQuery({
-    statsPeriod: period,
-    query: "has:gen_ai.conversation.id",
-    field: ["gen_ai.conversation.id", "sum(gen_ai.usage.total_tokens)"],
-    sort: "-sum(gen_ai.usage.total_tokens)",
-    per_page: String(Math.min(limit, 100)),
-  });
-  const res = sentryApi<{ data: Array<Record<string, unknown>> }>(path);
-  return res.data.map((row) => String(row["gen_ai.conversation.id"] ?? "")).filter(Boolean);
+  const ids: string[] = [];
+  let offset = 0;
+  // Pages are capped at 100 rows; follow offset cursors so --limit > 100 works.
+  while (ids.length < limit) {
+    const perPage = Math.min(limit - ids.length, 100);
+    const path = eventsQuery({
+      statsPeriod: period,
+      query: "has:gen_ai.conversation.id",
+      field: ["gen_ai.conversation.id", "sum(gen_ai.usage.total_tokens)"],
+      sort: "-sum(gen_ai.usage.total_tokens)",
+      per_page: String(perPage),
+      cursor: `0:${offset}:0`,
+    });
+    const page = sentryApi<{ data: Array<Record<string, unknown>> }>(path).data;
+    ids.push(...page.map((row) => String(row["gen_ai.conversation.id"] ?? "")).filter(Boolean));
+    offset += page.length;
+    if (page.length < perPage) break;
+  }
+  return ids;
 }
 
 function fetchConversationSpans(conversationId: string, period: string): SentrySpan[] {
@@ -402,11 +412,13 @@ async function fetchBraintrustProjectId(): Promise<string | undefined> {
 
 async function main() {
   const args = process.argv.slice(2);
-  const period =
-    args[args.indexOf("--period") + 1] && args.includes("--period")
-      ? args[args.indexOf("--period") + 1]
-      : "30d";
-  const limit = args.includes("--limit") ? Number(args[args.indexOf("--limit") + 1]) : 50;
+  // A flag's value is the next token, unless it's missing or another flag.
+  const flagValue = (flag: string): string | undefined => {
+    const next = args.indexOf(flag) === -1 ? undefined : args[args.indexOf(flag) + 1];
+    return next && !next.startsWith("--") ? next : undefined;
+  };
+  const period = flagValue("--period") ?? "30d";
+  const limit = Number(flagValue("--limit") ?? 50);
   const dryRun = args.includes("--dry-run");
 
   console.log(`Scanning Sentry (${SENTRY_ORG}, project ${SENTRY_PROJECT_ID}, last ${period})…`);

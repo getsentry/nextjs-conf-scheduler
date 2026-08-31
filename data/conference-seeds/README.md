@@ -20,7 +20,7 @@ The row shapes match the current Drizzle seed tables in `lib/db/schema.ts`.
 | `raise-summit-2026.json` | 7 | 7 | 359 | 193 | 407 |
 | `wearedevelopers-world-congress-2026.json` | 22 | 30 | 605 | 488 | 636 |
 | `wearedevelopers-world-congress-na-2026.json` | 8 | 10 | 318 | 222 | 271 |
-| `the-ai-conference-2026.json` | see file | | | | |
+| `the-ai-conference-2026.json` | 5 | 8 | 45 | 43 | 51 |
 
 `wearedevelopers-world-congress-na-2026.json`: speakers and sessions are real (scraped 2026-08-31); tracks, stages, and the time grid are synthesized because the final agenda is unpublished. Regenerate from the live agenda closer to the event (Sep 23–25, 2026).
 

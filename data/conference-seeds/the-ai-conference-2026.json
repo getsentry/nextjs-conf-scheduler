@@ -1,0 +1,1309 @@
+{
+ "metadata": {
+  "id": "the-ai-conference-2026",
+  "name": "The AI Conference 2026",
+  "timezone": "America/Los_Angeles",
+  "dates": "2026-09-29/2026-10-01",
+  "location": "San Francisco, CA"
+ },
+ "source": "https://aiconference.com/ and https://aiconference.com/dz/ (speakers real; tracks, rooms, and schedule synthesized - agenda unpublished as of 2026-08-31)",
+ "tracks": [
+  {
+   "id": "aiconf-track-ai-frontiers",
+   "name": "AI Frontiers",
+   "color": "#6C5FC7",
+   "description": "Research, policy, and frontier-model sessions for researchers, policy leaders, and senior strategists."
+  },
+  {
+   "id": "aiconf-track-ai-builders",
+   "name": "AI Builders",
+   "color": "#2D9CDB",
+   "description": "Hands-on engineering sessions for software engineers, architects, and tech leads shipping AI products."
+  },
+  {
+   "id": "aiconf-track-the-ai-stack",
+   "name": "The AI Stack",
+   "color": "#2BAE66",
+   "description": "Models, training, and infrastructure sessions for ML researchers, ML/AI engineers, and infrastructure teams."
+  },
+  {
+   "id": "aiconf-track-applied-ai",
+   "name": "Applied AI",
+   "color": "#F5A623",
+   "description": "Production AI in real products, for product managers, applied scientists, and solutions and operations leaders."
+  },
+  {
+   "id": "aiconf-track-ai-strategy",
+   "name": "AI Strategy",
+   "color": "#EB5757",
+   "description": "Leadership, investment, and transformation sessions for executives, strategists, and transformation owners."
+  }
+ ],
+ "rooms": [
+  {
+   "id": "aiconf-room-keynote-stage",
+   "name": "Keynote Stage",
+   "capacity": 1200
+  },
+  {
+   "id": "aiconf-room-ai-frontiers-stage",
+   "name": "AI Frontiers Stage",
+   "capacity": 400
+  },
+  {
+   "id": "aiconf-room-ai-builders-stage",
+   "name": "AI Builders Stage",
+   "capacity": 400
+  },
+  {
+   "id": "aiconf-room-the-ai-stack-stage",
+   "name": "The AI Stack Stage",
+   "capacity": 400
+  },
+  {
+   "id": "aiconf-room-applied-ai-stage",
+   "name": "Applied AI Stage",
+   "capacity": 400
+  },
+  {
+   "id": "aiconf-room-ai-strategy-stage",
+   "name": "AI Strategy Stage",
+   "capacity": 400
+  },
+  {
+   "id": "aiconf-room-workshop-room-a",
+   "name": "Workshop Room A",
+   "capacity": 180
+  },
+  {
+   "id": "aiconf-room-workshop-room-b",
+   "name": "Workshop Room B",
+   "capacity": 180
+  }
+ ],
+ "speakers": [
+  {
+   "id": "aiconf-spk-peter-norvig",
+   "name": "Peter Norvig",
+   "bio": "Peter Norvig is a Distinguished Education Fellow at Stanford's Human-Centered Artificial Intelligence Institute and formerly directed research at Google and NASA's Ames Research Center. He is co-author of Artificial Intelligence: A Modern Approach, the standard AI textbook.",
+   "avatar": "https://aiconference.com/wp-content/uploads/2026/05/Peter-Norvig.jpg",
+   "company": "Stanford HAI",
+   "role": "Distinguished Education Fellow",
+   "twitter": null
+  },
+  {
+   "id": "aiconf-spk-emmanuel-ameisen",
+   "name": "Emmanuel Ameisen",
+   "bio": "Emmanuel Ameisen is an interpretability researcher at Anthropic, working on understanding how large language models work internally. He is the author of Building Machine Learning Powered Applications.",
+   "avatar": "https://aiconference.com/wp-content/uploads/2026/05/Emmanuel-Ameisen.jpg",
+   "company": "Anthropic",
+   "role": "Interpretability Researcher",
+   "twitter": "mlpowered"
+  },
+  {
+   "id": "aiconf-spk-illia-polosukhin",
+   "name": "Illia Polosukhin",
+   "bio": "Illia Polosukhin is a co-author of the Transformer paper \"Attention Is All You Need\" and co-founder of NEAR, where he now leads NEAR AI's work on user-owned AI.",
+   "avatar": "https://aiconference.com/wp-content/uploads/2026/05/Illia-Polosukhin.jpg",
+   "company": "NEAR AI",
+   "role": "Co-Founder",
+   "twitter": null
+  },
+  {
+   "id": "aiconf-spk-ion-stoica",
+   "name": "Ion Stoica",
+   "bio": "Ion Stoica is a professor at UC Berkeley, director of Sky Computing Lab, and co-founder of Databricks and Anyscale. His lab's projects include Spark, Ray, and vLLM.",
+   "avatar": "https://aiconference.com/wp-content/uploads/2026/08/Ion-Stoica.jpg",
+   "company": "UC Berkeley",
+   "role": "Professor & Co-founder",
+   "twitter": "istoica05"
+  },
+  {
+   "id": "aiconf-spk-chris-lattner",
+   "name": "Chris Lattner",
+   "bio": "Chris Lattner is co-founder and CEO of Modular and the creator of LLVM, Clang, Swift, and MLIR. At Modular he leads work on Mojo and a unified AI compute stack.",
+   "avatar": "https://aiconference.com/wp-content/uploads/2026/06/Chris-Lattner.jpg",
+   "company": "Modular",
+   "role": "Co-founder and CEO",
+   "twitter": "clattner_llvm"
+  },
+  {
+   "id": "aiconf-spk-brian-yang",
+   "name": "Brian Yang",
+   "bio": "Brian Yang is a Member of Technical Staff at OpenAI, building frontier model products and infrastructure.",
+   "avatar": "https://aiconference.com/wp-content/uploads/2026/07/Brian-Yang.jpg",
+   "company": "OpenAI",
+   "role": "Member of Technical Staff",
+   "twitter": null
+  },
+  {
+   "id": "aiconf-spk-sergey-levine",
+   "name": "Sergey Levine",
+   "bio": "Sergey Levine is an associate professor at UC Berkeley and co-founder of Physical Intelligence. His research focuses on reinforcement learning and robot learning at the frontier of embodied AI.",
+   "avatar": "https://aiconference.com/wp-content/uploads/2026/07/Sergey-Levine.jpg",
+   "company": "UC Berkeley",
+   "role": "Associate Professor",
+   "twitter": "svlevine"
+  },
+  {
+   "id": "aiconf-spk-chris-clark",
+   "name": "Chris Clark",
+   "bio": "Chris Clark is COO and co-founder of OpenRouter, the unified API for accessing and routing across frontier and open AI models.",
+   "avatar": "https://aiconference.com/wp-content/uploads/2026/05/Chris-Clark-1.jpg",
+   "company": "OpenRouter",
+   "role": "COO and Co-Founder",
+   "twitter": "cclark"
+  },
+  {
+   "id": "aiconf-spk-eric-ries",
+   "name": "Eric Ries",
+   "bio": "Eric Ries is the author of The Lean Startup and Incorruptible, and founder of the Long-Term Stock Exchange (LTSE).",
+   "avatar": "https://aiconference.com/wp-content/uploads/2026/07/Eric-Reis.jpg",
+   "company": "LTSE",
+   "role": "Founder and Author",
+   "twitter": "ericries"
+  },
+  {
+   "id": "aiconf-spk-tim-oreilly",
+   "name": "Tim O'Reilly",
+   "bio": "Tim O'Reilly is the founder and CEO of O'Reilly Media and a long-time chronicler of technology platform shifts, from open source to Web 2.0 to AI.",
+   "avatar": "https://aiconference.com/wp-content/uploads/2026/07/Tim-OReilly-1.jpg",
+   "company": "O'Reilly Media",
+   "role": "Founder and CEO",
+   "twitter": "timoreilly"
+  },
+  {
+   "id": "aiconf-spk-annie-surla",
+   "name": "Annie Surla",
+   "bio": "Annie Surla is a Product Research Engineering Manager for Deep Learning at NVIDIA, turning deep learning research into developer-facing products and platforms.",
+   "avatar": "https://aiconference.com/wp-content/uploads/2026/08/Annie-Surla.jpg",
+   "company": "NVIDIA",
+   "role": "Product Research Engineering Manager, Deep Learning",
+   "twitter": null
+  },
+  {
+   "id": "aiconf-spk-max-brodeur-urbas",
+   "name": "Max Brodeur-Urbas",
+   "bio": "Max Brodeur-Urbas is CEO and co-founder of Gumloop, a no-code platform for building AI-powered automations.",
+   "avatar": "https://aiconference.com/wp-content/uploads/2026/08/Max_Brodeur-Urbas.jpg",
+   "company": "Gumloop",
+   "role": "CEO",
+   "twitter": "MaxBrodeurUrbas"
+  },
+  {
+   "id": "aiconf-spk-daksh-gupta",
+   "name": "Daksh Gupta",
+   "bio": "Daksh Gupta is co-founder and CEO of Greptile, which builds AI code review that understands entire codebases.",
+   "avatar": "https://aiconference.com/wp-content/uploads/2026/08/Daksh-Gupta.jpg",
+   "company": "Greptile",
+   "role": "Co-founder and CEO",
+   "twitter": "dakshgup"
+  },
+  {
+   "id": "aiconf-spk-ann-miura-ko",
+   "name": "Ann Miura-Ko",
+   "bio": "Ann Miura-Ko is a co-founding partner at Floodgate, a lecturer at Stanford, and one of the earliest backers of thesis-driven seed investing in Silicon Valley.",
+   "avatar": "https://aiconference.com/wp-content/uploads/2026/08/Ann_Miura-Ko.jpg",
+   "company": "Floodgate",
+   "role": "Co-founding Partner",
+   "twitter": null
+  },
+  {
+   "id": "aiconf-spk-jaclyn-konzelmann",
+   "name": "Jaclyn Konzelmann",
+   "bio": "Jaclyn Konzelmann leads AI-first products at Google Labs, including the Gemini API and Google AI Studio.",
+   "avatar": "https://aiconference.com/wp-content/uploads/2026/05/Jaclyn-Konzelmann.jpg",
+   "company": "Google Labs",
+   "role": "Product Director",
+   "twitter": "jacalulu"
+  },
+  {
+   "id": "aiconf-spk-marco-paglia",
+   "name": "Marco Paglia",
+   "bio": "Marco Paglia leads product and engineering at Musixmatch, the global music data company.",
+   "avatar": "https://aiconference.com/wp-content/uploads/2026/05/Marco-Paglia.jpg",
+   "company": "Musixmatch",
+   "role": "President - Product & Engineering",
+   "twitter": null
+  },
+  {
+   "id": "aiconf-spk-sarah-chieng",
+   "name": "Sarah Chieng",
+   "bio": "Sarah Chieng leads Developer Experience at Cerebras, focusing on AI hardware and developer ecosystems, and founded Cafe Compute.",
+   "avatar": "https://aiconference.com/wp-content/uploads/2026/06/Sarah-Chieng.jpg",
+   "company": "Cerebras",
+   "role": "Head of Developer Experience",
+   "twitter": "SarahChieng"
+  },
+  {
+   "id": "aiconf-spk-malika-aubakirova",
+   "name": "Malika Aubakirova",
+   "bio": "Malika Aubakirova is a partner at Andreessen Horowitz investing in AI infrastructure and applications.",
+   "avatar": "https://aiconference.com/wp-content/uploads/2026/05/Malika-Aubakirova-2.jpg",
+   "company": "Andreessen Horowitz",
+   "role": "Partner",
+   "twitter": "MaikaThoughts"
+  },
+  {
+   "id": "aiconf-spk-matthew-strozier",
+   "name": "Matthew Strozier",
+   "bio": "Matthew Strozier is bureau chief of WSJ Pro Venture Capital, covering the venture industry for The Wall Street Journal.",
+   "avatar": "https://aiconference.com/wp-content/uploads/2026/07/Matthew-Strozier.jpg",
+   "company": "WSJ Pro Venture Capital",
+   "role": "Bureau Chief",
+   "twitter": "mstrozier"
+  },
+  {
+   "id": "aiconf-spk-lauri-moore",
+   "name": "Lauri Moore",
+   "bio": "Lauri Moore is a partner at Bessemer Venture Partners, investing in AI, data, and developer platforms.",
+   "avatar": "https://aiconference.com/wp-content/uploads/2026/07/Lauri-Moore.jpg",
+   "company": "Bessemer Venture Partners",
+   "role": "Partner",
+   "twitter": "laurijmoore"
+  },
+  {
+   "id": "aiconf-spk-jon-sakoda",
+   "name": "Jon Sakoda",
+   "bio": "Jon Sakoda is the founding partner of Decibel, an early-stage venture firm focused on developer-led and AI-native companies.",
+   "avatar": "https://aiconference.com/wp-content/uploads/2026/07/Jon-Sakoda.jpg",
+   "company": "Decibel",
+   "role": "Founding Partner",
+   "twitter": "jonsakoda"
+  },
+  {
+   "id": "aiconf-spk-gerrit-de-vynck",
+   "name": "Gerrit De Vynck",
+   "bio": "Gerrit De Vynck is a technology reporter at The Washington Post covering artificial intelligence and the companies building it.",
+   "avatar": "https://aiconference.com/wp-content/uploads/2026/08/Gerrit-De-Vynck.jpg",
+   "company": "The Washington Post",
+   "role": "Tech Reporter",
+   "twitter": "GerritD"
+  },
+  {
+   "id": "aiconf-spk-rebecca-bauer-kahan",
+   "name": "Rebecca Bauer-Kahan",
+   "bio": "Rebecca Bauer-Kahan represents District 16 in the California State Assembly, where she has authored key state legislation on AI and privacy.",
+   "avatar": "https://aiconference.com/wp-content/uploads/2026/08/Rebecca-Bauer-Kahan.jpg",
+   "company": "California State Assembly",
+   "role": "Assemblymember, District 16",
+   "twitter": null
+  },
+  {
+   "id": "aiconf-spk-kevin-frazier",
+   "name": "Kevin Frazier",
+   "bio": "Kevin Frazier is a professor in the AI Innovation & Law Program at the University of Texas School of Law, studying AI governance and regulation.",
+   "avatar": "https://aiconference.com/wp-content/uploads/2026/08/Kevin-Frazier.jpg",
+   "company": "University of Texas School of Law",
+   "role": "Professor, AI Innovation & Law Program",
+   "twitter": "KevinTFrazier"
+  },
+  {
+   "id": "aiconf-spk-andrew-freedman",
+   "name": "Andrew Freedman",
+   "bio": "Andrew Freedman is co-founder and CEO of Fathom and previously served as Colorado's first cannabis czar, bringing regulatory experience to AI policy.",
+   "avatar": "https://aiconference.com/wp-content/uploads/2026/08/Andrew-Freedman.jpg",
+   "company": "Fathom",
+   "role": "Co-Founder and CEO",
+   "twitter": "AndrewFATHOM"
+  },
+  {
+   "id": "aiconf-spk-jason-hiner",
+   "name": "Jason Hiner",
+   "bio": "Jason Hiner is Chief Content Officer and Editor-in-Chief of The Deep View, covering how AI is transforming business and society.",
+   "avatar": "https://aiconference.com/wp-content/uploads/2026/08/Jason-Hiner.jpg",
+   "company": "The Deep View",
+   "role": "Chief Content Officer and Editor-in-Chief",
+   "twitter": "jasonhiner"
+  },
+  {
+   "id": "aiconf-spk-claire-southey",
+   "name": "Claire Southey",
+   "bio": "Claire Southey is Chief AI Officer at Rokt, leading AI strategy and applied machine learning across the e-commerce technology company.",
+   "avatar": "https://aiconference.com/wp-content/uploads/2026/08/Claire-Southey.jpg",
+   "company": "Rokt",
+   "role": "Chief AI Officer",
+   "twitter": null
+  },
+  {
+   "id": "aiconf-spk-todd-earwood",
+   "name": "Todd Earwood",
+   "bio": "Todd Earwood is CEO of Betra Works, helping companies operationalize AI transformation.",
+   "avatar": "https://aiconference.com/wp-content/uploads/2026/08/Todd-Earwood.jpg",
+   "company": "Betra Works",
+   "role": "CEO",
+   "twitter": "earwood"
+  },
+  {
+   "id": "aiconf-spk-charlie-guo",
+   "name": "Charlie Guo",
+   "bio": "Charlie Guo is a Developer Experience Engineer at OpenAI, helping developers build on the OpenAI platform.",
+   "avatar": "https://aiconference.com/wp-content/uploads/2026/07/Charlie-Guo.jpg",
+   "company": "OpenAI",
+   "role": "Developer Experience Engineer",
+   "twitter": "charlierguo"
+  },
+  {
+   "id": "aiconf-spk-pallavi-kinnera",
+   "name": "Pallavi Kinnera",
+   "bio": "Pallavi Kinnera leads AI-driven automation for advanced-node chip design at Meta Reality Labs.",
+   "avatar": "https://aiconference.com/wp-content/uploads/2026/05/Pallavi-Kinnera.jpg",
+   "company": "Meta Reality Labs",
+   "role": "Chip Designer",
+   "twitter": null
+  },
+  {
+   "id": "aiconf-spk-shuen-mei",
+   "name": "Shuen Mei",
+   "bio": "Shuen Mei leads AI, data, and software teams building Harbor Capital Advisors' data, cloud, and integration platforms across financial services.",
+   "avatar": "https://aiconference.com/wp-content/uploads/2026/05/Shuen-Mei.jpg",
+   "company": "Harbor Capital Advisors",
+   "role": "VP, Director of Software and Data Engineering",
+   "twitter": null
+  },
+  {
+   "id": "aiconf-spk-pratyusha-singaraju",
+   "name": "Pratyusha Singaraju",
+   "bio": "Pratyusha Singaraju designs and builds AI-powered backend services driving content understanding for Netflix search and discovery.",
+   "avatar": "https://aiconference.com/wp-content/uploads/2026/05/Pratyusha-Singaraju.jpg",
+   "company": "Netflix",
+   "role": "Senior Software Engineer",
+   "twitter": null
+  },
+  {
+   "id": "aiconf-spk-julia-diament",
+   "name": "Julia Diament",
+   "bio": "Julia Diament brings 18+ years of AI and security expertise to Microsoft's Office of the CTO, focused on adversarial threats and secure-by-design patterns.",
+   "avatar": "https://aiconference.com/wp-content/uploads/2026/05/Julia-Diament.jpg",
+   "company": "Microsoft",
+   "role": "Principal AI Architect, Office of the CTO",
+   "twitter": null
+  },
+  {
+   "id": "aiconf-spk-divya-mahajan",
+   "name": "Divya Mahajan",
+   "bio": "Divya Mahajan builds production-grade agentic AI and LLM systems at Alexa scale, leading evaluation and multi-turn workflows for Alexa+ users.",
+   "avatar": "https://aiconference.com/wp-content/uploads/2026/05/Divya-Mahajan.jpg",
+   "company": "Amazon Alexa",
+   "role": "Software Engineer",
+   "twitter": null
+  },
+  {
+   "id": "aiconf-spk-ran-li",
+   "name": "Ran Li",
+   "bio": "Ran Li is a technical lead at Google working on AI-powered products at global scale.",
+   "avatar": "https://aiconference.com/wp-content/uploads/2026/06/Ran-Li.jpg",
+   "company": "Google",
+   "role": "Technical Lead",
+   "twitter": "ranli_thinker"
+  },
+  {
+   "id": "aiconf-spk-vidya-meenakshi",
+   "name": "Vidya Meenakshi",
+   "bio": "Vidya Meenakshi builds backend experimentation platforms at Intuit, including the Experimentation Agent and MCP server.",
+   "avatar": "https://aiconference.com/wp-content/uploads/2026/05/Vidya-Meenakshi.jpg",
+   "company": "Intuit",
+   "role": "Senior Software Engineer",
+   "twitter": null
+  },
+  {
+   "id": "aiconf-spk-ioannis-antonoglou",
+   "name": "Ioannis Antonoglou",
+   "bio": "Ioannis Antonoglou is a founding engineer at Google DeepMind and core architect behind AlphaGo, AlphaZero, and MuZero, and co-founder and CTO of Reflection AI.",
+   "avatar": "",
+   "company": "Reflection AI",
+   "role": "Co-Founder and CTO",
+   "twitter": null
+  },
+  {
+   "id": "aiconf-spk-jon-pappas",
+   "name": "Jon Pappas",
+   "bio": "Jon Pappas leads AI-powered talent search, matching, and deployment at Upwork.",
+   "avatar": "https://aiconference.com/wp-content/uploads/2026/05/Jon-Pappas.jpg",
+   "company": "Upwork",
+   "role": "Sr. Director of Technical Product Management",
+   "twitter": null
+  },
+  {
+   "id": "aiconf-spk-yogiraj-awati",
+   "name": "Yogiraj Awati",
+   "bio": "Yogiraj Awati leads large-scale AI and RAG platforms powering Instacart's grocery experience.",
+   "avatar": "https://aiconference.com/wp-content/uploads/2026/05/Yogiraj-Awati.jpg",
+   "company": "Instacart",
+   "role": "Engineering Manager",
+   "twitter": null
+  },
+  {
+   "id": "aiconf-spk-ryan-lopopolo",
+   "name": "Ryan Lopopolo",
+   "bio": "Ryan Lopopolo builds agent-first development workflows at OpenAI, authoring the Harness Engineering framework.",
+   "avatar": "https://aiconference.com/wp-content/uploads/2026/05/Ryan-Lopopolo.jpg",
+   "company": "OpenAI",
+   "role": "Member of Technical Staff",
+   "twitter": "_lopopolo"
+  },
+  {
+   "id": "aiconf-spk-ruiyang-wang",
+   "name": "Ruiyang Wang",
+   "bio": "Ruiyang Wang builds infrastructure and data systems behind Anthropic's large language models, previously at Anyscale and Google Cloud.",
+   "avatar": "https://aiconference.com/wp-content/uploads/2026/05/Ruiyang-Wang.jpg",
+   "company": "Anthropic",
+   "role": "Member of Technical Staff",
+   "twitter": null
+  },
+  {
+   "id": "aiconf-spk-lisa-shen",
+   "name": "Lisa Shen",
+   "bio": "Lisa Shen is a Product Manager at Google Cloud working on Cloud Run and serverless AI infrastructure.",
+   "avatar": "https://aiconference.com/wp-content/uploads/2026/08/Lisa-Shen-300x269.webp",
+   "company": "Google",
+   "role": "Product Manager",
+   "twitter": null
+  },
+  {
+   "id": "aiconf-spk-jo-o-moura",
+   "name": "João Moura",
+   "bio": "João Moura is the creator of CrewAI and CEO of crewAI, building frameworks and platforms for orchestrating multi-agent AI systems.",
+   "avatar": "https://aiconference.com/wp-content/uploads/2024/05/Joao-Joe-Moura.jpg",
+   "company": "crewAI",
+   "role": "CEO",
+   "twitter": null
+  },
+  {
+   "id": "aiconf-spk-lorenze-hay",
+   "name": "Lorenze Hay",
+   "bio": "Lorenze Hay is a software engineer at crewAI working on production agent orchestration.",
+   "avatar": "https://aiconference.com/wp-content/uploads/2026/08/Lorenze-Hay.jpg",
+   "company": "crewAI",
+   "role": "Software Engineer",
+   "twitter": null
+  },
+  {
+   "id": "aiconf-spk-milin-desai",
+   "name": "Milin Desai",
+   "bio": "Milin Desai currently serves as the CEO of Sentry. Used by more than 4 million developers and 150,000 organizations worldwide, Sentry helps every developer detect, understand, and fix broken code, fast.",
+   "avatar": "",
+   "company": "Sentry",
+   "role": "CEO",
+   "twitter": null
+  }
+ ],
+ "talks": [
+  {
+   "id": "aiconf-building-production-ready-ai-agents-on-google-cloud-run",
+   "title": "Building Production-Ready AI Agents on Google Cloud Run",
+   "description": "Prototyping an AI agent is faster than ever, but transitioning that prototype into a secure, scalable, and observable production application is where the real engineering begins. In this 90-minute interactive workshop, you will move beyond Day 1 demos to master enterprise-grade AI deployment on Google Cloud's serverless platform, with hands-on labs for agents and serverless-GPU inference on Cloud Run.",
+   "speakerId": "aiconf-spk-lisa-shen",
+   "trackId": "aiconf-track-ai-builders",
+   "roomId": "aiconf-room-workshop-room-a",
+   "startTime": 1790697600,
+   "endTime": 1790703000,
+   "level": "intermediate",
+   "format": "workshop",
+   "status": "confirmed"
+  },
+  {
+   "id": "aiconf-designing-agentic-systems",
+   "title": "Designing Agentic Systems",
+   "description": "Most agents don't fail in production because the model is bad. They fail because the system around the model has no guardrails, no structure, and no way to see what's happening. This session walks through the harness every production agent needs: control flow, a real plan-execute-observe-replan design, and observability you can act on, backed by a benchmark where the same model went from 20% to 60%+ just by changing the system. You'll leave with a pre-deploy checklist.",
+   "speakerId": "aiconf-spk-jo-o-moura",
+   "trackId": "aiconf-track-ai-builders",
+   "roomId": "aiconf-room-workshop-room-a",
+   "startTime": 1790703900,
+   "endTime": 1790709300,
+   "level": "advanced",
+   "format": "workshop",
+   "status": "confirmed"
+  },
+  {
+   "id": "aiconf-hands-on-llm-interpretability",
+   "title": "Hands-On LLM Interpretability",
+   "description": "A hands-on introduction to interpretability for practitioners. Trace circuits and features in open models, see how interpretability tooling explains model behavior, and learn what current techniques can and cannot tell you about the systems you deploy.",
+   "speakerId": "aiconf-spk-emmanuel-ameisen",
+   "trackId": "aiconf-track-the-ai-stack",
+   "roomId": "aiconf-room-workshop-room-a",
+   "startTime": 1790713800,
+   "endTime": 1790719200,
+   "level": "advanced",
+   "format": "workshop",
+   "status": "confirmed"
+  },
+  {
+   "id": "aiconf-fast-inference-hands-on-building-on-wafer-scale-compute",
+   "title": "Fast Inference, Hands-On: Building on Wafer-Scale Compute",
+   "description": "Build and benchmark applications against ultra-low-latency inference APIs. This workshop covers when inference speed changes product design, how to structure agentic workloads around fast token generation, and hands-on exercises with wafer-scale inference endpoints.",
+   "speakerId": "aiconf-spk-sarah-chieng",
+   "trackId": "aiconf-track-the-ai-stack",
+   "roomId": "aiconf-room-workshop-room-a",
+   "startTime": 1790720100,
+   "endTime": 1790725500,
+   "level": "intermediate",
+   "format": "workshop",
+   "status": "confirmed"
+  },
+  {
+   "id": "aiconf-the-lean-ai-startup",
+   "title": "The Lean AI Startup",
+   "description": "Eric Ries applies the Lean Startup method to AI-era company building: how to run honest experiments when demos are cheap and reliability is expensive, what validated learning looks like for AI products, and how to keep a startup incorruptible while it scales.",
+   "speakerId": "aiconf-spk-eric-ries",
+   "trackId": "aiconf-track-ai-strategy",
+   "roomId": "aiconf-room-workshop-room-b",
+   "startTime": 1790697600,
+   "endTime": 1790703000,
+   "level": "beginner",
+   "format": "workshop",
+   "status": "confirmed"
+  },
+  {
+   "id": "aiconf-standing-up-an-enterprise-ai-function",
+   "title": "Standing Up an Enterprise AI Function",
+   "description": "A working session for executives building an AI organization: operating models for a Chief AI Officer, choosing the first production use cases, measuring impact, and avoiding the pilot-purgatory trap.",
+   "speakerId": "aiconf-spk-claire-southey",
+   "trackId": "aiconf-track-ai-strategy",
+   "roomId": "aiconf-room-workshop-room-b",
+   "startTime": 1790703900,
+   "endTime": 1790709300,
+   "level": "beginner",
+   "format": "workshop",
+   "status": "confirmed"
+  },
+  {
+   "id": "aiconf-secure-by-design-ai-a-governance-workshop",
+   "title": "Secure-by-Design AI: A Governance Workshop",
+   "description": "Translate AI governance from policy documents into engineering practice. Covers adversarial threat modeling for LLM applications, secure-by-design patterns, and a governance checklist you can apply to systems already in production.",
+   "speakerId": "aiconf-spk-julia-diament",
+   "trackId": "aiconf-track-ai-frontiers",
+   "roomId": "aiconf-room-workshop-room-b",
+   "startTime": 1790713800,
+   "endTime": 1790719200,
+   "level": "intermediate",
+   "format": "workshop",
+   "status": "confirmed"
+  },
+  {
+   "id": "aiconf-fundraising-readiness-for-ai-founders",
+   "title": "Fundraising Readiness for AI Founders",
+   "description": "What top-tier investors actually evaluate in AI startups: moats beyond the model, margin structure under inference costs, and how to present traction. Includes working sessions on positioning and common diligence failure modes.",
+   "speakerId": "aiconf-spk-malika-aubakirova",
+   "trackId": "aiconf-track-ai-strategy",
+   "roomId": "aiconf-room-workshop-room-b",
+   "startTime": 1790720100,
+   "endTime": 1790725500,
+   "level": "beginner",
+   "format": "workshop",
+   "status": "confirmed"
+  },
+  {
+   "id": "aiconf-what-everyone-should-know-about-ai",
+   "title": "What Everyone Should Know About AI",
+   "description": "Peter Norvig on the state of artificial intelligence in 2026: what the textbook view gets right, what frontier models changed, and how education must adapt so the next generation can build with, and reason about, AI.",
+   "speakerId": "aiconf-spk-peter-norvig",
+   "trackId": "aiconf-track-ai-frontiers",
+   "roomId": "aiconf-room-keynote-stage",
+   "startTime": 1790784000,
+   "endTime": 1790786400,
+   "level": "intermediate",
+   "format": "keynote",
+   "status": "confirmed"
+  },
+  {
+   "id": "aiconf-democratizing-ai-compute",
+   "title": "Democratizing AI Compute",
+   "description": "Chris Lattner on breaking the hardware lock-in holding AI back: lessons from LLVM, Swift, and MLIR applied to Mojo and Modular's unified compute stack, and why the next wave of AI progress depends on programmable, portable performance.",
+   "speakerId": "aiconf-spk-chris-lattner",
+   "trackId": "aiconf-track-the-ai-stack",
+   "roomId": "aiconf-room-keynote-stage",
+   "startTime": 1790786700,
+   "endTime": 1790789100,
+   "level": "intermediate",
+   "format": "keynote",
+   "status": "confirmed"
+  },
+  {
+   "id": "aiconf-systems-for-ai-from-spark-to-vllm-and-beyond",
+   "title": "Systems for AI: From Spark to vLLM and Beyond",
+   "description": "Ion Stoica traces the systems lineage behind today's AI boom, from Spark and Ray to vLLM and Sky Computing, and lays out the open infrastructure problems that will define the next five years of AI systems research.",
+   "speakerId": "aiconf-spk-ion-stoica",
+   "trackId": "aiconf-track-the-ai-stack",
+   "roomId": "aiconf-room-keynote-stage",
+   "startTime": 1790789400,
+   "endTime": 1790791800,
+   "level": "intermediate",
+   "format": "keynote",
+   "status": "confirmed"
+  },
+  {
+   "id": "aiconf-from-alphago-to-superintelligence-lessons-in-rl",
+   "title": "From AlphaGo to Superintelligence: Lessons in RL",
+   "description": "A core architect of AlphaGo, AlphaZero, and MuZero on what reinforcement learning taught us about building agents that exceed human performance, and how those lessons drive Reflection AI's pursuit of superintelligent autonomous systems.",
+   "speakerId": "aiconf-spk-ioannis-antonoglou",
+   "trackId": "aiconf-track-ai-frontiers",
+   "roomId": "aiconf-room-keynote-stage",
+   "startTime": 1790792100,
+   "endTime": 1790794500,
+   "level": "intermediate",
+   "format": "keynote",
+   "status": "confirmed"
+  },
+  {
+   "id": "aiconf-thesis-driven-investing-in-the-ai-wave",
+   "title": "Thesis-Driven Investing in the AI Wave",
+   "description": "Floodgate's co-founding partner on separating durable AI companies from demos: the theses that survive hype cycles, what founders misread about defensibility, and where the biggest under-hyped opportunities sit.",
+   "speakerId": "aiconf-spk-ann-miura-ko",
+   "trackId": "aiconf-track-ai-strategy",
+   "roomId": "aiconf-room-keynote-stage",
+   "startTime": 1790800200,
+   "endTime": 1790802600,
+   "level": "intermediate",
+   "format": "keynote",
+   "status": "confirmed"
+  },
+  {
+   "id": "aiconf-from-transformers-to-user-owned-ai",
+   "title": "From Transformers to User-Owned AI",
+   "description": "A co-author of \"Attention Is All You Need\" on the arc from the Transformer to today's frontier, and why the next chapter should be user-owned: open models, verifiable inference, and AI that works for the people using it.",
+   "speakerId": "aiconf-spk-illia-polosukhin",
+   "trackId": "aiconf-track-ai-frontiers",
+   "roomId": "aiconf-room-keynote-stage",
+   "startTime": 1790870400,
+   "endTime": 1790872800,
+   "level": "intermediate",
+   "format": "keynote",
+   "status": "confirmed"
+  },
+  {
+   "id": "aiconf-foundation-models-for-the-physical-world",
+   "title": "Foundation Models for the Physical World",
+   "description": "Sergey Levine on robot learning at the foundation-model moment: what it takes to bring the scaling recipe to embodied agents, and what robots reveal about the limits of internet-trained intelligence.",
+   "speakerId": "aiconf-spk-sergey-levine",
+   "trackId": "aiconf-track-ai-frontiers",
+   "roomId": "aiconf-room-keynote-stage",
+   "startTime": 1790873100,
+   "endTime": 1790875500,
+   "level": "intermediate",
+   "format": "keynote",
+   "status": "confirmed"
+  },
+  {
+   "id": "aiconf-ai-and-the-next-economy",
+   "title": "AI and the Next Economy",
+   "description": "Tim O'Reilly on the platform shift underway: what previous transitions teach us about who captures value, why disclosure and interoperability matter, and how to build an AI economy that creates more value than it captures.",
+   "speakerId": "aiconf-spk-tim-oreilly",
+   "trackId": "aiconf-track-ai-strategy",
+   "roomId": "aiconf-room-keynote-stage",
+   "startTime": 1790875800,
+   "endTime": 1790878200,
+   "level": "intermediate",
+   "format": "keynote",
+   "status": "confirmed"
+  },
+  {
+   "id": "aiconf-building-ai-companies-that-matter",
+   "title": "Building AI Companies That Matter",
+   "description": "Eric Ries on company building in the AI era: applying validated learning when everything demos well, governance structures that keep companies incorruptible, and what long-term thinking looks like amid the fastest technology cycle ever.",
+   "speakerId": "aiconf-spk-eric-ries",
+   "trackId": "aiconf-track-ai-strategy",
+   "roomId": "aiconf-room-keynote-stage",
+   "startTime": 1790878500,
+   "endTime": 1790880900,
+   "level": "intermediate",
+   "format": "keynote",
+   "status": "confirmed"
+  },
+  {
+   "id": "aiconf-fundraising-the-future-of-ai-companies",
+   "title": "Fundraising & the Future of AI Companies",
+   "description": "WSJ Pro Venture Capital bureau chief Matthew Strozier moderates a panel of leading investors on the state of AI fundraising: round dynamics, what diligence looks like when everyone claims AI, and where venture returns will actually come from.",
+   "speakerId": "aiconf-spk-matthew-strozier",
+   "trackId": "aiconf-track-ai-strategy",
+   "roomId": "aiconf-room-ai-strategy-stage",
+   "startTime": 1790803800,
+   "endTime": 1790806200,
+   "level": "beginner",
+   "format": "talk",
+   "status": "confirmed"
+  },
+  {
+   "id": "aiconf-the-state-of-ai-regulation",
+   "title": "The State of AI Regulation",
+   "description": "Washington Post tech reporter Gerrit De Vynck moderates California Assemblymember Rebecca Bauer-Kahan, law professor Kevin Frazier, and Fathom CEO Andrew Freedman on where AI regulation stands, what state and federal rules are coming, and what builders should prepare for.",
+   "speakerId": "aiconf-spk-gerrit-de-vynck",
+   "trackId": "aiconf-track-ai-frontiers",
+   "roomId": "aiconf-room-ai-frontiers-stage",
+   "startTime": 1790803800,
+   "endTime": 1790806200,
+   "level": "beginner",
+   "format": "talk",
+   "status": "confirmed"
+  },
+  {
+   "id": "aiconf-what-ai-transformation-actually-looks-like",
+   "title": "What AI Transformation Actually Looks Like",
+   "description": "The Deep View's Jason Hiner moderates Rokt Chief AI Officer Claire Southey and Betra Works CEO Todd Earwood on real enterprise AI transformation: what worked, what stalled, and how to measure impact beyond the pilot.",
+   "speakerId": "aiconf-spk-jason-hiner",
+   "trackId": "aiconf-track-ai-strategy",
+   "roomId": "aiconf-room-ai-strategy-stage",
+   "startTime": 1790890200,
+   "endTime": 1790892600,
+   "level": "beginner",
+   "format": "talk",
+   "status": "confirmed"
+  },
+  {
+   "id": "aiconf-developer-experience-for-the-agent-era",
+   "title": "Developer Experience for the Agent Era",
+   "description": "OpenAI's Charlie Guo on what changes when your API users are agents as much as humans: designing SDKs, docs, and tooling for the agentic development loop on the OpenAI platform.",
+   "speakerId": "aiconf-spk-charlie-guo",
+   "trackId": "aiconf-track-ai-builders",
+   "roomId": "aiconf-room-ai-builders-stage",
+   "startTime": 1790789400,
+   "endTime": 1790790600,
+   "level": "intermediate",
+   "format": "talk",
+   "status": "confirmed"
+  },
+  {
+   "id": "aiconf-what-a-million-ai-code-reviews-taught-us",
+   "title": "What a Million AI Code Reviews Taught Us",
+   "description": "Greptile's CEO on running AI code review across massive codebases: where models catch what humans miss, where they still fail, and how full-codebase context changes the review game.",
+   "speakerId": "aiconf-spk-daksh-gupta",
+   "trackId": "aiconf-track-ai-builders",
+   "roomId": "aiconf-room-ai-builders-stage",
+   "startTime": 1790791200,
+   "endTime": 1790792400,
+   "level": "intermediate",
+   "format": "talk",
+   "status": "confirmed"
+  },
+  {
+   "id": "aiconf-no-code-agents-that-actually-ship",
+   "title": "No-Code Agents That Actually Ship",
+   "description": "Gumloop's CEO on what thousands of production automations reveal about which agent workflows deliver value, and how no-code changes who gets to build with AI.",
+   "speakerId": "aiconf-spk-max-brodeur-urbas",
+   "trackId": "aiconf-track-ai-builders",
+   "roomId": "aiconf-room-ai-builders-stage",
+   "startTime": 1790793000,
+   "endTime": 1790794200,
+   "level": "beginner",
+   "format": "talk",
+   "status": "confirmed"
+  },
+  {
+   "id": "aiconf-debugging-ai-applications-in-production-with-sentry",
+   "title": "Debugging AI Applications in Production with Sentry",
+   "description": "AI features fail in ways traditional monitoring never sees: bad completions, runaway token spend, silent tool-call errors. Sentry CEO Milin Desai shows how to instrument LLM applications end to end - tracing model calls, surfacing agent failures, and connecting AI errors to the code that caused them - so you can detect, understand, and fix broken AI code fast.",
+   "speakerId": "aiconf-spk-milin-desai",
+   "trackId": "aiconf-track-ai-builders",
+   "roomId": "aiconf-room-ai-builders-stage",
+   "startTime": 1790802000,
+   "endTime": 1790803200,
+   "level": "intermediate",
+   "format": "talk",
+   "status": "confirmed"
+  },
+  {
+   "id": "aiconf-harness-engineering-agent-first-development",
+   "title": "Harness Engineering: Agent-First Development",
+   "description": "The author of OpenAI's Harness Engineering framework on restructuring development workflows around agents: harness design, guardrails, and what changes when agents write most of the code.",
+   "speakerId": "aiconf-spk-ryan-lopopolo",
+   "trackId": "aiconf-track-ai-builders",
+   "roomId": "aiconf-room-ai-builders-stage",
+   "startTime": 1790805600,
+   "endTime": 1790806800,
+   "level": "advanced",
+   "format": "talk",
+   "status": "confirmed"
+  },
+  {
+   "id": "aiconf-routing-the-worlds-inference",
+   "title": "Routing the World's Inference",
+   "description": "OpenRouter's co-founder on what aggregate traffic across hundreds of models says about the AI market: model selection in practice, fallback and routing strategies, and the economics of inference.",
+   "speakerId": "aiconf-spk-chris-clark",
+   "trackId": "aiconf-track-ai-builders",
+   "roomId": "aiconf-room-ai-builders-stage",
+   "startTime": 1790875800,
+   "endTime": 1790877000,
+   "level": "intermediate",
+   "format": "talk",
+   "status": "confirmed"
+  },
+  {
+   "id": "aiconf-shipping-products-on-frontier-models",
+   "title": "Shipping Products on Frontier Models",
+   "description": "An OpenAI Member of Technical Staff on the gap between a capable model and a shippable product: evaluation, latency budgets, and the engineering under frontier-model features.",
+   "speakerId": "aiconf-spk-brian-yang",
+   "trackId": "aiconf-track-ai-builders",
+   "roomId": "aiconf-room-ai-builders-stage",
+   "startTime": 1790877600,
+   "endTime": 1790878800,
+   "level": "intermediate",
+   "format": "talk",
+   "status": "confirmed"
+  },
+  {
+   "id": "aiconf-an-experimentation-agent-and-mcp-server-at-intuit",
+   "title": "An Experimentation Agent and MCP Server at Intuit",
+   "description": "How Intuit built an Experimentation Agent and MCP server on its backend experimentation platform, letting AI assistants design, launch, and analyze experiments safely.",
+   "speakerId": "aiconf-spk-vidya-meenakshi",
+   "trackId": "aiconf-track-ai-builders",
+   "roomId": "aiconf-room-ai-builders-stage",
+   "startTime": 1790879400,
+   "endTime": 1790880600,
+   "level": "advanced",
+   "format": "talk",
+   "status": "confirmed"
+  },
+  {
+   "id": "aiconf-inside-the-mind-of-a-language-model",
+   "title": "Inside the Mind of a Language Model",
+   "description": "An Anthropic interpretability researcher on what we now know about how LLMs work internally: circuits, features, and what interpretability findings mean for the systems you deploy.",
+   "speakerId": "aiconf-spk-emmanuel-ameisen",
+   "trackId": "aiconf-track-the-ai-stack",
+   "roomId": "aiconf-room-the-ai-stack-stage",
+   "startTime": 1790789400,
+   "endTime": 1790790600,
+   "level": "advanced",
+   "format": "talk",
+   "status": "confirmed"
+  },
+  {
+   "id": "aiconf-data-infrastructure-behind-frontier-models",
+   "title": "Data Infrastructure Behind Frontier Models",
+   "description": "An Anthropic Member of Technical Staff on the data systems behind large-model training: pipelines at petabyte scale, quality over quantity, and infrastructure lessons from Anyscale and Google Cloud.",
+   "speakerId": "aiconf-spk-ruiyang-wang",
+   "trackId": "aiconf-track-the-ai-stack",
+   "roomId": "aiconf-room-the-ai-stack-stage",
+   "startTime": 1790791200,
+   "endTime": 1790792400,
+   "level": "advanced",
+   "format": "talk",
+   "status": "confirmed"
+  },
+  {
+   "id": "aiconf-from-research-paper-to-developer-platform",
+   "title": "From Research Paper to Developer Platform",
+   "description": "NVIDIA's deep learning product research lens on turning research advances into developer products: what survives contact with production, and how research and product teams should collaborate.",
+   "speakerId": "aiconf-spk-annie-surla",
+   "trackId": "aiconf-track-the-ai-stack",
+   "roomId": "aiconf-room-the-ai-stack-stage",
+   "startTime": 1790793000,
+   "endTime": 1790794200,
+   "level": "intermediate",
+   "format": "talk",
+   "status": "confirmed"
+  },
+  {
+   "id": "aiconf-when-inference-is-instant",
+   "title": "When Inference Is Instant",
+   "description": "Cerebras' Head of Developer Experience on what wafer-scale inference speed unlocks for developers: agentic workloads, reasoning at interactive latency, and building an ecosystem around fast tokens.",
+   "speakerId": "aiconf-spk-sarah-chieng",
+   "trackId": "aiconf-track-the-ai-stack",
+   "roomId": "aiconf-room-the-ai-stack-stage",
+   "startTime": 1790875800,
+   "endTime": 1790877000,
+   "level": "intermediate",
+   "format": "talk",
+   "status": "confirmed"
+  },
+  {
+   "id": "aiconf-ai-designing-the-chips-that-run-ai",
+   "title": "AI Designing the Chips That Run AI",
+   "description": "Inside AI-driven automation for advanced-node chip design at Meta Reality Labs: where ML accelerates physical design today and what it means for the hardware feedback loop.",
+   "speakerId": "aiconf-spk-pallavi-kinnera",
+   "trackId": "aiconf-track-the-ai-stack",
+   "roomId": "aiconf-room-the-ai-stack-stage",
+   "startTime": 1790877600,
+   "endTime": 1790878800,
+   "level": "advanced",
+   "format": "talk",
+   "status": "confirmed"
+  },
+  {
+   "id": "aiconf-rag-at-grocery-scale",
+   "title": "RAG at Grocery Scale",
+   "description": "Instacart's engineering lead on large-scale AI and RAG platforms behind the grocery experience: retrieval over messy catalog data, latency budgets, and measuring answer quality in production.",
+   "speakerId": "aiconf-spk-yogiraj-awati",
+   "trackId": "aiconf-track-applied-ai",
+   "roomId": "aiconf-room-applied-ai-stage",
+   "startTime": 1790789400,
+   "endTime": 1790790600,
+   "level": "intermediate",
+   "format": "talk",
+   "status": "confirmed"
+  },
+  {
+   "id": "aiconf-content-understanding-for-search-and-discovery",
+   "title": "Content Understanding for Search and Discovery",
+   "description": "A Netflix senior engineer on AI-powered backend services for content understanding: how embeddings and LLMs reshape search and discovery for a global catalog.",
+   "speakerId": "aiconf-spk-pratyusha-singaraju",
+   "trackId": "aiconf-track-applied-ai",
+   "roomId": "aiconf-room-applied-ai-stage",
+   "startTime": 1790791200,
+   "endTime": 1790792400,
+   "level": "intermediate",
+   "format": "talk",
+   "status": "confirmed"
+  },
+  {
+   "id": "aiconf-evaluating-multi-turn-agents-at-alexa-scale",
+   "title": "Evaluating Multi-Turn Agents at Alexa Scale",
+   "description": "Building production-grade agentic AI at Alexa scale: evaluation harnesses for multi-turn workflows, catching regressions before users do, and operating LLM systems for millions of Alexa+ users.",
+   "speakerId": "aiconf-spk-divya-mahajan",
+   "trackId": "aiconf-track-applied-ai",
+   "roomId": "aiconf-room-applied-ai-stage",
+   "startTime": 1790793000,
+   "endTime": 1790794200,
+   "level": "advanced",
+   "format": "talk",
+   "status": "confirmed"
+  },
+  {
+   "id": "aiconf-building-gemini-api-and-google-ai-studio",
+   "title": "Building Gemini API and Google AI Studio",
+   "description": "Google Labs' product director on making frontier models buildable: product lessons from the Gemini API and AI Studio, and what developers actually need from an AI platform.",
+   "speakerId": "aiconf-spk-jaclyn-konzelmann",
+   "trackId": "aiconf-track-applied-ai",
+   "roomId": "aiconf-room-applied-ai-stage",
+   "startTime": 1790875800,
+   "endTime": 1790877000,
+   "level": "intermediate",
+   "format": "talk",
+   "status": "confirmed"
+  },
+  {
+   "id": "aiconf-shipping-ai-features-at-google-scale",
+   "title": "Shipping AI Features at Google Scale",
+   "description": "A Google technical lead on taking AI features from prototype to billions of users: rollout strategy, quality bars, and the organizational mechanics of shipping AI at scale.",
+   "speakerId": "aiconf-spk-ran-li",
+   "trackId": "aiconf-track-applied-ai",
+   "roomId": "aiconf-room-applied-ai-stage",
+   "startTime": 1790877600,
+   "endTime": 1790878800,
+   "level": "intermediate",
+   "format": "talk",
+   "status": "confirmed"
+  },
+  {
+   "id": "aiconf-ai-powered-talent-matching-at-upwork",
+   "title": "AI-Powered Talent Matching at Upwork",
+   "description": "Upwork's product lead on AI-powered talent search, matching, and deployment: ranking humans instead of documents, and how agents change the future of work marketplaces.",
+   "speakerId": "aiconf-spk-jon-pappas",
+   "trackId": "aiconf-track-applied-ai",
+   "roomId": "aiconf-room-applied-ai-stage",
+   "startTime": 1790879400,
+   "endTime": 1790880600,
+   "level": "intermediate",
+   "format": "talk",
+   "status": "confirmed"
+  },
+  {
+   "id": "aiconf-music-data-meets-ai",
+   "title": "Music Data Meets AI",
+   "description": "Musixmatch's president of product and engineering on AI over the world's largest lyrics dataset: licensing-aware ML, music understanding, and product bets at the intersection of AI and music.",
+   "speakerId": "aiconf-spk-marco-paglia",
+   "trackId": "aiconf-track-applied-ai",
+   "roomId": "aiconf-room-applied-ai-stage",
+   "startTime": 1790888400,
+   "endTime": 1790889600,
+   "level": "beginner",
+   "format": "talk",
+   "status": "confirmed"
+  },
+  {
+   "id": "aiconf-adversarial-threats-to-ai-systems",
+   "title": "Adversarial Threats to AI Systems",
+   "description": "A principal AI architect in Microsoft's Office of the CTO on the adversarial threat landscape for deployed AI: prompt injection, data poisoning, model theft, and the secure-by-design patterns that counter them.",
+   "speakerId": "aiconf-spk-julia-diament",
+   "trackId": "aiconf-track-ai-frontiers",
+   "roomId": "aiconf-room-ai-frontiers-stage",
+   "startTime": 1790789400,
+   "endTime": 1790790600,
+   "level": "advanced",
+   "format": "talk",
+   "status": "confirmed"
+  },
+  {
+   "id": "aiconf-ai-and-data-platforms-in-financial-services",
+   "title": "AI and Data Platforms in Financial Services",
+   "description": "Harbor Capital Advisors' VP of software and data engineering on building AI, data, cloud, and integration platforms in a regulated industry, and where AI genuinely moves the needle in finance.",
+   "speakerId": "aiconf-spk-shuen-mei",
+   "trackId": "aiconf-track-ai-strategy",
+   "roomId": "aiconf-room-ai-strategy-stage",
+   "startTime": 1790789400,
+   "endTime": 1790790600,
+   "level": "beginner",
+   "format": "talk",
+   "status": "confirmed"
+  },
+  {
+   "id": "aiconf-what-durable-ai-companies-look-like",
+   "title": "What Durable AI Companies Look Like",
+   "description": "An Andreessen Horowitz partner on the patterns behind AI startups that endure: moats beyond the model, the shape of AI-native business models, and what the next funding cycle rewards.",
+   "speakerId": "aiconf-spk-malika-aubakirova",
+   "trackId": "aiconf-track-ai-strategy",
+   "roomId": "aiconf-room-ai-strategy-stage",
+   "startTime": 1790875800,
+   "endTime": 1790877000,
+   "level": "beginner",
+   "format": "talk",
+   "status": "confirmed"
+  }
+ ],
+ "talkSpeakers": [
+  {
+   "talkId": "aiconf-building-production-ready-ai-agents-on-google-cloud-run",
+   "speakerId": "aiconf-spk-lisa-shen",
+   "position": 0
+  },
+  {
+   "talkId": "aiconf-designing-agentic-systems",
+   "speakerId": "aiconf-spk-jo-o-moura",
+   "position": 0
+  },
+  {
+   "talkId": "aiconf-designing-agentic-systems",
+   "speakerId": "aiconf-spk-lorenze-hay",
+   "position": 1
+  },
+  {
+   "talkId": "aiconf-hands-on-llm-interpretability",
+   "speakerId": "aiconf-spk-emmanuel-ameisen",
+   "position": 0
+  },
+  {
+   "talkId": "aiconf-fast-inference-hands-on-building-on-wafer-scale-compute",
+   "speakerId": "aiconf-spk-sarah-chieng",
+   "position": 0
+  },
+  {
+   "talkId": "aiconf-the-lean-ai-startup",
+   "speakerId": "aiconf-spk-eric-ries",
+   "position": 0
+  },
+  {
+   "talkId": "aiconf-standing-up-an-enterprise-ai-function",
+   "speakerId": "aiconf-spk-claire-southey",
+   "position": 0
+  },
+  {
+   "talkId": "aiconf-secure-by-design-ai-a-governance-workshop",
+   "speakerId": "aiconf-spk-julia-diament",
+   "position": 0
+  },
+  {
+   "talkId": "aiconf-fundraising-readiness-for-ai-founders",
+   "speakerId": "aiconf-spk-malika-aubakirova",
+   "position": 0
+  },
+  {
+   "talkId": "aiconf-what-everyone-should-know-about-ai",
+   "speakerId": "aiconf-spk-peter-norvig",
+   "position": 0
+  },
+  {
+   "talkId": "aiconf-democratizing-ai-compute",
+   "speakerId": "aiconf-spk-chris-lattner",
+   "position": 0
+  },
+  {
+   "talkId": "aiconf-systems-for-ai-from-spark-to-vllm-and-beyond",
+   "speakerId": "aiconf-spk-ion-stoica",
+   "position": 0
+  },
+  {
+   "talkId": "aiconf-from-alphago-to-superintelligence-lessons-in-rl",
+   "speakerId": "aiconf-spk-ioannis-antonoglou",
+   "position": 0
+  },
+  {
+   "talkId": "aiconf-thesis-driven-investing-in-the-ai-wave",
+   "speakerId": "aiconf-spk-ann-miura-ko",
+   "position": 0
+  },
+  {
+   "talkId": "aiconf-from-transformers-to-user-owned-ai",
+   "speakerId": "aiconf-spk-illia-polosukhin",
+   "position": 0
+  },
+  {
+   "talkId": "aiconf-foundation-models-for-the-physical-world",
+   "speakerId": "aiconf-spk-sergey-levine",
+   "position": 0
+  },
+  {
+   "talkId": "aiconf-ai-and-the-next-economy",
+   "speakerId": "aiconf-spk-tim-oreilly",
+   "position": 0
+  },
+  {
+   "talkId": "aiconf-building-ai-companies-that-matter",
+   "speakerId": "aiconf-spk-eric-ries",
+   "position": 0
+  },
+  {
+   "talkId": "aiconf-fundraising-the-future-of-ai-companies",
+   "speakerId": "aiconf-spk-matthew-strozier",
+   "position": 0
+  },
+  {
+   "talkId": "aiconf-fundraising-the-future-of-ai-companies",
+   "speakerId": "aiconf-spk-lauri-moore",
+   "position": 1
+  },
+  {
+   "talkId": "aiconf-fundraising-the-future-of-ai-companies",
+   "speakerId": "aiconf-spk-jon-sakoda",
+   "position": 2
+  },
+  {
+   "talkId": "aiconf-the-state-of-ai-regulation",
+   "speakerId": "aiconf-spk-gerrit-de-vynck",
+   "position": 0
+  },
+  {
+   "talkId": "aiconf-the-state-of-ai-regulation",
+   "speakerId": "aiconf-spk-rebecca-bauer-kahan",
+   "position": 1
+  },
+  {
+   "talkId": "aiconf-the-state-of-ai-regulation",
+   "speakerId": "aiconf-spk-kevin-frazier",
+   "position": 2
+  },
+  {
+   "talkId": "aiconf-the-state-of-ai-regulation",
+   "speakerId": "aiconf-spk-andrew-freedman",
+   "position": 3
+  },
+  {
+   "talkId": "aiconf-what-ai-transformation-actually-looks-like",
+   "speakerId": "aiconf-spk-jason-hiner",
+   "position": 0
+  },
+  {
+   "talkId": "aiconf-what-ai-transformation-actually-looks-like",
+   "speakerId": "aiconf-spk-claire-southey",
+   "position": 1
+  },
+  {
+   "talkId": "aiconf-what-ai-transformation-actually-looks-like",
+   "speakerId": "aiconf-spk-todd-earwood",
+   "position": 2
+  },
+  {
+   "talkId": "aiconf-developer-experience-for-the-agent-era",
+   "speakerId": "aiconf-spk-charlie-guo",
+   "position": 0
+  },
+  {
+   "talkId": "aiconf-what-a-million-ai-code-reviews-taught-us",
+   "speakerId": "aiconf-spk-daksh-gupta",
+   "position": 0
+  },
+  {
+   "talkId": "aiconf-no-code-agents-that-actually-ship",
+   "speakerId": "aiconf-spk-max-brodeur-urbas",
+   "position": 0
+  },
+  {
+   "talkId": "aiconf-debugging-ai-applications-in-production-with-sentry",
+   "speakerId": "aiconf-spk-milin-desai",
+   "position": 0
+  },
+  {
+   "talkId": "aiconf-harness-engineering-agent-first-development",
+   "speakerId": "aiconf-spk-ryan-lopopolo",
+   "position": 0
+  },
+  {
+   "talkId": "aiconf-routing-the-worlds-inference",
+   "speakerId": "aiconf-spk-chris-clark",
+   "position": 0
+  },
+  {
+   "talkId": "aiconf-shipping-products-on-frontier-models",
+   "speakerId": "aiconf-spk-brian-yang",
+   "position": 0
+  },
+  {
+   "talkId": "aiconf-an-experimentation-agent-and-mcp-server-at-intuit",
+   "speakerId": "aiconf-spk-vidya-meenakshi",
+   "position": 0
+  },
+  {
+   "talkId": "aiconf-inside-the-mind-of-a-language-model",
+   "speakerId": "aiconf-spk-emmanuel-ameisen",
+   "position": 0
+  },
+  {
+   "talkId": "aiconf-data-infrastructure-behind-frontier-models",
+   "speakerId": "aiconf-spk-ruiyang-wang",
+   "position": 0
+  },
+  {
+   "talkId": "aiconf-from-research-paper-to-developer-platform",
+   "speakerId": "aiconf-spk-annie-surla",
+   "position": 0
+  },
+  {
+   "talkId": "aiconf-when-inference-is-instant",
+   "speakerId": "aiconf-spk-sarah-chieng",
+   "position": 0
+  },
+  {
+   "talkId": "aiconf-ai-designing-the-chips-that-run-ai",
+   "speakerId": "aiconf-spk-pallavi-kinnera",
+   "position": 0
+  },
+  {
+   "talkId": "aiconf-rag-at-grocery-scale",
+   "speakerId": "aiconf-spk-yogiraj-awati",
+   "position": 0
+  },
+  {
+   "talkId": "aiconf-content-understanding-for-search-and-discovery",
+   "speakerId": "aiconf-spk-pratyusha-singaraju",
+   "position": 0
+  },
+  {
+   "talkId": "aiconf-evaluating-multi-turn-agents-at-alexa-scale",
+   "speakerId": "aiconf-spk-divya-mahajan",
+   "position": 0
+  },
+  {
+   "talkId": "aiconf-building-gemini-api-and-google-ai-studio",
+   "speakerId": "aiconf-spk-jaclyn-konzelmann",
+   "position": 0
+  },
+  {
+   "talkId": "aiconf-shipping-ai-features-at-google-scale",
+   "speakerId": "aiconf-spk-ran-li",
+   "position": 0
+  },
+  {
+   "talkId": "aiconf-ai-powered-talent-matching-at-upwork",
+   "speakerId": "aiconf-spk-jon-pappas",
+   "position": 0
+  },
+  {
+   "talkId": "aiconf-music-data-meets-ai",
+   "speakerId": "aiconf-spk-marco-paglia",
+   "position": 0
+  },
+  {
+   "talkId": "aiconf-adversarial-threats-to-ai-systems",
+   "speakerId": "aiconf-spk-julia-diament",
+   "position": 0
+  },
+  {
+   "talkId": "aiconf-ai-and-data-platforms-in-financial-services",
+   "speakerId": "aiconf-spk-shuen-mei",
+   "position": 0
+  },
+  {
+   "talkId": "aiconf-what-durable-ai-companies-look-like",
+   "speakerId": "aiconf-spk-malika-aubakirova",
+   "position": 0
+  }
+ ]
+}

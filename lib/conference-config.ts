@@ -12,6 +12,8 @@ export const conferenceConfig = {
   location: process.env.NEXT_PUBLIC_CONFERENCE_LOCATION ?? DEFAULT_CONFERENCE_LOCATION,
   venue: process.env.NEXT_PUBLIC_CONFERENCE_VENUE ?? DEFAULT_CONFERENCE_VENUE,
   timeZone: process.env.NEXT_PUBLIC_CONFERENCE_TIME_ZONE ?? DEFAULT_CONFERENCE_TIME_ZONE,
+  // Shown on the schedule page for previews whose agenda is not yet official.
+  scheduleNote: process.env.NEXT_PUBLIC_CONFERENCE_SCHEDULE_NOTE,
 };
 
 export function conferenceDateLocationLabel() {

@@ -54,6 +54,11 @@ export default function SchedulePage({ searchParams }: { searchParams: SearchPar
       <div className="mb-8">
         <h1 className="text-3xl font-bold tracking-tight mb-2">{conferenceConfig.name} Schedule</h1>
         <p className="text-muted-foreground">{conferenceDateLocationLabel()}</p>
+        {conferenceConfig.scheduleNote && (
+          <p className="mt-3 inline-block rounded-md border border-amber-500/40 bg-amber-500/10 px-3 py-1.5 text-sm text-amber-700 dark:text-amber-400">
+            {conferenceConfig.scheduleNote}
+          </p>
+        )}
       </div>
 
       <Suspense>

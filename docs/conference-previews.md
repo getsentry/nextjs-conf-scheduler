@@ -70,3 +70,37 @@ ALLOW_CONFERENCE_SEED_OUTSIDE_PREVIEW=1 \
 CONFERENCE_SEED_FILE=data/conference-seeds/raise-summit-2026.json \
 pnpm db:seed:conference
 ```
+
+## WeAreDevelopers North America preview env
+
+Branch `wearedevelopers-na-2026` · domain `wad-na-2026.sentry.dev`
+
+```bash
+CONFERENCE_SEED_FILE=data/conference-seeds/wearedevelopers-world-congress-na-2026.json
+NEXT_PUBLIC_CONFERENCE_NAME=WeAreDevelopers World Congress North America 2026
+NEXT_PUBLIC_CONFERENCE_SHORT_NAME=WAD NA 2026
+NEXT_PUBLIC_CONFERENCE_DATES=September 23–25, 2026
+NEXT_PUBLIC_CONFERENCE_LOCATION=San Jose, CA
+NEXT_PUBLIC_CONFERENCE_VENUE=San Jose McEnery Convention Center
+NEXT_PUBLIC_CONFERENCE_TIME_ZONE=America/Los_Angeles
+DEMO_BLOCKED_TALK_ID=wadna-1320525-running-ai-written-software-in-production
+DEMO_SLOW_SPEAKER_ID=wadna-spk-milin-desai
+DEMO_SCHEDULE_ERROR_MESSAGE=You should be at the booth instead of watching the Sentry talk
+```
+
+## The AI Conference preview env
+
+Branch `ai-conference-2026` · domain `ai-conf-2026.sentry.dev`
+
+```bash
+CONFERENCE_SEED_FILE=data/conference-seeds/the-ai-conference-2026.json
+NEXT_PUBLIC_CONFERENCE_NAME=The AI Conference 2026
+NEXT_PUBLIC_CONFERENCE_SHORT_NAME=AI Conf 2026
+NEXT_PUBLIC_CONFERENCE_DATES=September 29 – October 1, 2026
+NEXT_PUBLIC_CONFERENCE_LOCATION=San Francisco, CA
+NEXT_PUBLIC_CONFERENCE_VENUE=Pier 48
+NEXT_PUBLIC_CONFERENCE_TIME_ZONE=America/Los_Angeles
+DEMO_BLOCKED_TALK_ID=aiconf-debugging-ai-applications-in-production-with-sentry
+DEMO_SLOW_SPEAKER_ID=aiconf-spk-milin-desai
+DEMO_SCHEDULE_ERROR_MESSAGE=You should be at the booth instead of watching the Sentry talk
+```

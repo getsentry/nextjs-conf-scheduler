@@ -1,3 +1,5 @@
+import { conferenceConfig } from "@/lib/conference-config";
+
 export type Talk = {
   id: string;
   title: string;
@@ -35,7 +37,7 @@ export const levelColors = {
   advanced: "bg-red-500/10 text-red-700 dark:text-red-400",
 };
 
-const CONFERENCE_TIME_ZONE = "America/Los_Angeles";
+const CONFERENCE_TIME_ZONE = conferenceConfig.timeZone;
 
 export function formatDayKey(timestamp: number): string {
   const parts = new Intl.DateTimeFormat("en-US", {

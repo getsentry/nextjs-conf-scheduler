@@ -5,6 +5,7 @@ import { SignOutButton } from "@/components/sign-out-button";
 import { ThemeToggle } from "@/components/theme-toggle";
 import { Button } from "@/components/ui/button";
 import { verifySession } from "@/lib/auth/dal";
+import { conferenceConfig } from "@/lib/conference-config";
 
 export function Header() {
   return (
@@ -12,7 +13,7 @@ export function Header() {
       <div className="flex h-14 items-center justify-between px-4 sm:px-6 lg:px-8">
         <div className="flex items-center gap-6">
           <Link href="/" className="flex items-center gap-2">
-            <span className="text-lg">AI Engineer WF 2026</span>
+            <span className="text-lg">{conferenceConfig.shortName}</span>
           </Link>
           <nav className="hidden md:flex items-center gap-4 text-sm">
             <Link

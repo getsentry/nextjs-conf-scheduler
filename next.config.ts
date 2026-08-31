@@ -6,16 +6,17 @@ const nextConfig: NextConfig = {
   serverExternalPackages: ["postgres"],
   cacheComponents: true,
   images: {
+    // Speaker avatar hosts used by the conference seed snapshots in data/conference-seeds/.
     remotePatterns: [
-      {
-        protocol: "https",
-        hostname: "avatars.githubusercontent.com",
-      },
-      {
-        protocol: "https",
-        hostname: "www.ai.engineer",
-      },
-    ],
+      "avatars.githubusercontent.com",
+      "www.ai.engineer",
+      "imagedelivery.net",
+      "sessionize.com",
+      "aiconference.com",
+      "assets.swoogo.com",
+      "cdn.prod.website-files.com",
+      "api.dicebear.com",
+    ].map((hostname) => ({ protocol: "https" as const, hostname })),
   },
 };
 

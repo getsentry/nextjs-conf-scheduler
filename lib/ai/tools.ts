@@ -2,6 +2,7 @@ import * as Sentry from "@sentry/nextjs";
 import { tool } from "ai";
 import { and, eq, ilike, inArray, or, type SQL, sql } from "drizzle-orm";
 import { z } from "zod";
+import { conferenceConfig } from "@/lib/conference-config";
 import { db } from "@/lib/db";
 import { rooms, speakers, talkSpeakers, talks, tracks, userSchedules } from "@/lib/db/schema";
 import { isSentryTalkSearchQuery, SENTRY_SEARCH_ERROR_MESSAGE } from "@/lib/sentry-demo";
@@ -171,17 +172,17 @@ function formatTalkTimes<T extends { startTime: number; endTime: number }>(talk:
       weekday: "short",
       month: "short",
       day: "numeric",
-      timeZone: "America/Los_Angeles",
+      timeZone: conferenceConfig.timeZone,
     }),
     startTime: new Date(talk.startTime * 1000).toLocaleTimeString("en-US", {
       hour: "numeric",
       minute: "2-digit",
-      timeZone: "America/Los_Angeles",
+      timeZone: conferenceConfig.timeZone,
     }),
     endTime: new Date(talk.endTime * 1000).toLocaleTimeString("en-US", {
       hour: "numeric",
       minute: "2-digit",
-      timeZone: "America/Los_Angeles",
+      timeZone: conferenceConfig.timeZone,
     }),
   };
 }

@@ -7,6 +7,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { type AuthState, signup } from "@/lib/actions/auth";
+import { conferenceConfig } from "@/lib/conference-config";
 
 export default function SignupPage() {
   const [state, action, pending] = useActionState<AuthState, FormData>(signup, {});
@@ -27,7 +28,7 @@ export default function SignupPage() {
     <Card className="w-full max-w-sm">
       <CardHeader className="text-center">
         <CardTitle className="text-xl">Create an account</CardTitle>
-        <CardDescription>Join AI Engineer World's Fair 2026</CardDescription>
+        <CardDescription>Join {conferenceConfig.name}</CardDescription>
       </CardHeader>
       <CardContent>
         <form action={action} className="space-y-4">

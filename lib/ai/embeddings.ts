@@ -3,6 +3,7 @@ import * as Sentry from "@sentry/nextjs";
 import { type EmbeddingModelUsage, embed, gateway } from "ai";
 import { and, eq, type SQL, sql } from "drizzle-orm";
 import { aiTier } from "@/lib/ai/usage";
+import { conferenceConfig } from "@/lib/conference-config";
 import { db } from "@/lib/db";
 import { rooms, speakers, talkEmbeddings, talks, tracks } from "@/lib/db/schema";
 
@@ -51,7 +52,7 @@ function formatConferenceTime(timestamp: number) {
     day: "numeric",
     hour: "numeric",
     minute: "2-digit",
-    timeZone: "America/Los_Angeles",
+    timeZone: conferenceConfig.timeZone,
   });
 }
 

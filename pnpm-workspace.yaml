@@ -10,3 +10,17 @@ allowBuilds:
 ignoredBuiltDependencies:
   - sharp
   - unrs-resolver
+minimumReleaseAgeExclude:
+  - '@sentry/browser-utils@10.75.0'
+  - '@sentry/browser@10.75.0'
+  - '@sentry/core@10.75.0'
+  - '@sentry/feedback@10.75.0'
+  - '@sentry/nextjs@10.75.0'
+  - '@sentry/node-core@10.75.0'
+  - '@sentry/node@10.75.0'
+  - '@sentry/opentelemetry@10.75.0'
+  - '@sentry/react@10.75.0'
+  - '@sentry/replay-canvas@10.75.0'
+  - '@sentry/replay@10.75.0'
+  - '@sentry/server-utils@10.75.0'
+  - '@sentry/vercel-edge@10.75.0'

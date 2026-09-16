@@ -74,6 +74,7 @@ What we emit:
 - **Logs**: `account.signup`, `account.login`, `account.logout`, `schedule.add`, `schedule.remove`, `proxy.redirect`, `cache.miss`, `og.image`, `ai.chat`, `ai.usage`
 - **Spans**: DB spans via `postgresJsIntegration`; AI spans via Sentry's default Vercel AI integration and AI SDK telemetry
 - **Config**: `sentry.server.config.ts` should stay minimal: `postgresJsIntegration()`, `streamGenAiSpans: true`, no explicit `vercelAIIntegration`, no custom AI span wrappers
+- **Scope**: every event, transaction, log and metric carries a `conference` tag/attribute (`lib/sentry-conference.ts`); `NEXT_PUBLIC_SENTRY_ENVIRONMENT` optionally overrides the environment per deployment
 
 ### Database
 

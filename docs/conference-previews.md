@@ -29,6 +29,16 @@ To make preview URLs accessible without Vercel Firewall/auth:
 2. Disable Vercel Authentication/password protection for Preview deployments, or add explicit preview-domain exceptions.
 3. Confirm no custom Firewall/WAF rule blocks anonymous traffic.
 
+## Sentry separation
+
+All deployments send data to the same Sentry project, `demo/ai-engineer-conf`.
+
+Set `NEXT_PUBLIC_SENTRY_ENVIRONMENT` (for example `raise-summit`) for each preview. This gives every error, trace, log, metric, and replay of the preview its own environment. Without it, the SDK uses `vercel-preview`.
+
+Set `NEXT_PUBLIC_CONFERENCE_ID` to the seed's `metadata.id`. The app adds this value as the `conference` tag on errors and transactions, and as the `conference` attribute on logs and metrics. Example Sentry query: `conference:raise-summit-2026`.
+
+Both variables are build-time (`NEXT_PUBLIC_`). Redeploy after you change either one.
+
 ## RAISE Summit preview env
 
 ```bash

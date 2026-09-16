@@ -1,0 +1,1134 @@
+{
+ "metadata": {
+  "id": "ai-engineer-paris-2026",
+  "name": "AI Engineer Paris 2026",
+  "timezone": "Europe/Paris",
+  "dates": "2026-09-23/2026-09-24",
+  "location": "Paris, France"
+ },
+ "source": "https://ai.engineer/paris/2026 (sessions and speakers from the page bundle, scraped 2026-09-16; bios from public Sessionize profiles where available)",
+ "tracks": [
+  {
+   "id": "aiep-track-agentic-engineering-agents-in-production",
+   "name": "Agentic Engineering & Agents in Production",
+   "color": "#6C5FC7",
+   "description": ""
+  },
+  {
+   "id": "aiep-track-coding-agents-software-factories",
+   "name": "Coding Agents & Software Factories",
+   "color": "#F55459",
+   "description": ""
+  },
+  {
+   "id": "aiep-track-context-harness-engineering",
+   "name": "Context & Harness Engineering",
+   "color": "#2BA185",
+   "description": ""
+  },
+  {
+   "id": "aiep-track-enterprise-vertical-ai-in-regulated-industries",
+   "name": "Enterprise & Vertical AI in Regulated Industries",
+   "color": "#F5B000",
+   "description": ""
+  },
+  {
+   "id": "aiep-track-evals-observability",
+   "name": "Evals & Observability",
+   "color": "#3D74DB",
+   "description": ""
+  },
+  {
+   "id": "aiep-track-inference-ai-infrastructure",
+   "name": "Inference & AI Infrastructure",
+   "color": "#E1567C",
+   "description": ""
+  },
+  {
+   "id": "aiep-track-opening-keynotes",
+   "name": "Opening & Keynotes",
+   "color": "#8B5CF6",
+   "description": ""
+  },
+  {
+   "id": "aiep-track-voice-realtime-ai",
+   "name": "Voice & Realtime AI",
+   "color": "#FF7738",
+   "description": ""
+  }
+ ],
+ "rooms": [
+  {
+   "id": "aiep-room-discovery-track-1",
+   "name": "Discovery Track 1",
+   "capacity": 0
+  },
+  {
+   "id": "aiep-room-discovery-track-2",
+   "name": "Discovery Track 2",
+   "capacity": 0
+  },
+  {
+   "id": "aiep-room-main-stage",
+   "name": "Main Stage",
+   "capacity": 0
+  },
+  {
+   "id": "aiep-room-workshop",
+   "name": "Workshop",
+   "capacity": 0
+  }
+ ],
+ "speakers": [
+  {
+   "id": "aiep-spk-alex-nails",
+   "name": "Alex Nails",
+   "bio": "MTS, Core Maintainer of SGLang, RadixArk",
+   "avatar": "https://cdn.sessionize.com/image/1c34-400o400o1-wsGTe8etybb9JGvszEFqt3.jpg",
+   "company": "RadixArk",
+   "role": "MTS, Core Maintainer of SGLang",
+   "twitter": null
+  },
+  {
+   "id": "aiep-spk-arielle-le-bail",
+   "name": "Arielle Le Bail",
+   "bio": "Head of Product, AI & Startups - EMEA, Stripe",
+   "avatar": "https://cdn.sessionize.com/image/90eb-400o400o1-GRyCA8kpR2GqqLWBTJthaU.jpg",
+   "company": "Stripe",
+   "role": "Head of Product, AI & Startups - EMEA",
+   "twitter": null
+  },
+  {
+   "id": "aiep-spk-ben-burtenshaw",
+   "name": "Ben Burtenshaw",
+   "bio": "Machine Learning, Hugging Face",
+   "avatar": "https://cdn.sessionize.com/image/a429-400o400o1-ERbkughK6pouQgUwKMr6RY.png",
+   "company": "Hugging Face",
+   "role": "Machine Learning",
+   "twitter": null
+  },
+  {
+   "id": "aiep-spk-charles-frye",
+   "name": "Charles Frye",
+   "bio": "Charles teaches people to build data, ML, and AI applications. He got his PhD from the University of California, Berkeley, in 2020 for work on the geometry of neural network optimization. He has since worked as an educator and evangelist for neural network applications at Weights & Biases, Full Stack Deep Learning, and now Modal Labs.",
+   "avatar": "https://cdn.sessionize.com/image/dad1-400o400o1-SzdPZy7GnHqsMy5Tt9hM8C.jpg",
+   "company": "Modal",
+   "role": "Member of Technical Staff at Modal",
+   "twitter": null
+  },
+  {
+   "id": "aiep-spk-clemens-rawert",
+   "name": "Clemens Rawert",
+   "bio": "Co-founder, Langfuse",
+   "avatar": "https://cdn.sessionize.com/image/91cb-400o400o1-En8v1U4fLJfE577nTzMhC.jpg",
+   "company": "Langfuse",
+   "role": "Co-founder",
+   "twitter": null
+  },
+  {
+   "id": "aiep-spk-connor-guerrero",
+   "name": "Connor Guerrero",
+   "bio": "Connor Guerrero is a Senior Developer Relations Manager at Crusoe and one of the founding members of Crusoe’s developer advocates team. He focuses on GPU infrastructure, AI training & inference workflows, and helping engineers build on Crusoe's cloud platform. He's spoken at many global conferences, including MLSys, AI Engineer World's Fair, and RAISE Summit. Prior to Crusoe, Connor spent several years in the AI chip industry as an ML engineer and field applications engineer, helping teams deploy and optimize workloads on specialized AI hardware.",
+   "avatar": "https://cdn.sessionize.com/image/cf13-400o400o1-NY2xswdMZYokBc8oN7SqzJ.jpg",
+   "company": "Crusoe",
+   "role": "AI Infra",
+   "twitter": null
+  },
+  {
+   "id": "aiep-spk-dan-feigin",
+   "name": "Dan Feigin",
+   "bio": "Dan Feigin is a Senior Software Engineer at NVIDIA working on checkpoint/restore for GPU-accelerated inference workloads. He focuses on Snapshot restore, CRIU, and CUDA checkpoint/restore to reduce startup time for large-scale inference services on Kubernetes.",
+   "avatar": "https://cdn.sessionize.com/image/d77c-400o400o1-99fMuDBC1gDAvnavG466ve.jpg",
+   "company": "NVIDIA",
+   "role": "Senior Software Engineer, NVIDIA",
+   "twitter": null
+  },
+  {
+   "id": "aiep-spk-dat-ngo",
+   "name": "Dat Ngo",
+   "bio": "AI Architect, Arize AI",
+   "avatar": "https://cdn.sessionize.com/image/ad77-400o400o1-XArKcqfiaTFqmdBk3yN3A1.jpg",
+   "company": "Arize AI",
+   "role": "AI Architect",
+   "twitter": null
+  },
+  {
+   "id": "aiep-spk-dominic-pajak",
+   "name": "Dominic Pajak",
+   "bio": "Senior Director, Edge AI, Arm",
+   "avatar": "https://cdn.sessionize.com/image/069d-400o400o1-BeCFHAx9MTfm1fxyAgBryd.jpg",
+   "company": "Arm",
+   "role": "Senior Director, Edge AI",
+   "twitter": null
+  },
+  {
+   "id": "aiep-spk-dorian-lods",
+   "name": "Dorian Lods",
+   "bio": "Creative Experience - Engineer, ElevenLabs",
+   "avatar": "https://cdn.sessionize.com/image/d10a-400o400o1-777Uj4SmHhHggaTgrF9Ebu.png",
+   "company": "ElevenLabs",
+   "role": "Creative Experience - Engineer",
+   "twitter": null
+  },
+  {
+   "id": "aiep-spk-fayaz-ahmed",
+   "name": "Fayaz Ahmed",
+   "bio": "Senior Developer Educator, Cloudflare",
+   "avatar": "https://cdn.sessionize.com/image/083e-400o400o1-7awoGgnDCRQfe9K7MMaX8M.jpg",
+   "company": "Cloudflare",
+   "role": "Senior Developer Educator",
+   "twitter": null
+  },
+  {
+   "id": "aiep-spk-harry-mellor",
+   "name": "Harry Mellor",
+   "bio": "Machine Learning Engineer, Hugging Face",
+   "avatar": "https://cdn.sessionize.com/image/4717-400o400o1-stp2EHekkYA8cfN7mW21Yw.jpg",
+   "company": "Hugging Face",
+   "role": "Machine Learning Engineer",
+   "twitter": null
+  },
+  {
+   "id": "aiep-spk-herve-bredin",
+   "name": "Hervé Bredin",
+   "bio": "Chief Science Officer, Co-Founder, pyannoteAI",
+   "avatar": "https://cdn.sessionize.com/image/b662-400o400o1-wQGChiwUPbhLJSAVEcscvj.png",
+   "company": "pyannoteAI",
+   "role": "Chief Science Officer, Co-Founder",
+   "twitter": null
+  },
+  {
+   "id": "aiep-spk-ivan-burazin",
+   "name": "Ivan Burazin",
+   "bio": "CEO and Co-Founder, Daytona",
+   "avatar": "https://cdn.sessionize.com/image/3277-400o400o1-EbrcrcdwochTXApK33z2Ej.jpg",
+   "company": "Daytona",
+   "role": "CEO and Co-Founder",
+   "twitter": null
+  },
+  {
+   "id": "aiep-spk-jakob-porschmann",
+   "name": "Jakob Pörschmann",
+   "bio": "Generating latents at scale, Black Forest Labs",
+   "avatar": "https://cdn.sessionize.com/image/370e-400o400o1-4wwvY8BnkhYSVHwzcKtCB9.png",
+   "company": "Black Forest Labs",
+   "role": "Generating latents at scale",
+   "twitter": null
+  },
+  {
+   "id": "aiep-spk-krzysztof-cieslak",
+   "name": "Krzysztof Cieślak",
+   "bio": "Krzysztof is a photographer, globetrotter, and public speaker. He works as a Staff Research Engineer at [GitHub Next]( https://next.github.com/ ), where he designs and builds the next generation of developer tools such as GitHub Copilot, NES, Agentic Workflows or Ace After the work, Krzysztof is an open-source software maintainer passionate about functional programming (especially F#), editor tooling and developer experience - he has created and maintained several OSS projects varying from [language servers]( https://github.com/fsharp/FsAutoComplete ) to [web frameworks]( https://github.com/SaturnFramework/Saturn ) to [VSCode plugins]( https://github.com/ionide/ionide-vscode-fsharp ). Additionally, he is a passionate public speaker. You can meet him at many conferences around the world, where he is always trying to meet new people and learn how to improve software developers' lives.",
+   "avatar": "https://cdn.sessionize.com/image/9fda-400o400o1-JmfPoDrFamG4jFbdHqbXx9.jpg",
+   "company": "GitHub Next",
+   "role": "Developer Tools Researcher, OSS contributor, FP enthusiast, Copilot co-creator",
+   "twitter": "k_cieslak"
+  },
+  {
+   "id": "aiep-spk-lara-khanafer",
+   "name": "Lara Khanafer",
+   "bio": "Head of Startup Programs & Partnerships at STATION F, STATION F",
+   "avatar": "https://cdn.sessionize.com/image/dfb6-400o400o1-95UFGpegYoAZgfjo69zSjk.jpg",
+   "company": "STATION F",
+   "role": "Head of Startup Programs & Partnerships at STATION F",
+   "twitter": null
+  },
+  {
+   "id": "aiep-spk-lelio-renard-lavaud",
+   "name": "Lélio Renard Lavaud",
+   "bio": "VP Engineering, Mistral",
+   "avatar": "https://cdn.sessionize.com/image/dabd-400o400o1-4jWKf5h2GuRLDyVSrECreq.jpg",
+   "company": "Mistral",
+   "role": "VP Engineering",
+   "twitter": null
+  },
+  {
+   "id": "aiep-spk-leonie-monigatti",
+   "name": "Leonie Monigatti",
+   "bio": "Member of Technical Staff, Liquid AI",
+   "avatar": "https://cdn.sessionize.com/image/6791-0o0o0-a5pcZmTNCKw7TJ47pRuJ8L.jpg?download=leonie-monigatti.jpg",
+   "company": "Liquid AI",
+   "role": "Member of Technical Staff",
+   "twitter": null
+  },
+  {
+   "id": "aiep-spk-maarten-grootendorst",
+   "name": "Maarten Grootendorst",
+   "bio": "Google DeepMind",
+   "avatar": "https://cdn.sessionize.com/image/cb46-400o400o1-2zQQCRyRN3iyXfxtyauaf.jpg",
+   "company": "Google DeepMind",
+   "role": "",
+   "twitter": null
+  },
+  {
+   "id": "aiep-spk-maria-lungu",
+   "name": "Maria Lungu",
+   "bio": "Software Engineer, Algolia",
+   "avatar": "https://cdn.sessionize.com/image/07bd-400o400o1-hVXhpoB36pZ4tQeAuqrseE.jpg",
+   "company": "Algolia",
+   "role": "Software Engineer",
+   "twitter": null
+  },
+  {
+   "id": "aiep-spk-matt-pocock",
+   "name": "Matt Pocock",
+   "bio": "Author at AI Hero, Matt Pocock Ltd",
+   "avatar": "https://cdn.sessionize.com/image/5159-400o400o1-Jo9GNtJcTibwVZyr6zsXU2.png",
+   "company": "Matt Pocock Ltd",
+   "role": "Author at AI Hero",
+   "twitter": null
+  },
+  {
+   "id": "aiep-spk-maxime-pariente",
+   "name": "Maxime Pariente",
+   "bio": "AI Solutions Architect, NVIDIA",
+   "avatar": "https://cdn.sessionize.com/image/e804-400o400o1-nHyDEqG4oKvtXuHVLWQA9D.jpg",
+   "company": "NVIDIA",
+   "role": "AI Solutions Architect",
+   "twitter": null
+  },
+  {
+   "id": "aiep-spk-mish-ushakov",
+   "name": "Mish Ushakov",
+   "bio": "Product Engineer at E2B, E2B",
+   "avatar": "https://cdn.sessionize.com/image/b343-400o400o1-PsHcGut31NEg394LYaAKi.jpg",
+   "company": "E2B",
+   "role": "Product Engineer at E2B",
+   "twitter": null
+  },
+  {
+   "id": "aiep-spk-neil-zeghidour",
+   "name": "Neil Zeghidour",
+   "bio": "CEO, Gradium",
+   "avatar": "https://cdn.sessionize.com/image/f79f-400o400o1-wyoib8d4wAr5JJiphJ9Ho.jpg",
+   "company": "Gradium",
+   "role": "CEO",
+   "twitter": null
+  },
+  {
+   "id": "aiep-spk-nikolay-rodionov",
+   "name": "Nikolay Rodionov",
+   "bio": "Nikolay Rodionov is a cofounder and COO at Alpic, an AI infrastructure startup specializing in MCP Apps and agentic AI platforms. A graduate from Centrale Paris, he previously founded Streamroot, a P2P video delivery technology that powered multiple Super Bowl streaming events before its acquisition by Lumen Technologies. Nikolay is a seasoned speaker with talks at major tech conferences like Demuxed or AI Engineer Paris. He is also the creator of Paris Video Tech and MCP Connect communities.",
+   "avatar": "https://cdn.sessionize.com/image/8bcb-400o400o1-MRiqvymP5pQC8JhVEyMNVQ.jpg",
+   "company": "Alpic",
+   "role": "Co-founder and COO",
+   "twitter": "Jeanroudy"
+  },
+  {
+   "id": "aiep-spk-ondrej-drapalik",
+   "name": "Ondrej Drapalik",
+   "bio": "Ondrej Drapalik is an AI Engineer at E2B in Prague, working with teams like OpenAI and Anthropic on how agents behave once they hit production: sandboxed, snapshotted, forked, and occasionally on fire. Marketer turned programmer, he spent years at STRV shipping consumer products for global brands and funded startups before AI ate his whole stack.",
+   "avatar": "https://cdn.sessionize.com/image/a8f7-400o400o1-D7obHjCedM2UWymgW5gFgr.jpg",
+   "company": "E2B",
+   "role": "AI Engineer",
+   "twitter": "ondrej_sh"
+  },
+  {
+   "id": "aiep-spk-paul-louis-nech",
+   "name": "Paul-Louis Nech",
+   "bio": "Paul-Louis Nech is a Machine Learning engineer with 10 years of experience crafting software for a global audience. Throughout his career, he has leveraged advanced algorithms to empower developers and users alike. From SwiftKey to Algolia, Paul-Louis has built tools that bridge the gap between state-of-the-art algorithms (which work in the lab) and end products (which succeed in the wild). This requires not only great technology, but more importantly great user-experience, to make sure you build something people want!",
+   "avatar": "https://cdn.sessionize.com/image/6053-400o400o1-GfSaAiczZPLUAUrUw6w6i6.jpg",
+   "company": "Algolia",
+   "role": "Machine Learning",
+   "twitter": "PaulLouisNech"
+  },
+  {
+   "id": "aiep-spk-ron-kahn",
+   "name": "Ron Kahn",
+   "bio": "Ron Kahn is a Senior Software Engineer in the NVIDIA Run:ai platform team. Ron works on the design and implementation of workload management systems that abstract Kubernetes complexity for AI practitioners. When not simplifying AI training jobs, Ron can be found cooking something delicious.",
+   "avatar": "https://cdn.sessionize.com/image/4b91-400o400o1-PigGGqNbMpS98oJFhL1N3H.png",
+   "company": "NVIDIA",
+   "role": "Senior Software Engineer, NVIDIA",
+   "twitter": null
+  },
+  {
+   "id": "aiep-spk-sergiy-dybskiy",
+   "name": "Sergiy Dybskiy",
+   "bio": "Software developer of 12+ years now on a journey of learning to effectively communicate about developer tooling through workshops, videos, blog posts and building with AI",
+   "avatar": "https://cdn.sessionize.com/image/e286-400o400o1-MPmS1SWFNVPJe2HEWvMSnx.jpg",
+   "company": "Sentry",
+   "role": "Curious tinkerer",
+   "twitter": "sergical"
+  },
+  {
+   "id": "aiep-spk-sohan-maheshwar",
+   "name": "Sohan Maheshwar",
+   "bio": "Sohan is a Lead Developer Advocate at AuthZed, based in the Netherlands. He started his career as a developer building mobile apps and has been living in the cloud since 2013, in companies such as Amazon, Fermyon and Gupshup. He is also an O' Reilly author and an AAIF Ambassador. His interests outside work include visual arts, trivia, and playing frisbee.",
+   "avatar": "https://cdn.sessionize.com/image/12a8-400o400o1-fBwg9u7FU2ExRX2tME3Lbj.jpg",
+   "company": "AuthZed",
+   "role": "Developer Advocate Lead",
+   "twitter": null
+  },
+  {
+   "id": "aiep-spk-stephen-chin",
+   "name": "Stephen Chin",
+   "bio": "Stephen Chin is VP of Developer Relations at Neo4j, conference chair of the LF AI & Data Foundation, and author of numerous titles including the upcoming GraphRAG: The Definitive Guide for O'Reilly. He has given keynotes and main stage talks at numerous conferences around the world including AI Engineer Summit, AI DevSummit, Devoxx, DevNexus, JNation, JavaOne, Shift, Joker, swampUP, and GIDS. Stephen is an avid motorcyclist who has done evangelism tours in Europe, Japan, and Brazil, interviewing developers in their natural habitat. When he is not traveling, he enjoys teaching kids how to do AI, embedded, and robot programming together with his daughters.",
+   "avatar": "https://cdn.sessionize.com/image/67c7-400o400o1-94UgqvdxnaQUpj38o9TkBX.jpg",
+   "company": "Neo4j",
+   "role": "VP of Developer Relations",
+   "twitter": "steveonjava"
+  },
+  {
+   "id": "aiep-spk-sylvain-combe",
+   "name": "Sylvain Combe",
+   "bio": "Solutions Engineer, Sonar",
+   "avatar": "",
+   "company": "Sonar",
+   "role": "Solutions Engineer",
+   "twitter": null
+  },
+  {
+   "id": "aiep-spk-theofilos-petsios",
+   "name": "Theofilos Petsios",
+   "bio": "Principal Engineer, Crash Override",
+   "avatar": "https://cdn.sessionize.com/image/6294-400o400o1-swJqpNrE71h6CegGemkKms.jpg",
+   "company": "Crash Override",
+   "role": "Principal Engineer",
+   "twitter": null
+  },
+  {
+   "id": "aiep-spk-theresa-bradford",
+   "name": "Theresa Bradford",
+   "bio": "Data Scientist → AI Product Engineer → Team Lead: Building production AI systems, products, and teams., Otto Group data.works GmbH",
+   "avatar": "https://cdn.sessionize.com/image/0dc4-0o0o0-WfhMwACBUd9UaTTG3s37no.jpg?download=theresa-bradford.jpg",
+   "company": "Otto Group data.works GmbH",
+   "role": "Data Scientist → AI Product Engineer → Team Lead: Building production AI systems, products, and teams.",
+   "twitter": null
+  },
+  {
+   "id": "aiep-spk-tomas-barczi",
+   "name": "Tomáš Barczi",
+   "bio": "AI Technology Lead, Škoda Auto a.s.",
+   "avatar": "https://cdn.sessionize.com/image/09bd-400o400o1-VjY4oB4krebpooMfeWi6Yn.jpg",
+   "company": "Škoda Auto a.s.",
+   "role": "AI Technology Lead",
+   "twitter": null
+  },
+  {
+   "id": "aiep-spk-tuana-celik",
+   "name": "Tuana Çelik",
+   "bio": "Developer Relations Lead, Prior Labs",
+   "avatar": "https://cdn.sessionize.com/image/a0ed-0o0o0-Xg4iS9XJNXXoC5mVAaDdJW.jpg?download=tuana-celik.jpg",
+   "company": "Prior Labs",
+   "role": "Developer Relations Lead",
+   "twitter": null
+  },
+  {
+   "id": "aiep-spk-valeria-zuccoli",
+   "name": "Valeria Zuccoli",
+   "bio": "Statistician by education, Valeria is an AI Scientist specializing in real-time models for complex, challenging scenarios. Driven by a deep curiosity for the latest research, she applies advanced analytical techniques to build intelligent systems that deliver immediate and effective solutions in high-impact domains.",
+   "avatar": "https://cdn.sessionize.com/image/dbb4-400o400o1-TJeSWPyFSRDmVnicMg1frj.jpg",
+   "company": "Intella",
+   "role": "Data Scientist",
+   "twitter": null
+  },
+  {
+   "id": "aiep-spk-yannis-psorakis",
+   "name": "Yannis Psorakis",
+   "bio": "VP of Engineering EMEA, Cognition",
+   "avatar": "https://cdn.sessionize.com/image/16bc-400o400o1-fbeyMLrrLQeaAR5GAnmj9C.jpg",
+   "company": "Cognition",
+   "role": "VP of Engineering EMEA",
+   "twitter": null
+  },
+  {
+   "id": "aiep-spk-yannis-tevissen",
+   "name": "Yannis Tevissen",
+   "bio": "Head of Research, Moments Lab",
+   "avatar": "https://cdn.sessionize.com/image/8b39-400o400o1-pgmCHyr4kWnoA87tiJkxLP.jpg",
+   "company": "Moments Lab",
+   "role": "Head of Research",
+   "twitter": null
+  }
+ ],
+ "talks": [
+  {
+   "id": "aiep-1328301-welcome-from-station-f",
+   "title": "Welcome from Station F",
+   "description": "Welcome from Station F",
+   "speakerId": "aiep-spk-lara-khanafer",
+   "trackId": "aiep-track-opening-keynotes",
+   "roomId": "aiep-room-main-stage",
+   "startTime": 1790177700,
+   "endTime": 1790178000,
+   "level": "intermediate",
+   "format": "keynote",
+   "status": "confirmed"
+  },
+  {
+   "id": "aiep-1297128-what-can-economic-history-teach-us-about-the-ai",
+   "title": "What Can Economic History Teach Us About the AI Moment?",
+   "description": "History doesn’t necessarily repeat itself but it rhymes. What does AI rhyme with? The Industrial Revolution, Printing Press, Railways, Electricity, the Internet?\n\nWhat can we learn about:\n- How long major general purpose technologies take to be adopted?\n- When and to what they show up in GDP growth & lead to broader prosperity?\n- What do they do to employment, what does it do to capital?\n\nAre past technological breakthroughs helpful analogies to learn from? Or is this time completely different?\n\nI’ll go on a whistle stop tour of technological revolutions in Economic History and draw useful analogies for the current moment.",
+   "speakerId": "aiep-spk-clemens-rawert",
+   "trackId": "aiep-track-inference-ai-infrastructure",
+   "roomId": "aiep-room-main-stage",
+   "startTime": 1790178000,
+   "endTime": 1790179800,
+   "level": "intermediate",
+   "format": "talk",
+   "status": "confirmed"
+  },
+  {
+   "id": "aiep-1324799-building-frontier-ai",
+   "title": "Building Frontier AI",
+   "description": "",
+   "speakerId": "aiep-spk-lelio-renard-lavaud",
+   "trackId": "aiep-track-opening-keynotes",
+   "roomId": "aiep-room-main-stage",
+   "startTime": 1790181600,
+   "endTime": 1790183400,
+   "level": "intermediate",
+   "format": "keynote",
+   "status": "confirmed"
+  },
+  {
+   "id": "aiep-1313491-from-pixels-to-robots-how-we-customize-flux-for",
+   "title": "From Pixels to Robots: How we customize FLUX for production to make it steer robots and play games",
+   "description": "The fine-tune-vs-context debate, replayed on a frontier video model. We compared three ways to teach FLUX a character — per-character LoRAs, single-slot and multi-slot reference conditioning. Watch me hit a wall no regularization could fix, and built face-embedding evals to prove it. Real runs, real failures, transferable lessons.",
+   "speakerId": "aiep-spk-jakob-porschmann",
+   "trackId": "aiep-track-agentic-engineering-agents-in-production",
+   "roomId": "aiep-room-main-stage",
+   "startTime": 1790235000,
+   "endTime": 1790236800,
+   "level": "intermediate",
+   "format": "talk",
+   "status": "confirmed"
+  },
+  {
+   "id": "aiep-1289595-building-the-next-generation-of-ai-developer-too",
+   "title": "Building the next generation of AI developer tools",
+   "description": "AI has already changed software development. Tools like GitHub Copilot have become ubiquitous part of the workflow of millions of developers. Like other well-known editor features, AI-in-editor increases productivity, reduces required context switching, and lets developers stay in the flow while focusing on important parts of their job.\n\nHowever, this was just a first step - with the rapid developments of large language models (LLMs), which have become more powerful and knowledgeable with every release and have excellent reasoning capabilities, we can do more. Nowadays, we see AI agents such as Claude Code able to solve complex, repository-wide tasks or even generate whole applications.\n\nIn the talk, I will discuss how AI developer tools has changed over the years, describe emerging usage patterns of AI agents and how they change whole software development process, and peek into the future of developer tools. All that while trying to answer the most important question - how to design applications using AI with humans in mind.",
+   "speakerId": "aiep-spk-krzysztof-cieslak",
+   "trackId": "aiep-track-coding-agents-software-factories",
+   "roomId": "aiep-room-discovery-track-1",
+   "startTime": 1790236800,
+   "endTime": 1790238600,
+   "level": "intermediate",
+   "format": "talk",
+   "status": "confirmed"
+  },
+  {
+   "id": "aiep-1300066-a-computer-for-every-idea-growing-trees-of-live",
+   "title": "A Computer for Every Idea: Growing Trees of Live Machines",
+   "description": "An agent's train of thought is non-deterministic. What happens when it is able to explore all the paths? Sandbox every thought, and your agent can fork on a whim. Each child inherits the running machine, filesystem and processes included, so you continue from each turn and compare.\n\nThis talk includes a live demo of a forking workflow, plus the checkpoint boundary inside a streaming turn, the fork-pause-resume races, and what a live tree costs.",
+   "speakerId": "aiep-spk-ondrej-drapalik",
+   "trackId": "aiep-track-agentic-engineering-agents-in-production",
+   "roomId": "aiep-room-discovery-track-2",
+   "startTime": 1790236800,
+   "endTime": 1790238600,
+   "level": "intermediate",
+   "format": "talk",
+   "status": "confirmed"
+  },
+  {
+   "id": "aiep-1309137-generating-identity-at-scale-elevenlabs-ai-drive",
+   "title": "Generating Identity at Scale, ElevenLabs' AI-Driven Orb",
+   "description": "How do you give 40 million voices a visual identity? A break down of ElevenLabs' AI-driven Orb system: real-time audio feature extraction, custom-trained LoRAs, captioning as a steering tool, and a WebGL shader pipeline rendering every frame live from voice, plus what it took to ship at scale.",
+   "speakerId": "aiep-spk-dorian-lods",
+   "trackId": "aiep-track-voice-realtime-ai",
+   "roomId": "aiep-room-main-stage",
+   "startTime": 1790236800,
+   "endTime": 1790238600,
+   "level": "intermediate",
+   "format": "talk",
+   "status": "confirmed"
+  },
+  {
+   "id": "aiep-1298819-optimizing-small-videollm-an-end-to-end-problem",
+   "title": "Optimizing Small VideoLLM: an End to End Problem",
+   "description": "VideoLLM inference does most of its work before generation. The system decodes and samples dense video, then turns many frames into vision tokens to produce text. This input-output imbalance makes video different from typical text and image workloads and puts the vision path at the center of performance.\n\nAt Moments Lab, we process video at scale under an accuracy constraint. With NVIDIA, we have been working across the full pipeline: codecs and decoding (NV Video Codec SDK), frame sampling  (PEEK, EVS) and resolution, vision-token budgets, the vision encoder, model and KV-cache quantization (ModelOpt), pruning (Minitron, Puzzletron), and serving using tools such as TensorRT-LLM. The bottleneck moved with the workload, model size, and GPU architecture.\n\nIn this joint talk, we will share the results and the method we use to choose the best system design: sample fewer frames, quantize weights or the KV cache, prune layers, accelerate decoding, or change the vision encoder. Every gain is measured end to end and checked against quality.",
+   "speakerId": "aiep-spk-yannis-tevissen",
+   "trackId": "aiep-track-inference-ai-infrastructure",
+   "roomId": "aiep-room-discovery-track-1",
+   "startTime": 1790238600,
+   "endTime": 1790240400,
+   "level": "intermediate",
+   "format": "talk",
+   "status": "confirmed"
+  },
+  {
+   "id": "aiep-1300308-dangerous-by-design-engineering-restricted-tool",
+   "title": "Dangerous by Design: Engineering Restricted Tool Boundaries for High-Stakes Enterprise Agents",
+   "description": "There is a fundamental dichotomy in the agentic landscape. What is so celebrated in the realm of personal assistants is a disaster in a high-stakes enterprise. Highly flexible agents that can do anything have one huge problem in a large company: they can do anything. If you give an agent access to a bash terminal with root access, it can solve almost any of your problems if it works correctly. But what if it doesn't? In environments like automotive manufacturing, the blast radius of an agentic failure isn't just a bad text output; it is a halted assembly line, a corrupted ERP database, or a duplicated parts order.\n \nThis talk bypasses the theoretical compliance slides to focus on how we actually engineer security boundaries for production agents at Škoda Auto. We will look at why security is fundamentally an API/Tool design problem. We will dissect how we restrict tool parameters and strip agency from arguments to prevent prompt injections from hijacking system-level execution. We will discuss how to lower the blast radius of agentic tools, focusing on the design principles that balance agent flexibility with safety. Finally, we will address how to manage the emerging risks of third-party ecosystems, specifically looking at how to guard against supply-chain poisoning in imported Model Context Protocol (MCP) servers and shared agent skills.\n \nWhat you will learn:\n- API Hardening for LLMs: Practical patterns for designing narrow-input tools that prevent prompt injections from overriding system-level parameters.\n- Blast Radius Reduction: Design principles for structuring APIs and tool arguments to limit an agent's capability to only what is strictly necessary.\n- Defending the Agent Supply Chain: Concrete strategies for sandboxing tool execution and auditing imported MCP servers and skills before they enter your enterprise registry.",
+   "speakerId": "aiep-spk-tomas-barczi",
+   "trackId": "aiep-track-enterprise-vertical-ai-in-regulated-industries",
+   "roomId": "aiep-room-discovery-track-2",
+   "startTime": 1790238600,
+   "endTime": 1790240400,
+   "level": "intermediate",
+   "format": "talk",
+   "status": "confirmed"
+  },
+  {
+   "id": "aiep-1299321-how-a-transformers-model-loads-in-vllm",
+   "title": "How a Transformers Model Loads in vLLM",
+   "description": "The Transformers modelling backend for vLLM lets you serve Hugging Face Transformers model implementations at full vLLM speed with access to all of vLLM's features. This session dives into how a Transformers model loads in vLLM and, as a consequence, why its performance and feature access are so strong.",
+   "speakerId": "aiep-spk-harry-mellor",
+   "trackId": "aiep-track-inference-ai-infrastructure",
+   "roomId": "aiep-room-main-stage",
+   "startTime": 1790238600,
+   "endTime": 1790240400,
+   "level": "intermediate",
+   "format": "talk",
+   "status": "confirmed"
+  },
+  {
+   "id": "aiep-1299136-do-you-love-wasting-money-then-you-should-not-ca",
+   "title": "Do you love wasting money? Then you should not care about agent tracing",
+   "description": "So you want to build a custom agent. You told _insert your favourite coding agent_ to build it, it installed AI SDK, configured tool calls that access your database and built a chat ui for you. \n\nYou asked ClaudeGPT (no copyright, right? lol) to setup evals and it created a dataset of what your food ordering platform users would be asking and evaluated it as expected. \n\nYou ship it to prod and profit, right? Nope, some users are asking it to rewrite rust in zig using bun (i know, not possible), some are now opensourcing an OpenCode fork with your model powering the harness, and you are staring at your OpenRouter API cost thinking.... that's a lot of food orders?\n\nLet's learn about tracing, understanding how an agent built using ai sdk (or flue or eve or whatever comes out in september) gets invoked, how it handles tool failures, max steps limitations and how you, as a developer can take that information, understand it, and then use it to feed your online evals to start a perpetual self-healing loop for your agents. \n\nAfter we understand the concepts, we can look at how it's applied in practice at a company like Sentry. How our devs use our Seer Agent data to build evals and spot check conversations that are either too expensive, had a bunch of broken tool calls for whatever reason or just dont _feel_ / _taste_ right\n\nNot a pitch of Sentry, just a tool that can be replaced with _insert observability / eval_ tool, and the concepts that we learn apply to anyone interested in building agents, debugging them locally and in production using tools like our MCP, CLI and a bit of UI (ew)",
+   "speakerId": "aiep-spk-sergiy-dybskiy",
+   "trackId": "aiep-track-evals-observability",
+   "roomId": "aiep-room-discovery-track-1",
+   "startTime": 1790242200,
+   "endTime": 1790244000,
+   "level": "intermediate",
+   "format": "talk",
+   "status": "confirmed"
+  },
+  {
+   "id": "aiep-1300233-fault-tolerant-gpu-clusters-on-kubernetes-buildi",
+   "title": "Fault-Tolerant GPU Clusters on Kubernetes: Building Resilient Infrastructure for AI at Scale",
+   "description": "Critical hardware failures in GPU clusters are inevitable at scale. The standard response is manual intervention: an engineer gets paged and spends an hour fixing something the infrastructure should have handled automatically. That lost time compounds into wasted compute and delayed progress.\n\nThis session, drawn from production experience at Crusoe, covers the architecture behind fault-tolerant GPU clusters on Kubernetes, and how automated node remediation systems integrate with workload schedulers to create a self-healing cluster where hardware failures are resolved at the platform layer without human intervention.\n\nCentral to this architecture is remediation configurability. The session covers when open-loop remediation is the right choice over immediate automatic full node replacement, and the engineering practices for implementing custom logic effectively. The session closes with a demonstration of the full remediation lifecycle executing on a GPU cluster.",
+   "speakerId": "aiep-spk-connor-guerrero",
+   "trackId": "aiep-track-inference-ai-infrastructure",
+   "roomId": "aiep-room-discovery-track-2",
+   "startTime": 1790242200,
+   "endTime": 1790244000,
+   "level": "intermediate",
+   "format": "talk",
+   "status": "confirmed"
+  },
+  {
+   "id": "aiep-1299945-inside-the-ai-economy-what-stripe-s-data-reveals",
+   "title": "Inside the AI economy: What Stripe’s data reveals",
+   "description": "Stripe powers 88% of the Forbes AI 50, which means Stripe sees how the fastest-growing AI companies actually operate their business. In this session, we’ll share the patterns behind the data: how top AI companies are monetizing earlier, selling globally by default, and the role agents are starting to play in commerce. Attendees will leave with a clear view into how the best companies are growing in the AI economy, and how to apply it to theirs.",
+   "speakerId": "aiep-spk-arielle-le-bail",
+   "trackId": "aiep-track-agentic-engineering-agents-in-production",
+   "roomId": "aiep-room-main-stage",
+   "startTime": 1790242200,
+   "endTime": 1790244000,
+   "level": "intermediate",
+   "format": "talk",
+   "status": "confirmed"
+  },
+  {
+   "id": "aiep-1299284-from-minutes-to-seconds-killing-the-cold-start-t",
+   "title": "From Minutes to Seconds: Killing the Cold Start Tax on LLM Inference",
+   "description": "Spinning up an LLM replica can be painfully slow. Before a fresh inference server instance outputs a single token, it has to move weights onto the GPU, spin up CUDA, sit through compilation, CUDA graph capture, engine initialization, and more. That's tens of minutes of idle GPU time, but that's the cheap part. The real cost is what you do to avoid it: you over-provision, keeping GPUs warm and underused around the clock so no request ever waits on a cold start. \nWhat if you could just skip bootstrap entirely? New replicas come up fully initialized and ready to serve in seconds, not minutes. It sounds like magic. It's not. It's snapshotting.\nBoot one worker until it is fully warm, freeze its complete process and GPU state, then clone replicas on demand. Simple idea. Making it work meant going deeper than the inference layer, into CRIU itself, into how GPU state survives a freeze, and into production so traffic never hits a replica mid-restore. Making it usable meant answering the questions you actually hit in production: where snapshots live, what it costs to bring them back, and what happens when the whole fleet restores at once, this allows us to serve GPT-OSS-120B under five seconds, a 21x speedup.\nWe will share more benchmarks across several model sizes, where this technique holds up and where it doesn't, the limitations we have not solved yet, and what is coming next. The framework is open source, so you can judge it against your own fleet.",
+   "speakerId": "aiep-spk-ron-kahn",
+   "trackId": "aiep-track-inference-ai-infrastructure",
+   "roomId": "aiep-room-workshop",
+   "startTime": 1790242200,
+   "endTime": 1790245800,
+   "level": "intermediate",
+   "format": "workshop",
+   "status": "confirmed"
+  },
+  {
+   "id": "aiep-1292876-bring-deterministic-predictions-to-ai-agents-wit",
+   "title": "Bring Deterministic Predictions to AI Agents with Tabular Foundation Models",
+   "description": "LLMs are great at reasoning, planning, and orchestration, but prediction and classification are a fundamentally different task. Ask an AI agent to forecast a sensor reading, or score a loan application, and you're asking a language model to do something it was never built for: producing a calibrated, grounded number rather than a plausible-sounding one. \n\nThe usual fixes don't scale either. You either fine-tune a bespoke model per task, which is slow, brittle, and hard to maintain across dozens of agent tools, or you let the model \"reason\" its way to an answer it has no real statistical grounding for. Tabular Foundation Models (TFMs) like TabPFN offer a third option: a pretrained transformer that makes calibrated predictions on structured data in-context, with no training step required. Instead of fine-tuning a model per task or asking the agent to guess, you give it a tool it can call like any other, search, code execution, or now, prediction.\n\nThis talk is a practical introduction to TFMs for engineers building agentic systems: what they are, how in-context learning over tabular data actually works under the hood, and why \"no training loop\" matters for agent architectures specifically. \n\nWe'll cover where TFMs fit in the scope of AI agents, and close with a short live demo: an agent that, mid-conversation, uses a small tabular dataset, hands it to TabPFN as context, and returns a grounded prediction back into its reasoning chain, compared against the same agent trying to eyeball the answer itself.",
+   "speakerId": "aiep-spk-tuana-celik",
+   "trackId": "aiep-track-agentic-engineering-agents-in-production",
+   "roomId": "aiep-room-discovery-track-1",
+   "startTime": 1790244000,
+   "endTime": 1790245800,
+   "level": "intermediate",
+   "format": "talk",
+   "status": "confirmed"
+  },
+  {
+   "id": "aiep-1300193-sglang-and-miles-building-frontier-ai-infrastruc",
+   "title": "SGLang and Miles: Building Frontier AI Infrastructure with RadixArk",
+   "description": "Open weights are the easy part. Getting a frontier open model to production cost is a systems problem, and in this talk we will go down the stack of what this looks like in 2026 and beyond.\n\nAlex covers what assumptions serving systems were built on, and what SGLang does about it: reusing cached work instead of recomputing it, splitting a model across machines so each stage does what it does best, and handling very long context. From his work leading SGLang's multi-hardware team, he will also cover what it takes to run the same stack across NVIDIA, AMD, and other vendors, and whether that portability pays for itself.\n\nThe second half turns to post training. Reinforcement learning has pulled the serving engine into the training loop, so rollout speed now sets how fast a model can improve. Miles, the open-source RL framework built to pair with SGLang, closes that loop. Expect a clear picture of how the pieces fit together and where this is heading as serving and training converge.",
+   "speakerId": "aiep-spk-alex-nails",
+   "trackId": "aiep-track-inference-ai-infrastructure",
+   "roomId": "aiep-room-discovery-track-2",
+   "startTime": 1790244000,
+   "endTime": 1790245800,
+   "level": "intermediate",
+   "format": "talk",
+   "status": "confirmed"
+  },
+  {
+   "id": "aiep-1296717-from-research-to-production-how-we-rebuilt-a-str",
+   "title": "From research to production: How we rebuilt a streaming model for Voice AI",
+   "description": "How do you take 5 years of speaker diarization research and turn it into a model that runs in real time, inside production Voice AI stacks, without sacrificing accuracy?\n\nIn this talk, Hervé Bredin (and Juan) takes you behind the scenes of pyannoteAI's new streaming diarization model creation. He will explain how research and engineering teams worked as one squad from day one, with no handoff point. Research shaped what the system needed to ask of the model. Engineering shaped how the model was designed so it could actually be deployed. Neither side worked in isolation, and neither waited for the other to finish.\nHe will share how we create a system designed to match the quality of our batch model while meeting the strict latency and integration demands of modern Voice AI pipelines.\nYou'll learn how our research and engineering teams worked side by side to translate scientific findings into a production-ready model: the trade-offs we navigated, the design decisions that shaped the architecture, and the collaboration patterns that made it possible. Expect a candid look at what it actually takes to ship foundational voice AI models: the wins, the constraints, and the lessons learned along the way.\nWhether you're a researcher curious about productionization, an engineer integrating Voice AI into your stack, or a team lead navigating the research-engineering divide, you'll leave with concrete insights into how foundational voice AI gets built.",
+   "speakerId": "aiep-spk-herve-bredin",
+   "trackId": "aiep-track-voice-realtime-ai",
+   "roomId": "aiep-room-main-stage",
+   "startTime": 1790244000,
+   "endTime": 1790245800,
+   "level": "intermediate",
+   "format": "talk",
+   "status": "confirmed"
+  },
+  {
+   "id": "aiep-1299476-building-the-first-reliable-model-for-on-device",
+   "title": "Building the first reliable model for on-device agents",
+   "description": "High-volume agentic workflows don't require the coding capabilities or specialized knowledge of cloud-based frontier models. Instead, models small enough to run on-device can handle these workloads privately, offline, and essentially for free.\n\nIn this talk, we'll cover the current state of post-training and share how to post-train frontier edge models with on-policy distillation and agentic reinforcement learning. We'll discuss the training challenges and solutions we found for developing small, reliable agents that fit everywhere, including on a phone.\n\nWe close with a live demo of an agent running fully on-device.",
+   "speakerId": "aiep-spk-leonie-monigatti",
+   "trackId": "aiep-track-agentic-engineering-agents-in-production",
+   "roomId": "aiep-room-discovery-track-1",
+   "startTime": 1790251200,
+   "endTime": 1790253000,
+   "level": "intermediate",
+   "format": "talk",
+   "status": "confirmed"
+  },
+  {
+   "id": "aiep-1299935-software-factories-greenfield-is-easy-brownfield",
+   "title": "Software Factories: Greenfield Is Easy. Brownfield Pays the Bills.",
+   "description": "AI can spin up a shiny new app in minutes. Greenfield projects have never been easier.\n\nBut that's not where most engineers live.\n\nThe software powering real businesses has evolved over decades. It's full of legacy code, hidden dependencies, and institutional knowledge that doesn't fit into a single prompt.\n\nAs part of Otto Group, one of one of the world's largest privately owned retail and e-commerce companies, we're exploring a vision for AI-powered software factories that help engineers understand, navigate, and evolve brownfield systems instead of replacing them. We're actively experimenting, validating assumptions, and learning what works-and what doesn't.\n\nThis talk will share that journey: the vision, the architectural ideas, the experiments we've run so far, and the lessons we're learning as we test how AI can become a trusted teammate for enterprise software modernization.\n\nIf you've ever inherited a codebase older than your AI assistant, this talk is for you.",
+   "speakerId": "aiep-spk-theresa-bradford",
+   "trackId": "aiep-track-enterprise-vertical-ai-in-regulated-industries",
+   "roomId": "aiep-room-discovery-track-2",
+   "startTime": 1790251200,
+   "endTime": 1790253000,
+   "level": "intermediate",
+   "format": "talk",
+   "status": "confirmed"
+  },
+  {
+   "id": "aiep-1330235-debugging-agents-in-different-environments",
+   "title": "Debugging Agents in different environments",
+   "description": "An ecommerce chatbot, a Slack agent, and a PR review agent run in different environments. Each can fail across multiple steps, making the final response only part of the story.\n\nJoin Serge for an introduction to tracing and how it applies to AI agents. Through this workshop, you’ll see how to follow an agent’s execution, inspect model and tool calls, and find where things went wrong. No prior tracing experience is needed.\n\nYou’ll learn how to:\n* Read traces and spans, and understand the extra context agent tracing provides.\n* Add agent tracing to an ecommerce chatbot, a custom Slack agent, and a PR review agent running in GitHub Actions.\n* Inspect inputs, outputs, tool calls, and token usage to investigate errors and slow responses.",
+   "speakerId": "aiep-spk-sergiy-dybskiy",
+   "trackId": "aiep-track-evals-observability",
+   "roomId": "aiep-room-workshop",
+   "startTime": 1790251200,
+   "endTime": 1790254800,
+   "level": "intermediate",
+   "format": "workshop",
+   "status": "confirmed"
+  },
+  {
+   "id": "aiep-1299931-graphrag-the-definitive-guide-a-field-guide-to-p",
+   "title": "GraphRAG: The Definitive Guide - A Field Guide to Patterns, Trade-offs, and Production Systems",
+   "description": "GraphRAG has quickly become a catch-all term for everything from graph-enhanced retrieval to Text2Cypher, agent memory, and community-based summarization. That is exciting, but it also creates confusion. When people say “use GraphRAG,” what do they actually mean, and which pattern fits which problem?\n\nThis talk gives AI engineers a practical map of the GraphRAG landscape. We start with the limits of vector-only RAG, especially when data is connected, multi-hop, dynamic, or needs to be explainable. From there, we break GraphRAG into a set of core building blocks: constructing knowledge graphs from structured and unstructured data, choosing among lexical, domain, and meta graphs, and applying retrieval patterns such as guided traversal, graph-filtered search, Cypher templates, Text2Cypher, graph embeddings, query-focused summarization, and agentic retrieval.\n\nThe goal is not to present GraphRAG as one recipe, but as a toolbox with clear trade-offs. We will show when a lightweight pattern is enough, when a richer graph model pays off, and how to think about evaluation, governance, and production readiness from the start. Attendees will leave with a working mental model of GraphRAG, a taxonomy of the most useful patterns, and a decision framework for designing graph-powered GenAI systems that are accurate, explainable, and useful beyond the demo.",
+   "speakerId": "aiep-spk-stephen-chin",
+   "trackId": "aiep-track-context-harness-engineering",
+   "roomId": "aiep-room-discovery-track-1",
+   "startTime": 1790253000,
+   "endTime": 1790254800,
+   "level": "intermediate",
+   "format": "talk",
+   "status": "confirmed"
+  },
+  {
+   "id": "aiep-1299747-why-software-factories-fail-how-we-failed-to-mak",
+   "title": "Why Software Factories fail: how we failed to make 100% of our code built by autonomous agents",
+   "description": "Coding harnesses are great in the hands of humans, but given full autonomy and enough token cycles, coding agents always end up writing slop.\n\nWe spent the last 3 months building an internal Software Factory to write all of our code, from customer projects to the most sensitive parts of our infrastructure. \n\nThis talk will walk you through our journey from 0% to 100% of all issues automatically closed by agent, why it failed, and what we learned from it.\n\nThe talk with teach you:\n- how we structured our Software Factory: from PRDs to Specs to Code Review to QA to Push to Production\n- How we equiped our agents with full access to the tools our human developers use (dev sandboxes and AWS, linear, slack, browser access, etc) and all the guardrails we had to implement\n- Our testing and evals setup, and how to avoid harness overfitting\n- And most importantly, what worked and what failed, and why we’re not at a stage where harnesses can build complex software or companies autonomously",
+   "speakerId": "aiep-spk-nikolay-rodionov",
+   "trackId": "aiep-track-agentic-engineering-agents-in-production",
+   "roomId": "aiep-room-discovery-track-2",
+   "startTime": 1790253000,
+   "endTime": 1790254800,
+   "level": "intermediate",
+   "format": "talk",
+   "status": "confirmed"
+  },
+  {
+   "id": "aiep-1324158-the-low-latency-inference-engineering-playbook",
+   "title": "The low-latency inference engineering playbook",
+   "description": "Inference optimization is a grind. The big wins like quantization affect model quality, triggering numerous, expensive quality evals. Both host and accelerator performance improvement is a game of inches. And the engines have more flags than an Erasmus alumni meetup in Brussels.\n\nIn this talk, I will present the playbook we've developed at Modal for optimizing inference deployments, like our Kimi-K3 Shared Endpoint (available via OpenRouter) and application-specific endpoints with and for customers like Decagon.\n\nWe focus in particular on speculative decoding, which uses inference to speed up inference. I'll explain the core intuition, the latest techniques, and the relevance of the bitter lesson, with reference to our work on state-of-the-art DFlash speculators.",
+   "speakerId": "aiep-spk-charles-frye",
+   "trackId": "aiep-track-inference-ai-infrastructure",
+   "roomId": "aiep-room-workshop",
+   "startTime": 1790253000,
+   "endTime": 1790254800,
+   "level": "intermediate",
+   "format": "workshop",
+   "status": "confirmed"
+  },
+  {
+   "id": "aiep-1299839-what-gets-retrieved-gets-reinforced-detecting-ge",
+   "title": "What Gets Retrieved Gets Reinforced: Detecting Gender Bias in AI Agents",
+   "description": "Gender bias in AI-powered search is easy to miss and hard to measure. When an LLM mediates between a user and a catalog, bias can enter at two layers: what gets retrieved and how the agent narrates it. No standard tooling exists to measure it in production.\n\nWe built a two-layer detector evaluating linguistic patterns in agent responses and stereotypical product selection in retrieval results. The linguistic side worked reasonably well. The retrieval side was a mess: you cannot tell the difference between an agent that is biased and a catalog that already skews gendered. Every pink product flagged as bias was just... the catalog.\n\nCounterfactual testing turned out to be the fix. Swap one name, while everything else remains identical: \"Hi, I'm Alice\" vs \"Hi, I'm Andrew.\" If the agent responds differently, that difference is the agent's doing, not the data's. We built 400+ test cases across five bias types grounded in Grep-BiasIR, ran them across multiple LLMs, and found that even well-regarded models fail more often than one would expect.\n\nThis type of question only becomes answerable once you have infrastructure designed for it: concurrent multi-model execution, dataset generation grounded in real catalog data, LLM-as-judge scoring, and a leaderboard built for iteration. Going from a research question to production-grade evaluation takes more than tooling. Gender bias will not be the last hard problem you want to stress-test against your agents.\n\nWhether you are building agentic search or just starting to think about fairness in your pipelines, you will walk away with a concrete testing approach and a clearer picture of where current tools still fall short.",
+   "speakerId": "aiep-spk-maria-lungu",
+   "trackId": "aiep-track-evals-observability",
+   "roomId": "aiep-room-discovery-track-1",
+   "startTime": 1790254800,
+   "endTime": 1790256600,
+   "level": "intermediate",
+   "format": "talk",
+   "status": "confirmed"
+  },
+  {
+   "id": "aiep-1297723-fantastic-environments-and-where-to-find-them",
+   "title": "Fantastic environments and where to find them",
+   "description": "Frontier labs pay millions for a single RL environment representing one high-value task: software engineering, cybersecurity, project management. That closed industry is a big part of why frontier agents perform. \n\nThis talk is a field guide to cracking it in the open. I'll cover how the environment business works, from research and reporting; the open source counterparts, Prime Intellect, TRL, and OpenEnv; and an end-to-end walkthrough of training a cybersecurity agent for free. You'll leave knowing how to find, build, and share environments for the tasks you care about, without paying a vendor.\n\nWhy me: I'm a core maintainer of OpenEnv, the open source environment standard backed by Hugging Face, Meta-PyTorch, NVIDIA, Microsoft, and Prime Intellect. It integrates with all major training frameworks.",
+   "speakerId": "aiep-spk-ben-burtenshaw",
+   "trackId": "aiep-track-agentic-engineering-agents-in-production",
+   "roomId": "aiep-room-discovery-track-2",
+   "startTime": 1790254800,
+   "endTime": 1790256600,
+   "level": "intermediate",
+   "format": "talk",
+   "status": "confirmed"
+  },
+  {
+   "id": "aiep-1317607-eyes-up-edge-ai-innovation",
+   "title": "Eyes Up: Edge AI Innovation",
+   "description": "AI capabilities that once required a datacenter now fit in your hands. Open-weight models are enabling device builders to innovate with new form factors and interaction methods built around agents with live, local context - alongside the efficiency, sovereignty and privacy advantages on-device inference brings. \n\nUsing Pollen Robotics Reachy Mini as an example, we’ll look at builds with Raspberry Pi and NVIDIA DGX Spark to show what becomes possible when sensing, inference and physical action come together, where datacenters still play a central role, and how Arm is helping builders explore this new design space.",
+   "speakerId": "aiep-spk-dominic-pajak",
+   "trackId": "aiep-track-voice-realtime-ai",
+   "roomId": "aiep-room-main-stage",
+   "startTime": 1790254800,
+   "endTime": 1790256600,
+   "level": "intermediate",
+   "format": "talk",
+   "status": "confirmed"
+  },
+  {
+   "id": "aiep-1329895-in-agents-we-trust-how-sonar-protects-your-ai-in",
+   "title": "In agents we trust: How Sonar protects your AI investment",
+   "description": "AI accelerates delivery—but without trust, it amplifies risk just as fast. As the independent layer around any coding agent, Sonar guides agents with rich context, verifies every change against your standards, and solves issues automatically. Turn AI speed into secure, lasting value.",
+   "speakerId": "aiep-spk-sylvain-combe",
+   "trackId": "aiep-track-agentic-engineering-agents-in-production",
+   "roomId": "aiep-room-workshop",
+   "startTime": 1790255100,
+   "endTime": 1790258700,
+   "level": "intermediate",
+   "format": "workshop",
+   "status": "confirmed"
+  },
+  {
+   "id": "aiep-1296049-the-zero-temperature-lie-why-your-deterministic",
+   "title": "The Zero-Temperature Lie: Why Your Deterministic LLM is Still Hallucinating Randomness",
+   "description": "Deterministic LLM inference sounds simple: set temperature to zero and get consistent answers. But reality is messier, and asking the same question a thousand times might yield dozens of different responses.\n\nWhile GPU parallelism and floating-point arithmetic play a role, latest studies identify the real culprit as… other users. Concurrent requests to the same server change the batch size, which silently alters the order of transformer computations, making the output look like uncontrollable randomness.\n\nThis talk will debunk the common myths about LLM nondeterminism, walk through the actual mechanics of inference engines, and explain what it would take to achieve true reproducibility.\n\nWhether calling an external API or running a self-hosted inference stack, attendees will leave with a clear understanding of why this happens, which strategies can help address it, and how to think about reproducibility in AI systems.",
+   "speakerId": "aiep-spk-valeria-zuccoli",
+   "trackId": "aiep-track-inference-ai-infrastructure",
+   "roomId": "aiep-room-discovery-track-1",
+   "startTime": 1790256600,
+   "endTime": 1790258400,
+   "level": "intermediate",
+   "format": "talk",
+   "status": "confirmed"
+  },
+  {
+   "id": "aiep-1291300-how-to-prevent-ai-agents-from-accessing-unauthor",
+   "title": "How to Prevent AI Agents from Accessing Unauthorized Data",
+   "description": "This talk could prevent the next big data breach.\n\nBuilding enterprise-ready AI poses challenges around data security, scalability, and integration, especially in compliance-regulated industries. We're already seeing security breaches with AI Agents in the news. This is a complex problem - Imagine having N users, M Agents and O actions. How do you design permissions around that?\n\nThis session will cover how modern permissions systems can ensure AI Agents have access only to authorized data. The talk will look at why the Google Zanzibar model of authorization which uses Relationship-Based Access Control (ReBAC) is well suited for fine-grained authorization at scale. The talk covers the nuts and bolts of how a Google Zanzibar system works under the hood, and how to apply it to AI Agents with techniques such as pre-filteration and post-filteration.\n\nThe talk will also include a live code demo implementing authorization for AI Agents + RAG using Open Source tools such as Weaviate, Langchain, Mistral, and SpiceDB.",
+   "speakerId": "aiep-spk-sohan-maheshwar",
+   "trackId": "aiep-track-enterprise-vertical-ai-in-regulated-industries",
+   "roomId": "aiep-room-discovery-track-2",
+   "startTime": 1790256600,
+   "endTime": 1790258400,
+   "level": "intermediate",
+   "format": "talk",
+   "status": "confirmed"
+  },
+  {
+   "id": "aiep-1306932-closing-the-distance",
+   "title": "Closing the Distance",
+   "description": "\"Closing the Distance\" traces the 130-year history of shrinking the gap between what an engineer wants to build and working software — from punch cards to compilers to AI copilots — and argues that Devin, Cognition's AI software engineer, is the first system to cross that gap autonomously rather than just narrowing it, taking on a task from intent to a verified, tested pull request while the engineer sets direction, reviews, and stays accountable for what ships.",
+   "speakerId": "aiep-spk-yannis-psorakis",
+   "trackId": "aiep-track-agentic-engineering-agents-in-production",
+   "roomId": "aiep-room-main-stage",
+   "startTime": 1790256600,
+   "endTime": 1790258400,
+   "level": "intermediate",
+   "format": "talk",
+   "status": "confirmed"
+  },
+  {
+   "id": "aiep-1290741-the-harness-is-the-product-engineering-agents-be",
+   "title": "The Harness Is the Product: Engineering Agents Beyond the Happy Path",
+   "description": "Most teams blame agent failures on the model. In production, the root cause is often the harness: the context assembly, tool contracts, sandbox, permissions, memory, recovery logic, traces, and evals that constrain and guide the model.\n\nThis talk presents a failure-driven method for engineering that harness. Drawing on patterns encountered across production enterprise AI systems, I’ll show why capable models fail inside weak harnesses, why model swaps expose hidden assumptions, and how to classify failures across nine categories: context, tools, execution, permissions, recovery, evaluation, model fit, trajectory, and cases where an LLM should not have been used.\n\nThe second half turns diagnosis into an operating discipline:\n\nRun → Trace → Eval → Cluster → Fix → Regression Test\n\nA failed trajectory becomes a test case. Traces become evidence. Evals become the behavioral contract. Clusters—not isolated bad runs—determine what to improve.\n\nAttendees will leave with a concrete architecture for an agent harness, a practical failure taxonomy, and an improvement loop they can apply to production systems. The core test is simple: can the agent recover when tools fail, context is incomplete, permissions block execution, or the model confidently reports success when the work is not actually done?",
+   "speakerId": "aiep-spk-dat-ngo",
+   "trackId": "aiep-track-evals-observability",
+   "roomId": "aiep-room-discovery-track-1",
+   "startTime": 1790260200,
+   "endTime": 1790262000,
+   "level": "intermediate",
+   "format": "talk",
+   "status": "confirmed"
+  },
+  {
+   "id": "aiep-1287177-the-long-tail-of-done-tracking-what-agents-actua",
+   "title": "The Long Tail of \"Done\": Tracking What Agents Actually Ship, and Where It Gets Deployed",
+   "description": "Every team adopting agentic workflows eventually hits the same question: are we really more productive, or just busier? Tokens burned, lines generated, PRs merged — agents inflate all the above, and many teams feel more productive while their delivery slows down or becomes less stable.\n\nAI-enabled or not, what teams ultimately care about does not change: Did we ship new features? Did we become faster? Did we reduce operational issues? Did we cut cost and become more efficient? The frame by which we need to look at modern software engineering needs to shift with the tools: engineers know a feature isn't done at merge: its real life is a steep curve of prototyping work, followed by bug fixes and incremental improvements, then a longer tail of support. This curve calls for different metrics: how many builds and deployments does it take for a feature to become stable? Who keeps submitting bug fixes after a feature \"shipped\" — and which agentic workflows produce those long tails? How do we safeguard against regressions? What paradigms and agentic workflows work well and which ones don't?\n\nIn this session we will demonstrate how we can capture telemetry from agentic workflows, CI/CD, and deployments using open-source tools, and surface actionable data that improves how teams work: contracts over implementation details, architecture guardrails, and operational-excellence metrics that keep teams aligned — but also provide feedback loops for agentic workflows to self-improve.",
+   "speakerId": "aiep-spk-theofilos-petsios",
+   "trackId": "aiep-track-agentic-engineering-agents-in-production",
+   "roomId": "aiep-room-discovery-track-2",
+   "startTime": 1790260200,
+   "endTime": 1790262000,
+   "level": "intermediate",
+   "format": "talk",
+   "status": "confirmed"
+  },
+  {
+   "id": "aiep-1329541-fixing-the-pr-bottleneck",
+   "title": "Fixing the PR Bottleneck",
+   "description": "The pull request has always been the bottleneck. Now it's the bottleneck slowing down every organization. Agents make it trivial to open a PR. They make it only slightly easier to open one worth reviewing.\n\nThis talk asks why, and what to do about it. Code is the environment your agent works in, so agent experience (AX) deserves the same rigor developer experience (DX) got. Fixing the bottleneck means fixing what happens around the PR, not how fast it gets written.",
+   "speakerId": "aiep-spk-matt-pocock",
+   "trackId": "aiep-track-coding-agents-software-factories",
+   "roomId": "aiep-room-main-stage",
+   "startTime": 1790260200,
+   "endTime": 1790262000,
+   "level": "intermediate",
+   "format": "talk",
+   "status": "confirmed"
+  },
+  {
+   "id": "aiep-1299116-kubernetes-is-not-your-sandbox",
+   "title": "Kubernetes Is Not Your Sandbox",
+   "description": "Teams are reaching for Kubernetes to run agent sandboxes, and it's the wrong tool. Kubernetes is built to keep things alive and hold them in a steady state. A sandbox is born, forked, and killed before any of that machinery catches up.\n\nThe mismatch compounds because the sandbox keeps gaining requirements without shedding any. In eighteen months it went from a fast code-snippet runner, to a stateful box for long-running agents, to ten thousand ephemeral environments that fork for RL rollouts and die in under a second. It has to be all of those at once, a contradiction set no orchestrator was designed to hold.\n\nThe cost shows up the moment you measure it. We ran the same 50-action bug-fix trajectory across five stacks and got a 12x spread: 12.9s on the fastest, 161.5s on the slowest. The gap isn't compute, it's lifecycle overhead per action. We name every stack and explain the mechanism behind each number.",
+   "speakerId": "aiep-spk-ivan-burazin",
+   "trackId": "aiep-track-inference-ai-infrastructure",
+   "roomId": "aiep-room-discovery-track-1",
+   "startTime": 1790262000,
+   "endTime": 1790263800,
+   "level": "intermediate",
+   "format": "talk",
+   "status": "confirmed"
+  },
+  {
+   "id": "aiep-1303664-your-agent-needs-a-computer-not-a-container",
+   "title": "Your agent needs a computer, not a container",
+   "description": "Every AI agent its own container won't scale to the billions of agents coming. Instead, most agent tasks just need a lightweight virtual filesystem, with a real Linux container brought in only for the ~10% of tasks that actually need it. \n\nBuilt around Cloudflare's new @cloudflare/computer package, with live code and a demo of an agent triaging a bug — switching between fast/cheap and full/heavy execution environments automatically.",
+   "speakerId": "aiep-spk-fayaz-ahmed",
+   "trackId": "aiep-track-agentic-engineering-agents-in-production",
+   "roomId": "aiep-room-discovery-track-2",
+   "startTime": 1790262000,
+   "endTime": 1790263800,
+   "level": "intermediate",
+   "format": "talk",
+   "status": "confirmed"
+  },
+  {
+   "id": "aiep-1298692-the-efficiency-of-gemma-4",
+   "title": "The Efficiency of Gemma 4",
+   "description": "Wonder what makes Gemma 4 so efficient for local usage? \n\nIn this talk, I will use a LOT of visuals to go through some of the (fundamental) architectural innovations that were used in the Gemma 4 models that make them ideal for local usage:\n\n* Per-Layer Embeddings (PLE) - Adding parameters without adding them\n* Multi-Token Prediction (MTP) drafters - Use smaller models to generate candidate tokens\n* Mobile QAT - Making E2B/E4 even more efficient\n* Gemma 4 12B - Doing away with the encoders \n* DiffusionGemma - A diffusion-tuned Gemma 4 26B\n\nNOTE: I select \"Inference & AI Infrastructure\" as I couldn't select \"Open, Local & Sovereign AI\". If that topic area is already filled, my apologies for the inconvenience of having to read through this!",
+   "speakerId": "aiep-spk-maarten-grootendorst",
+   "trackId": "aiep-track-inference-ai-infrastructure",
+   "roomId": "aiep-room-main-stage",
+   "startTime": 1790262000,
+   "endTime": 1790263800,
+   "level": "intermediate",
+   "format": "talk",
+   "status": "confirmed"
+  },
+  {
+   "id": "aiep-1299052-the-missing-layers-of-conversational-ai",
+   "title": "The Missing Layers of Conversational AI",
+   "description": "We solved the latency problem, but our voice agents still sound like sociopaths. Achieving a sub-200ms response time is useless if the model cannot read the room, understand overlapping speech, or recognize how a user is speaking rather than just what they are saying. This keynote defines the ultimate architecture for the complete voice interface. We will break down the massive engineering hurdles beyond simple text-to-speech, exploring the bleeding edge of native full-duplex streaming, real-time speaker diarization, and injecting dynamic emotional expressivity directly into the audio generation layer. By dissecting the failures of current cascaded systems in handling interruptions, sarcasm, and hesitation, I will show you exactly what it takes to build a native audio foundation model that finally crosses the uncanny valley—an AI that doesn't just process speech, but actually understands the human behind it.",
+   "speakerId": "aiep-spk-neil-zeghidour",
+   "trackId": "aiep-track-voice-realtime-ai",
+   "roomId": "aiep-room-main-stage",
+   "startTime": 1790263800,
+   "endTime": 1790265600,
+   "level": "intermediate",
+   "format": "talk",
+   "status": "confirmed"
+  }
+ ],
+ "talkSpeakers": [
+  {
+   "talkId": "aiep-1328301-welcome-from-station-f",
+   "speakerId": "aiep-spk-lara-khanafer",
+   "position": 0
+  },
+  {
+   "talkId": "aiep-1297128-what-can-economic-history-teach-us-about-the-ai",
+   "speakerId": "aiep-spk-clemens-rawert",
+   "position": 0
+  },
+  {
+   "talkId": "aiep-1324799-building-frontier-ai",
+   "speakerId": "aiep-spk-lelio-renard-lavaud",
+   "position": 0
+  },
+  {
+   "talkId": "aiep-1313491-from-pixels-to-robots-how-we-customize-flux-for",
+   "speakerId": "aiep-spk-jakob-porschmann",
+   "position": 0
+  },
+  {
+   "talkId": "aiep-1289595-building-the-next-generation-of-ai-developer-too",
+   "speakerId": "aiep-spk-krzysztof-cieslak",
+   "position": 0
+  },
+  {
+   "talkId": "aiep-1300066-a-computer-for-every-idea-growing-trees-of-live",
+   "speakerId": "aiep-spk-ondrej-drapalik",
+   "position": 0
+  },
+  {
+   "talkId": "aiep-1300066-a-computer-for-every-idea-growing-trees-of-live",
+   "speakerId": "aiep-spk-mish-ushakov",
+   "position": 1
+  },
+  {
+   "talkId": "aiep-1309137-generating-identity-at-scale-elevenlabs-ai-drive",
+   "speakerId": "aiep-spk-dorian-lods",
+   "position": 0
+  },
+  {
+   "talkId": "aiep-1298819-optimizing-small-videollm-an-end-to-end-problem",
+   "speakerId": "aiep-spk-yannis-tevissen",
+   "position": 0
+  },
+  {
+   "talkId": "aiep-1298819-optimizing-small-videollm-an-end-to-end-problem",
+   "speakerId": "aiep-spk-maxime-pariente",
+   "position": 1
+  },
+  {
+   "talkId": "aiep-1299321-how-a-transformers-model-loads-in-vllm",
+   "speakerId": "aiep-spk-harry-mellor",
+   "position": 0
+  },
+  {
+   "talkId": "aiep-1300308-dangerous-by-design-engineering-restricted-tool",
+   "speakerId": "aiep-spk-tomas-barczi",
+   "position": 0
+  },
+  {
+   "talkId": "aiep-1299136-do-you-love-wasting-money-then-you-should-not-ca",
+   "speakerId": "aiep-spk-sergiy-dybskiy",
+   "position": 0
+  },
+  {
+   "talkId": "aiep-1299284-from-minutes-to-seconds-killing-the-cold-start-t",
+   "speakerId": "aiep-spk-ron-kahn",
+   "position": 0
+  },
+  {
+   "talkId": "aiep-1299284-from-minutes-to-seconds-killing-the-cold-start-t",
+   "speakerId": "aiep-spk-dan-feigin",
+   "position": 1
+  },
+  {
+   "talkId": "aiep-1299945-inside-the-ai-economy-what-stripe-s-data-reveals",
+   "speakerId": "aiep-spk-arielle-le-bail",
+   "position": 0
+  },
+  {
+   "talkId": "aiep-1300233-fault-tolerant-gpu-clusters-on-kubernetes-buildi",
+   "speakerId": "aiep-spk-connor-guerrero",
+   "position": 0
+  },
+  {
+   "talkId": "aiep-1292876-bring-deterministic-predictions-to-ai-agents-wit",
+   "speakerId": "aiep-spk-tuana-celik",
+   "position": 0
+  },
+  {
+   "talkId": "aiep-1296717-from-research-to-production-how-we-rebuilt-a-str",
+   "speakerId": "aiep-spk-herve-bredin",
+   "position": 0
+  },
+  {
+   "talkId": "aiep-1300193-sglang-and-miles-building-frontier-ai-infrastruc",
+   "speakerId": "aiep-spk-alex-nails",
+   "position": 0
+  },
+  {
+   "talkId": "aiep-1299476-building-the-first-reliable-model-for-on-device",
+   "speakerId": "aiep-spk-leonie-monigatti",
+   "position": 0
+  },
+  {
+   "talkId": "aiep-1299935-software-factories-greenfield-is-easy-brownfield",
+   "speakerId": "aiep-spk-theresa-bradford",
+   "position": 0
+  },
+  {
+   "talkId": "aiep-1330235-debugging-agents-in-different-environments",
+   "speakerId": "aiep-spk-sergiy-dybskiy",
+   "position": 0
+  },
+  {
+   "talkId": "aiep-1299747-why-software-factories-fail-how-we-failed-to-mak",
+   "speakerId": "aiep-spk-nikolay-rodionov",
+   "position": 0
+  },
+  {
+   "talkId": "aiep-1299931-graphrag-the-definitive-guide-a-field-guide-to-p",
+   "speakerId": "aiep-spk-stephen-chin",
+   "position": 0
+  },
+  {
+   "talkId": "aiep-1324158-the-low-latency-inference-engineering-playbook",
+   "speakerId": "aiep-spk-charles-frye",
+   "position": 0
+  },
+  {
+   "talkId": "aiep-1297723-fantastic-environments-and-where-to-find-them",
+   "speakerId": "aiep-spk-ben-burtenshaw",
+   "position": 0
+  },
+  {
+   "talkId": "aiep-1299839-what-gets-retrieved-gets-reinforced-detecting-ge",
+   "speakerId": "aiep-spk-maria-lungu",
+   "position": 0
+  },
+  {
+   "talkId": "aiep-1299839-what-gets-retrieved-gets-reinforced-detecting-ge",
+   "speakerId": "aiep-spk-paul-louis-nech",
+   "position": 1
+  },
+  {
+   "talkId": "aiep-1317607-eyes-up-edge-ai-innovation",
+   "speakerId": "aiep-spk-dominic-pajak",
+   "position": 0
+  },
+  {
+   "talkId": "aiep-1329895-in-agents-we-trust-how-sonar-protects-your-ai-in",
+   "speakerId": "aiep-spk-sylvain-combe",
+   "position": 0
+  },
+  {
+   "talkId": "aiep-1291300-how-to-prevent-ai-agents-from-accessing-unauthor",
+   "speakerId": "aiep-spk-sohan-maheshwar",
+   "position": 0
+  },
+  {
+   "talkId": "aiep-1296049-the-zero-temperature-lie-why-your-deterministic",
+   "speakerId": "aiep-spk-valeria-zuccoli",
+   "position": 0
+  },
+  {
+   "talkId": "aiep-1306932-closing-the-distance",
+   "speakerId": "aiep-spk-yannis-psorakis",
+   "position": 0
+  },
+  {
+   "talkId": "aiep-1287177-the-long-tail-of-done-tracking-what-agents-actua",
+   "speakerId": "aiep-spk-theofilos-petsios",
+   "position": 0
+  },
+  {
+   "talkId": "aiep-1290741-the-harness-is-the-product-engineering-agents-be",
+   "speakerId": "aiep-spk-dat-ngo",
+   "position": 0
+  },
+  {
+   "talkId": "aiep-1329541-fixing-the-pr-bottleneck",
+   "speakerId": "aiep-spk-matt-pocock",
+   "position": 0
+  },
+  {
+   "talkId": "aiep-1298692-the-efficiency-of-gemma-4",
+   "speakerId": "aiep-spk-maarten-grootendorst",
+   "position": 0
+  },
+  {
+   "talkId": "aiep-1299116-kubernetes-is-not-your-sandbox",
+   "speakerId": "aiep-spk-ivan-burazin",
+   "position": 0
+  },
+  {
+   "talkId": "aiep-1303664-your-agent-needs-a-computer-not-a-container",
+   "speakerId": "aiep-spk-fayaz-ahmed",
+   "position": 0
+  },
+  {
+   "talkId": "aiep-1299052-the-missing-layers-of-conversational-ai",
+   "speakerId": "aiep-spk-neil-zeghidour",
+   "position": 0
+  }
+ ]
+}

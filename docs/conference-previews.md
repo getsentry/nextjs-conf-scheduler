@@ -106,3 +106,21 @@ DEMO_BLOCKED_TALK_ID=aiconf-debugging-ai-applications-in-production-with-sentry
 DEMO_SLOW_SPEAKER_ID=aiconf-spk-milin-desai
 DEMO_SCHEDULE_ERROR_MESSAGE=You should be at the booth instead of watching the Sentry talk
 ```
+
+## AI Engineer Paris preview env
+
+Branch `ai-engineer-paris-2026` · domain `aie-paris.sentry.dev`
+
+```bash
+CONFERENCE_SEED_FILE=data/conference-seeds/ai-engineer-paris-2026.json
+NEXT_PUBLIC_CONFERENCE_NAME="AI Engineer Paris 2026"
+NEXT_PUBLIC_CONFERENCE_SHORT_NAME="AIE Paris 2026"
+NEXT_PUBLIC_CONFERENCE_DATES="September 23–24, 2026"
+NEXT_PUBLIC_CONFERENCE_LOCATION="Paris, France"
+NEXT_PUBLIC_CONFERENCE_VENUE="Station F"
+NEXT_PUBLIC_CONFERENCE_TIME_ZONE=Europe/Paris
+NEXT_PUBLIC_CONFERENCE_SCHEDULE_NOTE="Schedule may change: AI Engineer is still finalizing the agenda."
+DEMO_BLOCKED_TALK_ID=aiep-1299136-do-you-love-wasting-money-then-you-should-not-ca
+DEMO_SLOW_SPEAKER_ID=aiep-spk-sergiy-dybskiy
+DEMO_SCHEDULE_ERROR_MESSAGE="You should be at the booth instead of watching the Sentry talk"
+```

@@ -16,6 +16,7 @@ const nextConfig: NextConfig = {
       "assets.swoogo.com",
       "cdn.prod.website-files.com",
       "api.dicebear.com",
+      "cdn.sessionize.com",
     ].map((hostname) => ({ protocol: "https" as const, hostname })),
   },
 };

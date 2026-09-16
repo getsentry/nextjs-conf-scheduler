@@ -105,9 +105,11 @@ async function TalkDetailContent({ params }: { params: Params }) {
               <div>
                 <h3 className="font-medium mb-2">Where</h3>
                 <p className="text-sm">{talk.room.name}</p>
-                <p className="text-sm text-muted-foreground">
-                  Capacity: {talk.room.capacity} attendees
-                </p>
+                {talk.room.capacity > 0 && (
+                  <p className="text-sm text-muted-foreground">
+                    Capacity: {talk.room.capacity} attendees
+                  </p>
+                )}
               </div>
 
               {session.isAuth ? (

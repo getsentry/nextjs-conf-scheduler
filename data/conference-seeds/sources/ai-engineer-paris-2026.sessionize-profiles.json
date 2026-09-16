@@ -1,0 +1,242 @@
+{
+ "": {
+  "name": "Leonie Monigatti",
+  "profileUrl": null,
+  "bio": null,
+  "twitter": null
+ },
+ "0793b99f-1282-4674-9d21-f88e30c8232e": {
+  "name": "Stephen Chin",
+  "profileUrl": "https://sessionize.com/steveonjava",
+  "bio": "Stephen Chin is VP of Developer Relations at Neo4j, conference chair of the LF AI & Data Foundation, and author of numerous titles including the upcoming GraphRAG: The Definitive Guide for O'Reilly. He has given keynotes and main stage talks at numerous conferences around the world including AI Engineer Summit, AI DevSummit, Devoxx, DevNexus, JNation, JavaOne, Shift, Joker, swampUP, and GIDS. Stephen is an avid motorcyclist who has done evangelism tours in Europe, Japan, and Brazil, interviewing developers in their natural habitat. When he is not traveling, he enjoys teaching kids how to do AI, embedded, and robot programming together with his daughters.",
+  "twitter": "steveonjava"
+ },
+ "102e1d8c-ce9d-4e03-b19d-d247bdf87fc4": {
+  "name": "Harry Mellor",
+  "profileUrl": null,
+  "bio": null,
+  "twitter": null
+ },
+ "1662059f-0a1a-4bb0-9272-7553d72a4b66": {
+  "name": "Dat Ngo",
+  "profileUrl": null,
+  "bio": null,
+  "twitter": null
+ },
+ "26ee5432-b90a-4ea7-b49b-9e54cb00fab9": {
+  "name": "Alex Nails",
+  "profileUrl": null,
+  "bio": null,
+  "twitter": null
+ },
+ "2c09997c-04b0-4029-aaa4-9089a9078c10": {
+  "name": "Yannis Psorakis",
+  "profileUrl": null,
+  "bio": null,
+  "twitter": null
+ },
+ "2cdbc23c-3588-4dee-baa4-8e758e5af7c8": {
+  "name": "Krzysztof Cieślak",
+  "profileUrl": "https://sessionize.com/krzysztof-cieslak",
+  "bio": "Krzysztof is a photographer, globetrotter, and public speaker. He works as a Staff Research Engineer at [GitHub Next]( https://next.github.com/ ), where he designs and builds the next generation of developer tools such as GitHub Copilot, NES, Agentic Workflows or Ace After the work, Krzysztof is an open-source software maintainer passionate about functional programming (especially F#), editor tooling and developer experience - he has created and maintained several OSS projects varying from [language servers]( https://github.com/fsharp/FsAutoComplete ) to [web frameworks]( https://github.com/SaturnFramework/Saturn ) to [VSCode plugins]( https://github.com/ionide/ionide-vscode-fsharp ). Additionally, he is a passionate public speaker. You can meet him at many conferences around the world, where he is always trying to meet new people and learn how to improve software developers' lives.",
+  "twitter": "k_cieslak"
+ },
+ "3142cca0-1b4b-4d54-ba7b-c1941ec632da": {
+  "name": "Clemens Rawert",
+  "profileUrl": null,
+  "bio": null,
+  "twitter": null
+ },
+ "39e2bca0-bd91-425e-b420-756c1c4b594e": {
+  "name": "Ondrej Drapalik",
+  "profileUrl": "https://sessionize.com/ondrej-drapalik",
+  "bio": "Ondrej Drapalik is an AI Engineer at E2B in Prague, working with teams like OpenAI and Anthropic on how agents behave once they hit production: sandboxed, snapshotted, forked, and occasionally on fire. Marketer turned programmer, he spent years at STRV shipping consumer products for global brands and funded startups before AI ate his whole stack.",
+  "twitter": "ondrej_sh"
+ },
+ "3eb3ddc4-ce02-437a-8841-cce36ecd75ae": {
+  "name": "Nikolay Rodionov",
+  "profileUrl": "https://sessionize.com/nikorodionov",
+  "bio": "Nikolay Rodionov is a cofounder and COO at Alpic, an AI infrastructure startup specializing in MCP Apps and agentic AI platforms. A graduate from Centrale Paris, he previously founded Streamroot, a P2P video delivery technology that powered multiple Super Bowl streaming events before its acquisition by Lumen Technologies. Nikolay is a seasoned speaker with talks at major tech conferences like Demuxed or AI Engineer Paris. He is also the creator of Paris Video Tech and MCP Connect communities.",
+  "twitter": "Jeanroudy"
+ },
+ "455630e3-f293-4b81-a7bf-9d404932b4f3": {
+  "name": "Yannis Tevissen",
+  "profileUrl": null,
+  "bio": null,
+  "twitter": null
+ },
+ "4940e018-46ea-427f-aca0-09929b255e2d": {
+  "name": "Ben Burtenshaw",
+  "profileUrl": null,
+  "bio": null,
+  "twitter": null
+ },
+ "4b7c57bc-f486-49a8-b26e-b7a01333d7a1": {
+  "name": "Dominic Pajak",
+  "profileUrl": null,
+  "bio": null,
+  "twitter": null
+ },
+ "4f9cbc15-eb3b-4cfa-bec3-219ae3eb1a06": {
+  "name": "Connor Guerrero",
+  "profileUrl": "https://sessionize.com/connor-guerrero",
+  "bio": "Connor Guerrero is a Senior Developer Relations Manager at Crusoe and one of the founding members of Crusoe’s developer advocates team. He focuses on GPU infrastructure, AI training & inference workflows, and helping engineers build on Crusoe's cloud platform. He's spoken at many global conferences, including MLSys, AI Engineer World's Fair, and RAISE Summit. Prior to Crusoe, Connor spent several years in the AI chip industry as an ML engineer and field applications engineer, helping teams deploy and optimize workloads on specialized AI hardware.",
+  "twitter": null
+ },
+ "541a633e-61c6-404b-9070-1328035d4c4b": {
+  "name": "Neil Zeghidour",
+  "profileUrl": null,
+  "bio": null,
+  "twitter": null
+ },
+ "640afc29-1635-44e3-86c5-6df8d9591df6": {
+  "name": "Matt Pocock",
+  "profileUrl": null,
+  "bio": null,
+  "twitter": null
+ },
+ "64773b03-62cb-4ad7-983b-9fe82d22493a": {
+  "name": "Maria Lungu",
+  "profileUrl": null,
+  "bio": null,
+  "twitter": null
+ },
+ "72578c91-9bef-4d64-bd0d-9b3645364d74": {
+  "name": "Valeria Zuccoli",
+  "profileUrl": "https://sessionize.com/valeria-zuccoli",
+  "bio": "Statistician by education, Valeria is an AI Scientist specializing in real-time models for complex, challenging scenarios. Driven by a deep curiosity for the latest research, she applies advanced analytical techniques to build intelligent systems that deliver immediate and effective solutions in high-impact domains.",
+  "twitter": null
+ },
+ "779c8de5-1420-428f-9628-6afe43abb2a0": {
+  "name": "Theofilos Petsios",
+  "profileUrl": null,
+  "bio": null,
+  "twitter": null
+ },
+ "7c02b528-78d8-4653-9552-f1d18ad07821": {
+  "name": "Arielle Le Bail",
+  "profileUrl": null,
+  "bio": null,
+  "twitter": null
+ },
+ "7cb825fe-a86f-47c3-aee2-91bb167d0c62": {
+  "name": "Dan Feigin",
+  "profileUrl": "https://sessionize.com/dan-feigin",
+  "bio": "Dan Feigin is a Senior Software Engineer at NVIDIA working on checkpoint/restore for GPU-accelerated inference workloads. He focuses on Snapshot restore, CRIU, and CUDA checkpoint/restore to reduce startup time for large-scale inference services on Kubernetes.",
+  "twitter": null
+ },
+ "8d1aae5e-88b1-49d0-b04e-7c6f53e517bc": {
+  "name": "Maarten Grootendorst",
+  "profileUrl": null,
+  "bio": null,
+  "twitter": null
+ },
+ "8f2a6af4-787b-469a-9772-5aa998c05482": {
+  "name": "Ron Kahn",
+  "profileUrl": "https://sessionize.com/ron-kahn",
+  "bio": "Ron Kahn is a Senior Software Engineer in the NVIDIA Run:ai platform team. Ron works on the design and implementation of workload management systems that abstract Kubernetes complexity for AI practitioners. When not simplifying AI training jobs, Ron can be found cooking something delicious.",
+  "twitter": null
+ },
+ "9314b4e1-5985-424f-83bf-0c353eb357f1": {
+  "name": "Ivan Burazin",
+  "profileUrl": null,
+  "bio": null,
+  "twitter": null
+ },
+ "9cd25c80-e55f-427c-ae82-bd6897a91ef6": {
+  "name": "Lélio Renard Lavaud",
+  "profileUrl": null,
+  "bio": null,
+  "twitter": null
+ },
+ "9e16de21-f073-4be8-8f39-2c54bc65d25d": {
+  "name": "Hervé Bredin",
+  "profileUrl": null,
+  "bio": null,
+  "twitter": null
+ },
+ "a34e0554-8477-455d-a23c-8a7d52f75cd7": {
+  "name": "Tomáš Barczi",
+  "profileUrl": null,
+  "bio": null,
+  "twitter": null
+ },
+ "bd308a60-2550-4670-9abf-99db6996075e": {
+  "name": "Dorian Lods",
+  "profileUrl": null,
+  "bio": null,
+  "twitter": null
+ },
+ "c3370dbc-9461-4a70-bc32-ae468aba4728": {
+  "name": "Paul-Louis Nech",
+  "profileUrl": "https://sessionize.com/paul-louis-nech",
+  "bio": "Paul-Louis Nech is a Machine Learning engineer with 10 years of experience crafting software for a global audience. Throughout his career, he has leveraged advanced algorithms to empower developers and users alike. From SwiftKey to Algolia, Paul-Louis has built tools that bridge the gap between state-of-the-art algorithms (which work in the lab) and end products (which succeed in the wild). This requires not only great technology, but more importantly great user-experience, to make sure you build something people want!",
+  "twitter": "PaulLouisNech"
+ },
+ "cc76489d-2060-4c82-9fe2-b9878e2aa4e3": {
+  "name": "Sohan Maheshwar",
+  "profileUrl": "https://sessionize.com/sohan",
+  "bio": "Sohan is a Lead Developer Advocate at AuthZed, based in the Netherlands. He started his career as a developer building mobile apps and has been living in the cloud since 2013, in companies such as Amazon, Fermyon and Gupshup. He is also an O' Reilly author and an AAIF Ambassador. His interests outside work include visual arts, trivia, and playing frisbee.",
+  "twitter": null
+ },
+ "cfcfaddb-f6bb-4d02-b28f-e6af22c187d0": {
+  "name": "Jakob Pörschmann",
+  "profileUrl": null,
+  "bio": null,
+  "twitter": null
+ },
+ "d3b124f8-5641-42bd-8cee-05ccd1c807b8": {
+  "name": "Charles Frye",
+  "profileUrl": "https://sessionize.com/charles-frye",
+  "bio": "Charles teaches people to build data, ML, and AI applications. He got his PhD from the University of California, Berkeley, in 2020 for work on the geometry of neural network optimization. He has since worked as an educator and evangelist for neural network applications at Weights & Biases, Full Stack Deep Learning, and now Modal Labs.",
+  "twitter": null
+ },
+ "d3b56368-00e0-47d6-8619-86f66ed51caa": {
+  "name": "Sergiy Dybskiy",
+  "profileUrl": "https://sessionize.com/sergiy",
+  "bio": "Software developer of 12+ years now on a journey of learning to effectively communicate about developer tooling through workshops, videos, blog posts and building with AI",
+  "twitter": "sergical"
+ },
+ "dd47af96-f982-44db-8ea2-0d5015408fc6": {
+  "name": "Sylvain Combe",
+  "profileUrl": null,
+  "bio": null,
+  "twitter": null
+ },
+ "dec1da38-b9bf-4e90-b3d7-b41158051e3f": {
+  "name": "Maxime Pariente",
+  "profileUrl": null,
+  "bio": null,
+  "twitter": null
+ },
+ "e0ed7d02-a699-494c-970d-4d1206959098": {
+  "name": "Mish Ushakov",
+  "profileUrl": null,
+  "bio": null,
+  "twitter": null
+ },
+ "f87767e4-fc9f-4ffc-8533-86647fe5c3ed": {
+  "name": "Fayaz Ahmed",
+  "profileUrl": null,
+  "bio": null,
+  "twitter": null
+ },
+ "fd1da625-3f5b-48c0-8daa-af75d6b41a2d": {
+  "name": "Lara Khanafer",
+  "profileUrl": null,
+  "bio": null,
+  "twitter": null
+ },
+ "manual-therera": {
+  "name": "Theresa Bradford",
+  "profileUrl": null,
+  "bio": null,
+  "twitter": null
+ },
+ "manual-tuana-celik": {
+  "name": "Tuana Çelik",
+  "profileUrl": null,
+  "bio": null,
+  "twitter": null
+ }
+}

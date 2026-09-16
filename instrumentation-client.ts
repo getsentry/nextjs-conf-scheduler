@@ -1,6 +1,8 @@
 import * as Sentry from "@sentry/nextjs";
+import { sentryEnvironmentOption, tagConference } from "./lib/sentry-conference";
 
 Sentry.init({
+  ...sentryEnvironmentOption,
   dsn: process.env.NEXT_PUBLIC_SENTRY_DSN,
   integrations: [
     Sentry.replayIntegration({
@@ -35,5 +37,6 @@ Sentry.init({
   replaysOnErrorSampleRate: 1.0,
   sendDefaultPii: true,
 });
+tagConference();
 
 export const onRouterTransitionStart = Sentry.captureRouterTransitionStart;

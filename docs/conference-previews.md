@@ -29,6 +29,16 @@ To make preview URLs accessible without Vercel Firewall/auth:
 2. Disable Vercel Authentication/password protection for Preview deployments, or add explicit preview-domain exceptions.
 3. Confirm no custom Firewall/WAF rule blocks anonymous traffic.
 
+## Sentry separation
+
+All deployments send data to the same Sentry project, `demo/ai-engineer-conf`.
+
+Set `NEXT_PUBLIC_SENTRY_ENVIRONMENT` (for example `aie-paris`) for each preview. This gives every error, trace, log, metric, and replay of the preview its own environment. Without it, the SDK uses `vercel-preview`.
+
+Set `NEXT_PUBLIC_CONFERENCE_ID` to the seed's `metadata.id`. The app adds this value as the `conference` tag on errors and transactions, and as the `conference` attribute on logs and metrics. Example Sentry query: `conference:ai-engineer-paris-2026`.
+
+Both variables are build-time (`NEXT_PUBLIC_`). Redeploy after you change either one.
+
 ## RAISE Summit preview env
 
 ```bash
@@ -120,6 +130,8 @@ NEXT_PUBLIC_CONFERENCE_LOCATION="Paris, France"
 NEXT_PUBLIC_CONFERENCE_VENUE="Station F"
 NEXT_PUBLIC_CONFERENCE_TIME_ZONE=Europe/Paris
 NEXT_PUBLIC_CONFERENCE_SCHEDULE_NOTE="Schedule may change: AI Engineer is still finalizing the agenda."
+NEXT_PUBLIC_CONFERENCE_ID=ai-engineer-paris-2026
+NEXT_PUBLIC_SENTRY_ENVIRONMENT=aie-paris
 DEMO_BLOCKED_TALK_ID=aiep-1299136-do-you-love-wasting-money-then-you-should-not-ca
 DEMO_SLOW_SPEAKER_ID=aiep-spk-sergiy-dybskiy
 DEMO_SCHEDULE_ERROR_MESSAGE="You should be at the booth instead of watching the Sentry talk"

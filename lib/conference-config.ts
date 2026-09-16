@@ -4,8 +4,10 @@ const DEFAULT_CONFERENCE_DATES = "June 29 – July 2, 2026";
 const DEFAULT_CONFERENCE_LOCATION = "San Francisco, CA";
 const DEFAULT_CONFERENCE_VENUE = "Moscone West";
 const DEFAULT_CONFERENCE_TIME_ZONE = "America/Los_Angeles";
+const DEFAULT_CONFERENCE_ID = "ai-engineer-worlds-fair-2026";
 
 export const conferenceConfig = {
+  id: process.env.NEXT_PUBLIC_CONFERENCE_ID ?? DEFAULT_CONFERENCE_ID,
   name: process.env.NEXT_PUBLIC_CONFERENCE_NAME ?? DEFAULT_CONFERENCE_NAME,
   shortName: process.env.NEXT_PUBLIC_CONFERENCE_SHORT_NAME ?? DEFAULT_CONFERENCE_SHORT_NAME,
   dates: process.env.NEXT_PUBLIC_CONFERENCE_DATES ?? DEFAULT_CONFERENCE_DATES,
